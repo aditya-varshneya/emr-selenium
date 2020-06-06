@@ -45,33 +45,33 @@ def test_fill_form():
     driver.find_element_by_name("email").send_keys("aditya.varshneya@gmail.com")
     driver.find_element_by_xpath("//*[@id='root']/div/div/section[1]/div/div/div/div/div[2]/form/div[1]/div["
                                  "5]/div/div/div/div/input").send_keys(mobile)
+    time.sleep(3)
     driver.find_element_by_xpath("//*[@id='root']/div/div/section[1]/div/div/div/div/div[2]/form/div[3]/button").click()
+    time.sleep(7)
+    driver.find_element_by_xpath("//*[@id='root']/div/div/section[1]/div/div/div/div/div[2]/div/div[2]/p/span/button").click()
     # registration button
-    time.sleep(5)
-    driver.find_element_by_xpath(
-        "//*[@id='root']/div/div/section[1]/div/div/div/div/div[2]/div/div[2]/p/span/button").click()
-    time.sleep(10)
 
-
+    time.sleep(7)
 def test_doctor_appoint():
-        driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[2]/div[3]/div[1]/div[1]/div[2]/div/div["
-                                     "2]/a").click()    #Book Appointment Button
+        driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[2]/div[2]/div[1]/div[1]/div[2]/div/div[2]/a").click()    #Book Appointment Button
         time.sleep(3)
-        time_slot = driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[3]/div/div[1]/div["
-                                         "2]/section/div[2]/div/div/div[2]/div/div/button[1]") #time slot selection
+        time_slot = driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[3]/"
+                                                 "div/div[1]/div[2]/section/div[3]/div/div/div[2]/div/div/div/button[1]") #time slot selection
         if time_slot.is_displayed():
                 time_slot.click()
         else:
             driver.find_element_by_xpath("//*[@id='timeslotmodal']/div/div[1]/div[2]/section/div[2]/div/div/div["
                                  "1]/div/div/div/ul/li[9]/a/i").click()
+
         time.sleep(3)
-        driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[3]/div/div[1]/div[2]/section/div["
-                                 "2]/div/div/div[2]/div/div/button").click()
+        driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[3]/div/div[1]/div[2]/"
+                                     "section/div[3]/div/div/div[2]/div/div[1]/div/button[1]").click()
         driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[3]/div/div[1]/div[3]/button[2]").click()
 
         time.sleep(4)
         driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[3]/div[2]/p/span/button").click()
         time.sleep(10)
+        print("Appointment booked, kindly make payment or go to chatroom link")
         driver.close()
 
 

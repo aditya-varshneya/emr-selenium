@@ -11,7 +11,7 @@ from selenium.webdriver import ChromeOptions
 import logging
 import pytest
 
-logging.basicConfig(filename="C://Users//adity//Desktop//logfile.log", format='%(asctime)s: %(levelname)s: %('
+logging.basicConfig(filename="C://Users//Lenovo//Desktop//logfile.log", format='%(asctime)s: %(levelname)s: %('
                                                                               'message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
 
@@ -42,11 +42,11 @@ def test_login():
     password_textbox = driver.find_element_by_id("exampleInputUserpassword")
     password_textbox.send_keys(password)
     login_but = driver.find_element_by_xpath(
-        "//*[@id='root']/div/div/div/div/div/div/div/div/div[3]/div/form/div[4]/button")
+        "//*[@id='root']/div/div/div/div/div/div/div/div/div[3]/div/form/div[3]/button")
     login_but.click()
     time.sleep(7)
 
-@pytest.mark.skip
+
 def test_doc_reg():
     driver.find_element_by_id("settings-trigger").click()
     time.sleep(3)
@@ -62,16 +62,18 @@ def test_doc_reg():
 
 
 def test_cancellation():
-    driver.find_element_by_xpath( "//*[@id='root']/div/div/div/div[1]/div/div/div[1]"
-                                  "/div/div/div[2]/table/tbody/tr[1]/td[7]/button[1]").click()
-    time.sleep(5)
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[7]/button[1]").click()
+    time.sleep(3)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[2]/div[3]/div/div/h5/button").click()
     time.sleep(3)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span[2]/button").click()
-    time.sleep(5)
-    elem = driver.find_element_by_id("orders-dropdown")
-    drp = Select(elem)
-    drp.select_by_value("Refund")
+    time.sleep(7)
+
+
+def test_refund():
+    driver.find_element_by_xpath("/html/body/div/div/div/nav/div[2]/ul[1]/li[4]/a").click()
+    driver.find_element_by_xpath("/html/body/div/div/div/nav/div[2]/ul[1]/li[4]/div/a[1]").click()
+
     time.sleep(5)
     try:
         edit_sts = driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div/div/div/div/div[2]/"
@@ -81,15 +83,18 @@ def test_cancellation():
 
         else:
             print("Appointment is a follow-up")
-    except None:
 
-        change_to = driver.find_element_by_name("name")
-        chang = Select(change_to)
-        chang.select_by_value("approved")
-        driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[3]/button").click()
-        time.sleep(5)
-        driver.find_element_by_xpath(
+    except None:
+        pass
+
+    change_to = driver.find_element_by_name("name")
+    chang = Select(change_to)
+    chang.select_by_value("ready")
+    driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[3]/button").click()
+    time.sleep(5)
+    driver.find_element_by_xpath(
             "//*[@id='root']/div/div/div/div/div/div/div/div/div/div[3]/div[2]/p/span/button").click()
-        time.sleep(3)
-        driver.back()
-        driver.close()
+    time.sleep(3)
+    driver.back()
+    time.sleep(3)
+    driver.close()

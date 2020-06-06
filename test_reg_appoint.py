@@ -37,7 +37,7 @@ def test_login():
         password_textbox = driver.find_element_by_id("exampleInputUserpassword")
         password_textbox.send_keys(password)
         login_but = driver.find_element_by_xpath(
-                "//*[@id='root']/div/div/div/div/div/div/div/div/div[3]/div/form/div[4]/button")
+                "//*[@id='root']/div/div/div/div/div/div/div/div/div[3]/div/form/div[3]/button")
         login_but.click()
         time.sleep(7)
 

@@ -11,9 +11,6 @@ from selenium.webdriver import ChromeOptions
 import logging
 import pytest
 
-logging.basicConfig(filename="C://Users//Lenovo//Desktop//logfile.log", format='%(asctime)s: %(levelname)s: %('
-                                                                              'message)s',
-                    datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
 
 # Parameters
 username = 8851217366

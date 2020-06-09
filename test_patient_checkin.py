@@ -10,9 +10,6 @@ import time
 import logging
 import pytest
 
-logging.basicConfig(filename="C://Users//Lenovo//Desktop//logfile.log", format='%(asctime)s: %(levelname)s: %('
-                                                                               'message)s',
-                    datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
 
 url = input("Please enter Chat room URl: ")
 

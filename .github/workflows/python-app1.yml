@@ -35,7 +35,6 @@ jobs:
       run: |
         pip install pytest
         pip install selenium 
-        export PYTHONPATH =src
         pytest -v test_login_doc.py
         pytest -v test_login_staff.py
         pytest -v test_patient_appoint.py

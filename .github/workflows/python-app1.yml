@@ -33,4 +33,12 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pytest
+        pip install pytest
+        pip install selenium 
+        export PYTHONPATH =src
+        pytest -v test_login_doc.py
+        pytest -v test_login_staff.py
+        pytest -v test_patient_appoint.py
+        pytest -v -s test_patient_checkin.py
+        pytest -v test_reg_appoint.py
+        pytest -v test_cancel.py

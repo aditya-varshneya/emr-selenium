@@ -8,9 +8,7 @@ from selenium.webdriver import ChromeOptions
 import pytest
 import time
 import logging
-logging.basicConfig(filename="C://Users//Lenovo//Desktop//logfile.log",format= '%(asctime)s: %(levelname)s: %('
-                                                                                'message)s',
-                    datefmt='%m/%d/%Y %I:%M:%S %p',level=logging.DEBUG)
+
 #Parameters
 mobile = 8860879079
 

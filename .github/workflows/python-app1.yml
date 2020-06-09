@@ -12,7 +12,8 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows
+    
 
     steps:
     - uses: actions/checkout@v2
@@ -35,6 +36,7 @@ jobs:
       run: |
         pip install pytest
         pip install selenium 
+        chromedriver.exe
         pytest -v test_login_doc.py
         pytest -v test_login_staff.py
         pytest -v test_patient_appoint.py

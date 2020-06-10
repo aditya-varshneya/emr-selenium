@@ -10,10 +10,11 @@ import logging
 import pytest
 
 
+
 # Parameters
 username = 8851217366
 password = "Thb@12345"
-name = "Nitin"
+name = "Test Automation"
 age = 33
 phone = 8860879079
 email = "aditya.varshneya@gmail.com"
@@ -53,7 +54,10 @@ def test_doc_reg():
                                  "12]/div/div/div/button").click()
     time.sleep(7)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span/button").click()
-    time.sleep(40)
+    time.sleep(7)
+    driver.find_element_by_xpath("//*[@id='horizontal-top-example']/li[2]/div").click()
+    driver.back()
+    time.sleep(10)
     driver.find_element(By.XPATH, "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/"
                                   "tbody/tr[1]/td[7]/button[2]").click()
     time.sleep(5)
@@ -73,7 +77,7 @@ def test_verify_followup():
         driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[3]/div[1]/div/div/div[2]/div[1]"
                                      "/div/div[1]/div/input").send_keys(today.strftime("%d-%m-%Y"))
         time.sleep(3)
-        driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[3]/div[1]/div/div/div[2]/div[2]/div/div[1]/div/input").send_keys("6:30 PM")
+        driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[3]/div[1]/div/div/div[2]/div[2]/div/div[1]/div/input").send_keys("06:30 PM")
         time.sleep(2)
         driver.find_element_by_xpath(
             "//*[@id='root']/div/div/div/div/div/div[3]/div[1]/div/div/div[3]/div/button").click()

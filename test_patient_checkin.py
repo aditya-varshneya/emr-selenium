@@ -1,5 +1,4 @@
 from selenium import webdriver
-from getpass import getpass
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
@@ -9,13 +8,9 @@ from selenium.webdriver.chrome.options import Options
 import time
 import logging
 import pytest
+from test_patient_appoint import test_get_url
 
-logging.basicConfig(filename="C://Users//Lenovo//Desktop//logfile.log", format='%(asctime)s: %(levelname)s: %('
-                                                                               'message)s',
-                    datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
-
-url = input("Please enter Chat room URl: ")
-
+url_1 = test_get_url()                     #input("Please enter: ")
 
 def test_site():
     global driver
@@ -25,9 +20,9 @@ def test_site():
     option.add_argument("start-maximized")
     option.add_argument("--enable-extensions")
     prefs = {"profile.default_content_setting_values.notifications": 1}
-    chrome_options.add_experimental_option("prefs", prefs)
+    option.add_experimental_option("prefs", prefs)
     driver = webdriver.Chrome("C:\webdrivers\chromedriver.exe", options=chrome_options)
-    driver.get(url)
+    driver.get(url_1)
     driver.maximize_window()
     time.sleep(5)
 
@@ -55,11 +50,10 @@ def test_upload():
     time.sleep(2)
     driver.find_element_by_xpath("//*[@id='#']/div/input").send_keys("C:/Users/Lenovo/Desktop/Python/file.png")
     driver.find_element_by_name("reportName").send_keys("Previous Prescription")
-    driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[2]/div/button[1]").click()
-    time.sleep(5)
+    driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[1]/div/div/div[6]/button[1]").click()
+    time.sleep(7)
     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[3]/div[2]/p/span/button").click()
     time.sleep(5)
-
 
 def test_run_video():
         try:

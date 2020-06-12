@@ -9,18 +9,16 @@ from selenium.webdriver import ChromeOptions
 import logging
 import pytest
 
-logging.basicConfig(filename="C://Users//Lenovo//Desktop//logfile.log", format='%(asctime)s: %(levelname)s: %('
-                                                                               'message)s',
-                    datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
+
 
 # Parameters
 username = 8851217366
 password = "Thb@12345"
-name = "Nitin"
+name = "Test Automation"
 age = 33
 phone = 8860879079
 email = "aditya.varshneya@gmail.com"
-
+ip_url = "https://clinytics.hlthclub.in/doctor-login"
 
 # code elements
 
@@ -30,7 +28,7 @@ def test_setup():
     prefs = {"profile.default_content_setting_values.notifications": 1}
     chrome_options.add_experimental_option("prefs", prefs)
     driver = webdriver.Chrome("C:\webdrivers\chromedriver.exe", options=chrome_options)
-    driver.get("https://clinytics.hlthclub.in/doctor-login")
+    driver.get(ip_url)
     driver.maximize_window()
 
 
@@ -56,7 +54,10 @@ def test_doc_reg():
                                  "12]/div/div/div/button").click()
     time.sleep(7)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span/button").click()
-    time.sleep(40)
+    time.sleep(7)
+    driver.find_element_by_xpath("//*[@id='horizontal-top-example']/li[2]/div").click()
+    driver.back()
+    time.sleep(20)
     driver.find_element(By.XPATH, "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/"
                                   "tbody/tr[1]/td[7]/button[2]").click()
     time.sleep(5)
@@ -69,19 +70,20 @@ def test_doc_reg():
     driver.back()
     time.sleep(7)
 
-today = date.today()
 def test_verify_followup():
         driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[7]/button[1]").click()
         time.sleep(5)
-        driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[3]/div[1]/div/div/div[2]/div[1]"
-                                     "/div/div[1]/div/input").send_keys(today.strftime("%d-%m-%Y"))
+        driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[3]/div/div/div/div[1]/div[1]/label[1]").click()
         time.sleep(3)
-        driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[3]/div[1]/div/div/div[2]/div[2]/div/div[1]/div/input").send_keys("6:30 PM")
+        driver.find_element_by_xpath("/html/body/div/div/div/div/div[2]/div/div[1]/div[2]/section/div[2]/div/div/div[2]/div/div[1]/div/button[1]").click()
         time.sleep(2)
-        driver.find_element_by_xpath(
-            "//*[@id='root']/div/div/div/div/div/div[3]/div[1]/div/div/div[3]/div/button").click()
+        driver.find_element_by_xpath("//*[@id='timeslotmodal']/div/div[1]/div[3]/button[2]").click()
+        time.sleep(2)
+        driver.find_element_by_name("nextAppointmentRemarks").send_keys("Bring all reports and consult")
+        time.sleep(3)
+        driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[3]/div/div/div/div[2]/div/button").click()
         time.sleep(5)
-        driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span/button").click()
+        driver.find_element_by_xpath("//*[@id='root']/div[1]/div/div/div[2]/div[2]/p/span/button").click()
         driver.back()
         time.sleep(5)
         driver.close()

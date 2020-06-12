@@ -70,14 +70,8 @@ def test_doctor_appoint():
         time.sleep(4)
         driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[3]/div[2]/p/span/button").click()
         time.sleep(10)
+        driver.close()
         print("Appointment booked, kindly make payment or go to chatroom link")
-
-def test_get_url():
-        url = input("Please enter the Url: ")
-        while url == "" &  "https" in url:
-                url = input("Please enter url: ")
-        return url
-
 
 
 

@@ -8,9 +8,9 @@ from selenium.webdriver.chrome.options import Options
 import time
 import logging
 import pytest
-from test_patient_appoint import test_get_url
 
-url_1 = test_get_url()                     #input("Please enter: ")
+
+url_1 = input("Please enter the URL: ")
 
 def test_site():
     global driver
@@ -55,6 +55,27 @@ def test_upload():
     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[3]/div[2]/p/span/button").click()
     time.sleep(5)
 
+
+def test_view_chat():
+    chat = driver.find_element_by_id("menu-share")
+    if chat.is_displayed():
+        assert True, "Test Passed"
+    else:
+        assert "Chat Button not available"
+
+
+def test_chat():
+    driver.find_element_by_id("menu-share").click()
+    time.sleep(2)
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/section/div/div[3]/div/div/div[2]/div/div/div/div[3]/div/textarea").send_keys("Hi Doctor,"
+                                 "I am wating for my consultation and uploaded history")
+    time.sleep(1)
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/section/div/div[3]/div/div/div[2]/div/div/div/div[3]/div/button/span").click()
+    time.sleep(5)
+    driver.find_element_by_xpath("//*[@id='menu-close']/i").click()
+    time.sleep(3)
+
+
 def test_run_video():
         try:
             element_1 = driver.find_element_by_xpath("//*[@id='notificationmodal']/div/div/div[2]/div/div/div/button")
@@ -63,7 +84,7 @@ def test_run_video():
 
         except NoSuchElementException:
             driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/section/div/div[2]/div/div/div[3]/div/button").click()
-        time.sleep(10)
+        time.sleep(15)
         driver.find_element_by_xpath("//*[@id='root']/div/div/div/section/div[2]/div/div[2]/div/button[4]/i").click()
 
         driver.close()

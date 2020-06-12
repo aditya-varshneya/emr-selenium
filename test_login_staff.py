@@ -14,13 +14,13 @@ import pytest
 
 
 # Parameters
-username = "123457890"
+username = "8287529291"
 password = "Pass@1234"
 name = "Test Automation"
 age = 33
 phone = 8860879079
 email = "aditya.varshneya@gmail.com"
-ip_url = "https://thedocclinic.com/home"
+ip_url = "https://clinytics.hlthclub.in/doctor-login"
 # code elements
 
 
@@ -50,7 +50,7 @@ def test_staff_reg():
     time.sleep(3)
     doc_name = driver.find_element_by_name("doctor_id")
     drp = Select(doc_name)
-    drp.select_by_value("5a5202fa-dc76-4feb-888f-97af59edb16a")  #("cd4fdc4a-bfe3-456b-ac06-17a063acfedc")
+    drp.select_by_value("cd4fdc4a-bfe3-456b-ac06-17a063acfedc")  #("cd4fdc4a-bfe3-456b-ac06-17a063acfedc")
     driver.find_element_by_id("name").send_keys(name)
     driver.find_element_by_id("age").send_keys(age)
     driver.find_element_by_id("phone").send_keys(phone)
@@ -73,5 +73,11 @@ def test_verify_status():
     time.sleep(3)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[3]/div/input").send_keys("Rohit")
     time.sleep(5)
+
+def test_verify_info():
+    driver.find_element_by_xpath("//*[@id='patient-info']/i").click()
+    time.sleep(5)
     driver.close()
+
+
 

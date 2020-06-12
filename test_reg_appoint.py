@@ -43,7 +43,7 @@ def test_login():
 def test_video():
         var_1 = driver.find_element_by_xpath(
                 "/html/body/div/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[5]/label").text
-        if var_1 == "Consulting" or var_1== "Done" or var_1=="Checkedin":
+        if var_1 == "Consulting" or var_1== "Done" or var_1=="Checked-In":
                video = driver.find_element_by_xpath("/html/body/div/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[7]/button[3]")
                video.click()
         else:
@@ -55,5 +55,8 @@ def test_video():
         time.sleep(3)
         driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div/div[3]/button").click()
         time.sleep(5)
-
+        driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[2]/div[2]/p/span/button").click()
+        time.sleep(2)
+        driver.find_element_by_xpath("/html/body/div[3]/div/div/div[1]/button/span[1]").click()
+        time.sleep(3)
         driver.close()

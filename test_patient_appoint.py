@@ -11,6 +11,7 @@ import logging
 
 #Parameters
 mobile = 8860879079
+ip_site = "https://clinytics.hlthclub.in/new_demo_account/consult-online"
 
 #code element
 def test_reg():
@@ -19,7 +20,7 @@ def test_reg():
     prefs = {"profile.default_content_setting_values.notifications" : 1}
     chrome_options.add_experimental_option("prefs",prefs)
     driver = webdriver.Chrome("C:\webdrivers\chromedriver.exe", options=chrome_options)
-    driver.get("https://clinytics.hlthclub.in/new_demo_account/consult-online")
+    driver.get(ip_site)
     driver.maximize_window()
     time.sleep(5)
 
@@ -35,7 +36,7 @@ def test_verify_card():
 
 
 def test_fill_form():
-    driver.find_element_by_name("name").send_keys("Aditya")
+    driver.find_element_by_name("name").send_keys("Test Automation")
     driver.find_element_by_name("age").send_keys("33")
     element = driver.find_element_by_name("gender")
     drp = Select(element)
@@ -69,7 +70,10 @@ def test_doctor_appoint():
         time.sleep(4)
         driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[3]/div[2]/p/span/button").click()
         time.sleep(10)
-        print("Appointment booked, kindly make payment or go to chatroom link")
         driver.close()
+        print("Appointment booked, kindly make payment or go to chatroom link")
+
+
+
 
 

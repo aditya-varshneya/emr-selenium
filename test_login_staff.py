@@ -12,14 +12,15 @@ import pytest
 
 
 
+
 # Parameters
-username = 8287529291
+username = "8287529291"
 password = "Pass@1234"
-name = ["aditya", "nitin", "rohit", "kritika", "vihaan"]
-age = [33, 32, 34, 35, 36]
+name = "Test Automation"
+age = 33
 phone = 8860879079
 email = "aditya.varshneya@gmail.com"
-
+ip_url = "https://clinytics.hlthclub.in/doctor-login"
 # code elements
 
 
@@ -29,7 +30,7 @@ def test_setup_staff():
     prefs = {"profile.default_content_setting_values.notifications": 1}
     chrome_options.add_experimental_option("prefs", prefs)
     driver = webdriver.Chrome("C:\webdrivers\chromedriver.exe", options=chrome_options)
-    driver.get("https://clinytics.hlthclub.in/doctor-login")
+    driver.get(ip_url)
     driver.maximize_window()
 
 
@@ -49,9 +50,9 @@ def test_staff_reg():
     time.sleep(3)
     doc_name = driver.find_element_by_name("doctor_id")
     drp = Select(doc_name)
-    drp.select_by_value("cd4fdc4a-bfe3-456b-ac06-17a063acfedc")
-    driver.find_element_by_id("name").send_keys(random.choice(name))
-    driver.find_element_by_id("age").send_keys(random.choice(age))
+    drp.select_by_value("cd4fdc4a-bfe3-456b-ac06-17a063acfedc")  #("cd4fdc4a-bfe3-456b-ac06-17a063acfedc")
+    driver.find_element_by_id("name").send_keys(name)
+    driver.find_element_by_id("age").send_keys(age)
     driver.find_element_by_id("phone").send_keys(phone)
     driver.find_element_by_id("email").send_keys(email)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div/div/div/div/div/form/div["
@@ -72,5 +73,11 @@ def test_verify_status():
     time.sleep(3)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[3]/div/input").send_keys("Rohit")
     time.sleep(5)
+
+def test_verify_info():
+    driver.find_element_by_xpath("//*[@id='patient-info']/i").click()
+    time.sleep(5)
     driver.close()
+
+
 

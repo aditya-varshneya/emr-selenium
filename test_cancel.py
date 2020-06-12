@@ -13,12 +13,13 @@ import pytest
 
 
 # Parameters
-username = 8851217366
-password = "Thb@12345"
-name = "aditya"
+username = "0000000001"
+password = "Pass@1234"
+name = "Test Automation"
 age = 33
 phone = 8860879079
 email = "aditya.varshneya@gmail.com"
+ip_url = "https://thedocclinic.com/home"
 
 
 # code elements
@@ -29,7 +30,7 @@ def test_setup():
     prefs = {"profile.default_content_setting_values.notifications": 1}
     chrome_options.add_experimental_option("prefs", prefs)
     driver = webdriver.Chrome("C:\webdrivers\chromedriver.exe", options=chrome_options)
-    driver.get("https://clinytics.hlthclub.in/doctor-login")
+    driver.get(ip_url)
     driver.maximize_window()
 
 

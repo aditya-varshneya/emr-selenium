@@ -56,21 +56,13 @@ def test_doc_reg():
                                  "12]/div/div/div/button").click()
     time.sleep(7)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span/button").click()
-    time.sleep(40)
-
-
-def test_cancellation():
-    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[7]/button[1]").click()
-    time.sleep(3)
-    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[2]/div[3]/div/div/h5/button").click()
-    time.sleep(3)
-    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span[2]/button").click()
-    time.sleep(7)
+    time.sleep(5)
 
 
 def test_refund():
-    driver.find_element_by_xpath("/html/body/div/div/div/nav/div[2]/ul[1]/li[4]/a").click()
-    driver.find_element_by_xpath("/html/body/div/div/div/nav/div[2]/ul[1]/li[4]/div/a[1]").click()
+    driver.find_element_by_xpath("/html/body/div/div/div/nav/div[2]/ul[1]/li[5]").click()
+    time.sleep(2)
+    driver.find_element_by_xpath("//*[@id='horizontal-top-example']/li[5]/div/a[1]").click()
 
     time.sleep(5)
     try:

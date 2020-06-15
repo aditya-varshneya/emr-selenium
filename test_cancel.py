@@ -13,13 +13,13 @@ import pytest
 
 
 # Parameters
-username = "0000000001"
+username = "8287529291"
 password = "Pass@1234"
 name = "Test Automation"
 age = 33
 phone = 8860879079
 email = "aditya.varshneya@gmail.com"
-ip_url = "https://thedocclinic.com/home"
+ip_url = "https://clinytics.hlthclub.in/doctor-login"
 
 
 # code elements

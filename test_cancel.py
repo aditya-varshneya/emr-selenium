@@ -56,7 +56,7 @@ def test_doc_reg():
                                  "12]/div/div/div/button").click()
     time.sleep(7)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span/button").click()
-    time.sleep(40)
+    time.sleep(20)
 
 
 def test_cancellation():

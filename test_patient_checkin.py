@@ -79,6 +79,26 @@ def test_upload():
     time.sleep(5)
 
 
+def test_view_chat():
+    chat = driver.find_element_by_id("menu-share")
+    if chat.is_displayed():
+        assert True, "Test Passed"
+    else:
+        assert "Chat Button not available"
+
+
+def test_chat():
+    driver.find_element_by_id("menu-share").click()
+    time.sleep(2)
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/section/div/div[3]/div/div/div[2]/div/div/div/div[3]/div/textarea").send_keys("Hi Doctor,"
+                                 "I am wating for my consultation and uploaded history")
+    time.sleep(1)
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/section/div/div[3]/div/div/div[2]/div/div/div/div[3]/div/button/span").click()
+    time.sleep(5)
+    driver.find_element_by_xpath("//*[@id='menu-close']/i").click()
+    time.sleep(3)
+
+
 def test_run_video():
         try:
             element_1 = driver.find_element_by_xpath("//*[@id='notificationmodal']/div/div/div[2]/div/div/div/button")

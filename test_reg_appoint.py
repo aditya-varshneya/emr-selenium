@@ -41,13 +41,17 @@ def test_login():
 
 
 def test_video():
-        var_1 = driver.find_element_by_xpath(
-                "/html/body/div/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[5]/label").text
-        if var_1 == "Consulting" or var_1== "Done" or var_1=="Checked-In":
-               video = driver.find_element_by_xpath("/html/body/div/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[7]/button[3]")
-               video.click()
-        else:
-                print ( " No option to start video, Please change status ")
+        driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[3]").click()
+        time.sleep(5)
+        try:
+           var_1 = driver.find_element_by_xpath(
+                "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr/td[7]/button[3]")
+           if var_1.is_displayed():
+                   var_1.click()
+           else:
+             print ( " No appointment to start video, Please add appointment ")
+        except None:
+                pass
         time.sleep(15)
         driver.find_element_by_xpath("//*[@id='root']/div/div/div/section/div[2]/div/div[2]/div/button[4]/i").click()
         time.sleep(3)

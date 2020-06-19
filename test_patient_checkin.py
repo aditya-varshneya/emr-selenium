@@ -15,13 +15,9 @@ url_1 = input("Please enter the URL: ")
 def test_site():
     global driver
     chrome_options = webdriver.ChromeOptions()
-    option = Options()
-    option.add_argument("--enable-infobars")
-    option.add_argument("start-maximized")
-    option.add_argument("--enable-extensions")
     prefs = {"profile.default_content_setting_values.notifications": 1}
-    option.add_experimental_option("prefs", prefs)
-    driver = webdriver.Chrome("C:\webdrivers\chromedriver.exe", options=chrome_options)
+    chrome_options.add_experimental_option("prefs", prefs)
+    driver = webdriver.Chrome("C:\webdrivers\chromedriver.exe", chrome_options=chrome_options)
     driver.get(url_1)
     driver.maximize_window()
     time.sleep(5)
@@ -56,20 +52,21 @@ def test_view_chat():
 def test_chat():
     driver.find_element_by_xpath("/html/body/div/div/div/div/div[1]/section/div/div[3]/a").click()
     time.sleep(2)
-    driver.find_element_by_xpath(
-        "//*[@id='root']/div/div/div/div/section/div/div[3]/div/div/div[2]/div/div/div/div[3]/div/textarea").send_keys(
-        "Hi Doctor,"
-        "I am waiting for my consultation and uploaded history")
-    time.sleep(1)
     try:
-        arrow_1 = driver.find_element_by_xpath(
-        "//*[@id='root']/div/div/div/div/section/div/div[3]/div/div/div[2]/div/div/div/div[3]/div/button/span").click()
-        if arrow_1.is_enabled():
-            arrow_1.click()
+        text_box = driver.find_element_by_xpath(
+        "//*[@id='root']/div/div/div/div/section/div/div[3]/div/div/div[2]/div/div/div/div[3]/div/textarea")
+        if text_box.is_displayed():
+            text_box.send_keys("Hi Doctor,I am waiting for my consultation and uploaded history")
+            driver.find_element_by_xpath(
+            "//*[@id='root']/div/div/div/div/section/div/div[3]/div/div/div[2]/div/div/div/div[3]/div/button/span")
+            time.sleep(5)
+            driver.find_element_by_xpath("//*[@id='menu-close']/i").click()
+        else:
+         driver.find_element_by_xpath("//*[@id='menu-close']/i").click()
     except NoSuchElementException:
-        time.sleep(5)
         driver.find_element_by_xpath("//*[@id='menu-close']/i").click()
-        time.sleep(5)
+
+    time.sleep(7)
 
 
 def test_upload():
@@ -79,13 +76,14 @@ def test_upload():
             element_1.click()
 
     except NoSuchElementException:
+        time.sleep(3)
         driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/section/div/div[2]/div/div/div[1]/button").click()
     time.sleep(2)
     driver.find_element_by_xpath("//*[@id='#']/div/input").send_keys("C:/Users/Lenovo/Desktop/Python/file.png")
     driver.find_element_by_name("reportName").send_keys("Previous Prescription")
-    driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[1]/div/div/div[6]/button[1]").click()
-    time.sleep(7)
-    driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[3]/div[2]/p/span/button").click()
+    driver.find_element_by_xpath("//*[@id='printmodal']/div/div/div[2]/div[1]/div/div/div[6]/button[1]").click()
+    time.sleep(8)
+    driver.find_element_by_xpath("//*[@id='printmodal']/div/div/div[2]/div[3]/div[2]/p/span/button").click()
     time.sleep(5)
 
 

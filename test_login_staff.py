@@ -14,7 +14,13 @@ import pytest
 
 
 # Parameters
-
+username = 8287529291
+password = "Pass@1234"
+name = "Test Automation"
+age = 33
+phone = 8860879079
+email = "aditya.varshneya@gmail.com"
+ip_url = "https://clinytics.hlthclub.in/doctor-login"
 # code elements
 
 
@@ -23,7 +29,7 @@ def test_setup_staff():
     chrome_options = webdriver.ChromeOptions()
     prefs = {"profile.default_content_setting_values.notifications": 1}
     chrome_options.add_experimental_option("prefs", prefs)
-    driver = webdriver.Chrome("C:\webdrivers\chromedriver.exe", options=chrome_options)
+    driver = webdriver.Chrome("C:\webdrivers\chromedriver.exe", chrome_options=chrome_options)
     driver.get(ip_url)
     driver.maximize_window()
 
@@ -36,7 +42,9 @@ def test_login_staff():
     login_but = driver.find_element_by_xpath(
         "//*[@id='root']/div/div/div/div/div/div/div/div/div[3]/div/form/div[3]/button")
     login_but.click()
-    time.sleep(7)
+    time.sleep(5)
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div[2]/p/span[2]/button").click()
+    time.sleep(5)
 
 
 def test_staff_reg():

@@ -12,8 +12,8 @@ import pytest
 
 
 # Parameters
-username = "8851217366"
-password = "Thb@12345"
+username = 8860879079
+password = "Pass@12345"
 name = "Test Automation"
 age = 33
 phone = 8860879079

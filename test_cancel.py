@@ -13,8 +13,8 @@ import pytest
 
 
 # Parameters
-username = "8287529291"
-password = "Pass@1234"
+username = 8860879079
+password = "Pass@12345"
 name = "Test Automation"
 age = 33
 phone = 8860879079
@@ -68,7 +68,7 @@ def test_cancellation():
     time.sleep(2)
     driver.find_element_by_name("cancelRemarks").send_keys("Need to cancel")
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[3]/div/div/div[2]/section/div[2]/div/button").click()
-    time.sleep(2)
+    time.sleep(7)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span[2]/button").click()
     time.sleep(7)
 

@@ -12,8 +12,8 @@ import pytest
 
 
 # Parameters
-username = 8851217366
-password = "Thb@12345"
+username = 8860879079
+password = "Pass@12345"
 name = "Test Automation"
 age = 33
 phone = 8860879079
@@ -41,8 +41,7 @@ def test_login():
         "//*[@id='root']/div/div/div/div/div/div/div/div/div[3]/div/form/div[3]/button")
     login_but.click()
     time.sleep(7)
-    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/p/span[2]/button").click()
-    time.sleep(5)
+
 
 def test_doc_reg():
     driver.find_element_by_id("settings-trigger").click()
@@ -84,11 +83,12 @@ def test_verify_patient_upload():
             time.sleep(3)
             driver.find_element_by_xpath("//*[@id='patient']/div/div/div/div[2]/div[1]/div/div[1]/a[1]").click()
         else:
-            print("No Pagination Available")
+            time.sleep(5)
+            driver.find_element_by_xpath("//*[@id='patient']/div/div/div/div[2]/div[1]/div/div[1]/a[1]").click()
     except None:
         pass
     time.sleep(3)
-    card_title = driver.find_element_by_xpath("//*[@id='patient']/div/div/div/div[2]/div[2]/div/div[1]/h4").text
+    card_title = driver.find_element_by_xpath("//*[@id='patient']/div/div/div/div[2]/div[2]/div/div[1]/h4")
     if card_title.is_displayed():
         assert True
     else:

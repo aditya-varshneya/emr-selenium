@@ -35,10 +35,8 @@ jobs:
       run: |
         pip install pytest
         pip install selenium 
-        chromedriver.exe
         pytest -v test_login_doc.py
         pytest -v test_login_staff.py
         pytest -v test_patient_appoint.py
-        pytest -v -s test_patient_checkin.py
         pytest -v test_reg_appoint.py
         pytest -v test_cancel.py

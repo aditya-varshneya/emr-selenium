@@ -16,7 +16,7 @@ import pytest
 # Parameters
 username = 8287529291
 password = "Pass@1234"
-name = "Test Automation"
+name = "Testing Automate"
 age = 33
 phone = 8860879079
 email = "aditya.varshneya@gmail.com"

@@ -14,8 +14,8 @@ import pytest
 # Parameters
 username = 8860879079
 password = "Pass@12345"
-name = "Test Automation"
-age = 33
+name = "Testing Automate"
+age = 32
 phone = 8860879079
 email = "aditya.varshneya@gmail.com"
 ip_url = "https://clinytics.hlthclub.in/doctor-login"
@@ -43,6 +43,7 @@ def test_login():
     time.sleep(7)
 
 
+
 def test_doc_reg():
     driver.find_element_by_id("settings-trigger").click()
     time.sleep(3)
@@ -60,6 +61,7 @@ def test_doc_reg():
     driver.back()
     time.sleep(10)
 
+
 def test_upload_precription():
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]").click()
     time.sleep(5)
@@ -75,29 +77,19 @@ def test_upload_precription():
 
 def test_verify_patient_upload():
     driver.find_element_by_xpath("//*[@id='horizontal-top-example']/li[5]/div").click()
-    time.sleep(2)
-    try:
-        arrow = driver.find_element_by_xpath("//*[@id='patient']/div/div/div/div[2]/div[1]/div/div[1]/a[2]")
-        if arrow.is_displayed():
-            arrow.click()
-            time.sleep(3)
-            driver.find_element_by_xpath("//*[@id='patient']/div/div/div/div[2]/div[1]/div/div[1]/a[1]").click()
-        else:
-            time.sleep(5)
-            driver.find_element_by_xpath("//*[@id='patient']/div/div/div/div[2]/div[1]/div/div[1]/a[1]").click()
-    except None:
-        pass
     time.sleep(3)
     card_title = driver.find_element_by_xpath("//*[@id='patient']/div/div/div/div[2]/div[2]/div/div[1]/h4")
     if card_title.is_displayed():
         assert True
     else:
-        assert ("Title not available")
+        assert ("title not available")
     time.sleep(7)
-    driver.find_element_by_xpath("/html/body/div/div/div/div/div[5]/a/i").click()
+    driver.find_element_by_xpath("/html/body/div/div/div/div/div[4]/a/i").click()
     time.sleep(5)
     driver.back()
     time.sleep(6)
+
+
 
 def test_verify_followup():
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[4]").click()

@@ -9,8 +9,6 @@ from selenium.webdriver import ChromeOptions
 import logging
 import pytest
 
-
-
 # Parameters
 username = 8860879079
 password = "Pass@12345"
@@ -20,6 +18,7 @@ phone = 8860879079
 email = "aditya.varshneya@gmail.com"
 ip_url = "https://clinytics.hlthclub.in/doctor-login"
 
+
 # code elements
 
 def test_setup():
@@ -27,7 +26,7 @@ def test_setup():
     chrome_options = webdriver.ChromeOptions()
     prefs = {"profile.default_content_setting_values.notifications": 1}
     chrome_options.add_experimental_option("prefs", prefs)
-    driver = webdriver.Chrome("C:\webdrivers\chromedriver.exe", chrome_options=chrome_options)
+    driver = webdriver.Chrome("C:\webdrivers\chromedriver.exe",chrome_options=chrome_options)
     driver.get(ip_url)
     driver.maximize_window()
 
@@ -43,14 +42,14 @@ def test_login():
     time.sleep(7)
 
 
-
 def test_doc_reg():
     driver.find_element_by_id("settings-trigger").click()
     time.sleep(3)
     driver.find_element_by_id("name").send_keys(name)
     driver.find_element_by_id("age").send_keys(age)
     driver.find_element_by_id("phone").send_keys(phone)
-    driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div/div/div/div/div/form/div[6]/div[2]/div/div/div/div[1]/div/label/input").click()
+    driver.find_element_by_xpath(
+        "/html/body/div/div/div/div/div/div/div/div/div/div/div/form/div[6]/div[2]/div/div/div/div[1]/div/label/input").click()
     driver.find_element_by_id("email").send_keys(email)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div/div/div/div/div/form/div["
                                  "12]/div/div/div/button").click()
@@ -63,9 +62,11 @@ def test_doc_reg():
 
 
 def test_upload_precription():
-    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]").click()
+    driver.find_element_by_xpath(
+        "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]").click()
     time.sleep(5)
-    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr/td[7]/button[2]").click()
+    driver.find_element_by_xpath(
+        "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr/td[7]/button[2]").click()
     time.sleep(7)
     driver.find_element_by_xpath("/html/body/div/div/div/a[2]/span").click()
     time.sleep(5)
@@ -90,9 +91,9 @@ def test_verify_patient_upload():
     time.sleep(6)
 
 
-
 def test_verify_followup():
-    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[4]").click()
+    driver.find_element_by_xpath(
+        "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[4]").click()
     var_2 = driver.find_element_by_xpath(
         "/html/body/div/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[5]/label").text
     if var_2 == "Done":
@@ -100,13 +101,16 @@ def test_verify_followup():
             "/html/body/div/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[7]/button[1]")
         apt.click()
     else:
-        driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[2]/td[7]/button[1]").click()
+        driver.find_element_by_xpath(
+            "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[2]/td[7]/button[1]").click()
     time.sleep(5)
     driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[3]/div/div/div[2]/div/button[1]").click()
     time.sleep(5)
-    driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[3]/div/div/div[2]/section/div[2]/div/div/div[2]/div/div[1]/div/button[1]").click()
+    driver.find_element_by_xpath(
+        "/html/body/div/div/div/div/div/div/div[3]/div/div/div[2]/section/div[2]/div/div/div[2]/div/div[1]/div/button[1]").click()
     time.sleep(5)
-    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[3]/div/div/div[2]/section/div[5]/div/button").click()
+    driver.find_element_by_xpath(
+        "//*[@id='root']/div/div/div/div/div/div[3]/div/div/div[2]/section/div[5]/div/button").click()
     time.sleep(5)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span[2]/button").click()
     time.sleep(5)
@@ -115,12 +119,3 @@ def test_verify_followup():
     driver.back()
     time.sleep(5)
     driver.close()
-
-
-
-
-
-
-
-
-

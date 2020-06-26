@@ -28,7 +28,7 @@ def test_site():
             elem.click()
     except NoSuchElementException:
         driver.find_element_by_xpath(
-            "//*[@id='root']/div/div/div/div/section/div/div[2]/div/div/div[3]/div/button").click()
+            "//*[@id='root']/div/div/div/div/section/div/div[2]/div/div/div[2]/div/button").click()
         time.sleep(3)
 
 
@@ -59,7 +59,8 @@ def test_run_video():
                  element_1.click()
 
         except NoSuchElementException:
-            driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/section/div/div[2]/div/div/div[3]/div/button").click()
+            driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/section/div/div[2]/div/div/div[3]/div/div/button").click()
+
         time.sleep(10)
         driver.find_element_by_xpath("//*[@id='root']/div/div/div/section/div[2]/div/div[2]/div/button[4]/i").click()
         time.sleep(7)

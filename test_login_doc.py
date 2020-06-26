@@ -27,7 +27,7 @@ def test_setup():
     chrome_options = webdriver.ChromeOptions()
     prefs = {"profile.default_content_setting_values.notifications": 1}
     chrome_options.add_experimental_option("prefs", prefs)
-    driver = webdriver.Chrome("C:\webdrivers\chromedriver.exe", chrome_options=chrome_options)
+    driver = webdriver.Chrome("http://localhost:9515", DesiredCapabilities.chrome(), chrome_options=chrome_options)
     driver.get(ip_url)
     driver.maximize_window()
 

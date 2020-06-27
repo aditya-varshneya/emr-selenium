@@ -85,7 +85,7 @@ def test_chat():
             text_box.send_keys("Hi Doctor,I am waiting for my consultation and uploaded history")
             time.sleep(3)
             driver.find_element_by_xpath(
-                "//*[@id='root']/div/div/div/div/section/div/div[3]/div/div/div[2]/div/div/div/div[3]/div/button/span")
+                "//*[@id='root']/div/div/div/div/section/div/div[3]/div/div/div[2]/div/div/div/div[3]/div/button/span").click()
             time.sleep(5)
             driver.find_element_by_xpath("//*[@id='menu-close']/i").click()
         else:

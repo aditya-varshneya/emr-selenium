@@ -14,10 +14,10 @@ url_1 = input("Please enter the URL: ")
 
 def test_site():
     global driver
-    chrome_options = webdriver.ChromeOptions()
+    options= webdriver.ChromeOptions()
     prefs = {"profile.default_content_setting_values.notifications": 1}
-    chrome_options.add_experimental_option("prefs", prefs)
-    driver = webdriver.Chrome("C:\webdrivers\chromedriver.exe", chrome_options=chrome_options)
+    options.add_experimental_option("prefs", prefs)
+    driver = webdriver.Chrome("C:\webdrivers\chromedriver.exe",options=options)
     driver.get(url_1)
     driver.maximize_window()
     time.sleep(5)

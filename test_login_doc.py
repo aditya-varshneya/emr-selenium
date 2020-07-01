@@ -2,7 +2,7 @@ from _ctypes import pointer
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
 import time
 from datetime import date
 from selenium.webdriver import ChromeOptions
@@ -45,6 +45,10 @@ def test_login():
 def test_doc_reg():
     driver.find_element_by_id("settings-trigger").click()
     time.sleep(3)
+    driver.find_element_by_id("optionsRadios1").click()
+    time.sleep(2)
+    driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[2]/button").click()
+    time.sleep(3)
     driver.find_element_by_id("name").send_keys(name)
     driver.find_element_by_id("age").send_keys(age)
     driver.find_element_by_id("phone").send_keys(phone)
@@ -58,10 +62,10 @@ def test_doc_reg():
     time.sleep(7)
     driver.find_element_by_xpath("//*[@id='horizontal-top-example']/li[2]/div").click()
     driver.back()
-    time.sleep(10)
+    time.sleep(5)
 
 
-def test_upload_precription():
+def test_upload_prescription():
     driver.find_element_by_xpath(
         "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]").click()
     time.sleep(5)
@@ -69,12 +73,16 @@ def test_upload_precription():
         "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr/td[7]/button[2]").click()
     time.sleep(7)
     driver.find_element_by_xpath("/html/body/div/div/div/a[2]/span").click()
-    time.sleep(5)
-    driver.find_element_by_xpath("//*[@id='#']/div/input").send_keys("C:/Users/Lenovo/Desktop/Python/file.png")
-    time.sleep(7)
-    driver.find_element_by_xpath("//*[@id='content']/div[1]/div/div/div/div/div[2]/div[4]/div/button[1]").click()
-    time.sleep(7)
 
+    time.sleep(5)
+    driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div[1]/div/div[11]/div/div[3]/div/div/div[2]/"
+                                 "div/div[1]/div/div/div/div/div[1]/form/div/input").send_keys("C:/Users/Lenovo/Desktop/Python/file.png")
+
+    time.sleep(4)
+    driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div[1]/div/div[11]/div/div[3]/"
+                                 "div/div/div[2]/div/div[1]/div/div/div/div/div[2]/div[4]/div/button[1]").click()
+
+    time.sleep(7)
 
 def test_verify_patient_upload():
     driver.find_element_by_xpath("//*[@id='horizontal-top-example']/li[5]/div").click()

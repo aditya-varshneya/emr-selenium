@@ -45,7 +45,7 @@ def test_video():
         time.sleep(5)
         try:
            var_1 = driver.find_element_by_xpath(
-                "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr/td[7]/button[3]")
+                "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr/td[7]/button[4]")
            if var_1.is_displayed():
                    var_1.click()
            else:

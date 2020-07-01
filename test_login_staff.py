@@ -50,6 +50,10 @@ def test_login_staff():
 def test_staff_reg():
     driver.find_element_by_id("settings-trigger").click()
     time.sleep(3)
+    driver.find_element_by_id("optionsRadios1").click()
+    time.sleep(2)
+    driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[2]/button").click()
+    time.sleep(3)
     doc_name = driver.find_element_by_name("doctor_id")
     drp = Select(doc_name)
     drp.select_by_value("cd4fdc4a-bfe3-456b-ac06-17a063acfedc")  #("cd4fdc4a-bfe3-456b-ac06-17a063acfedc")
@@ -59,7 +63,7 @@ def test_staff_reg():
     driver.find_element_by_id("email").send_keys(email)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div/div/div/div/div/form/div["
                                  "12]/div/div/div/button").click()
-    time.sleep(5)
+    time.sleep(7)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span/button").click()
     time.sleep(5)
 
@@ -73,7 +77,7 @@ def test_verify_status():
     time.sleep(3)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[1]").click()
     time.sleep(3)
-    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[3]/div/input").send_keys("Rohit")
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[3]/div/input").send_keys("test")
     time.sleep(5)
 
 def test_verify_info():

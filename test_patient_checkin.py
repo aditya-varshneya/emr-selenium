@@ -22,13 +22,14 @@ def test_site():
     driver.maximize_window()
     time.sleep(5)
 
+
+def test_allow_webcam():
     try:
         elem = driver.find_element_by_xpath("//*[@id='allow-webcam']/div/div/div[2]/div/div/button")
         if elem.is_displayed():
             elem.click()
     except NoSuchElementException:
-        driver.find_element_by_xpath(
-            "//*[@id='root']/div/div/div/div/section/div/div[2]/div/div/div[2]/div/button").click()
+        driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div/section/div/div[2]/div/div/div[3]/div/button").click()
         time.sleep(3)
 
 

@@ -43,8 +43,7 @@ def test_login_staff():
         "//*[@id='root']/div/div/div/div/div/div/div/div/div[3]/div/form/div[3]/button")
     login_but.click()
     time.sleep(5)
-    driver.find_element_by_xpath("//*[@id='root']/div/div/div[2]/p/span[2]/button").click()
-    time.sleep(5)
+
 
 
 def test_staff_reg():
@@ -83,7 +82,42 @@ def test_verify_status():
 def test_verify_info():
     driver.find_element_by_xpath("//*[@id='patient-info']/i").click()
     time.sleep(5)
+
+def test_verify_age():
+    age = driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[7]/div/a[1]/p/strong")
+    assert  age.is_displayed(), True
+    time.sleep(2)
+
+
+def test_verify_hid():
+    hid = driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[7]/div/a[3]/p/strong").text()
+    if _  in hid():
+        assert "True"
+    else:
+        print ("HID not available")
+    time.sleep(2)
+
+def test_verify_transfer():
+    driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]").click()
+    time.sleep(3)
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr/td[8]/button[1]").click()
+    time.sleep(3)
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[2]/div/div/div[2]/div/button[2]").click()
+    time.sleep(3)
+    transfer = driver.find_element_by_name("transfer_doctor_id")
+    doc = Select(transfer)
+    doc.select_by_value("cd4fdc4a-bfe3-456b-ac06-17a063acfedc")
+    time.sleep(5)
+    driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[2]/div/"
+                                 "div/div[2]/section/div[3]/div/div/div[2]/div/div[1]/div/button[1]")
+    time.sleep(3)
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[2]/div/div/div[2]/section/div[5]/div/button").click()
+    time.sleep(3)
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span[2]/button").click()
+    time.sleep(7)
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span/button").click()
+    time.sleep(2)
+    driver.back()
+    time.sleep(7)
     driver.close()
-
-
 

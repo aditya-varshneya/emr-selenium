@@ -75,11 +75,11 @@ def test_upload_prescription():
     driver.find_element_by_xpath("/html/body/div/div/div/a[2]/span").click()
 
     time.sleep(5)
-    driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div[1]/div/div[11]/div/div[3]/div/div/div[2]/"
+    driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div[1]/div/div[13]/div/div[3]/div/div/div[2]/"
                                  "div/div[1]/div/div/div/div/div[1]/form/div/input").send_keys("C:/Users/Lenovo/Desktop/Python/file.png")
 
     time.sleep(4)
-    driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div[1]/div/div[11]/div/div[3]/"
+    driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div[1]/div/div[13]/div/div[3]/"
                                  "div/div/div[2]/div/div[1]/div/div/div/div/div[2]/div[4]/div/button[1]").click()
 
     time.sleep(7)
@@ -93,7 +93,7 @@ def test_verify_patient_upload():
     else:
         assert ("title not available")
     time.sleep(7)
-    driver.find_element_by_xpath("/html/body/div/div/div/div/div[4]/a/i").click()
+    driver.find_element_by_xpath("/html/body/div/div/div/div/div[6]/a/i").click()
     time.sleep(5)
     driver.back()
     time.sleep(6)
@@ -112,13 +112,13 @@ def test_verify_followup():
         driver.find_element_by_xpath(
             "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[2]/td[7]/button[1]").click()
     time.sleep(5)
-    driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[3]/div/div/div[2]/div/button[1]").click()
+    driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div/div/div[2]/div/div/div[2]/div/button[1]").click()
     time.sleep(5)
     driver.find_element_by_xpath(
-        "/html/body/div/div/div/div/div/div/div[3]/div/div/div[2]/section/div[2]/div/div/div[2]/div/div[1]/div/button[1]").click()
+        "/html/body/div/div/div/div/div/div/div[2]/div/div/div[2]/section/div[2]/div/div/div[2]/div/div[1]/div/button[1]").click() #time slot
     time.sleep(5)
     driver.find_element_by_xpath(
-        "//*[@id='root']/div/div/div/div/div/div[3]/div/div/div[2]/section/div[5]/div/button").click()
+        "//*[@id='root']/div/div/div/div/div/div[2]/div/div/div[2]/section/div[5]/div/button").click()
     time.sleep(5)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span[2]/button").click()
     time.sleep(5)
@@ -127,3 +127,4 @@ def test_verify_followup():
     driver.back()
     time.sleep(5)
     driver.close()
+

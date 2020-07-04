@@ -36,7 +36,4 @@ jobs:
         pip install pytest
         pip install selenium 
         pytest -v test_login_doc.py
-        pytest -v test_login_staff.py
-        pytest -v test_patient_appoint.py
-        pytest -v test_reg_appoint.py
-        pytest -v test_cancel.py
+   

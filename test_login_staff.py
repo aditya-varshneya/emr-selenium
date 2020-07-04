@@ -21,6 +21,9 @@ age = 33
 phone = 8860879079
 email = "aditya.varshneya@gmail.com"
 ip_url = "https://clinytics.hlthclub.in/doctor-login"
+radio = ["online","offline"]
+value_doc = ["cd4fdc4a-bfe3-456b-ac06-17a063acfedc","4e30fbe8-3131-4caa-b374-2e8eff54ccc0","d3e70041-302d-4cf5-9c5f-d62b1e712014",
+             "9131cead-c520-4d6e-9049-babd3543f8c3"]
 # code elements
 
 
@@ -42,20 +45,20 @@ def test_login_staff():
     login_but = driver.find_element_by_xpath(
         "//*[@id='root']/div/div/div/div/div/div/div/div/div[3]/div/form/div[3]/button")
     login_but.click()
-    time.sleep(5)
+    time.sleep(6)
 
 
 
 def test_staff_reg():
     driver.find_element_by_id("settings-trigger").click()
     time.sleep(3)
-    driver.find_element_by_id("optionsRadios1").click()
+    driver.find_element_by_name(random.choice(radio)).click()
     time.sleep(2)
     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[2]/button").click()
     time.sleep(3)
     doc_name = driver.find_element_by_name("doctor_id")
     drp = Select(doc_name)
-    drp.select_by_value("cd4fdc4a-bfe3-456b-ac06-17a063acfedc")  #("cd4fdc4a-bfe3-456b-ac06-17a063acfedc")
+    drp.select_by_value(random.choice(value_doc))  #("cd4fdc4a-bfe3-456b-ac06-17a063acfedc")
     driver.find_element_by_id("name").send_keys(name)
     driver.find_element_by_id("age").send_keys(age)
     driver.find_element_by_id("phone").send_keys(phone)
@@ -108,13 +111,13 @@ def test_verify_transfer():
     doc = Select(transfer)
     doc.select_by_value("cd4fdc4a-bfe3-456b-ac06-17a063acfedc")
     time.sleep(5)
-    driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[2]/div/"
-                                 "div/div[2]/section/div[3]/div/div/div[2]/div/div[1]/div/button[1]")
+    driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[2]/div/div/div[2]/section/"
+                                 "div[3]/div/div/div[2]/div/div[1]/div/button[1]").click()
     time.sleep(3)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[2]/div/div/div[2]/section/div[5]/div/button").click()
     time.sleep(3)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span[2]/button").click()
-    time.sleep(7)
+    time.sleep(10)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span/button").click()
     time.sleep(2)
     driver.back()

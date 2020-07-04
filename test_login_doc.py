@@ -71,18 +71,9 @@ def test_upload_prescription():
     time.sleep(5)
     driver.find_element_by_xpath(
         "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr/td[7]/button[2]").click()
-    time.sleep(7)
-    driver.find_element_by_xpath("/html/body/div/div/div/a[2]/span").click()
-
-    time.sleep(5)
-    driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div[1]/div/div[13]/div/div[3]/div/div/div[2]/"
-                                 "div/div[1]/div/div/div/div/div[1]/form/div/input").send_keys("C:/Users/Lenovo/Desktop/Python/file.png")
-
-    time.sleep(4)
-    driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div[1]/div/div[13]/div/div[3]/"
-                                 "div/div/div[2]/div/div[1]/div/div/div/div/div[2]/div[4]/div/button[1]").click()
 
     time.sleep(7)
+
 
 def test_verify_patient_upload():
     driver.find_element_by_xpath("//*[@id='horizontal-top-example']/li[5]/div").click()

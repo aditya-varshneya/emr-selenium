@@ -78,11 +78,14 @@ def test_verify_presc_button():
 def test_verify_patient_upload():
     driver.find_element_by_xpath("//*[@id='horizontal-top-example']/li[5]/div").click()
     time.sleep(3)
-    card_title = driver.find_element_by_xpath("//*[@id='patient']/div/div/div/div[2]/div[2]/div/div[1]/h4")
-    if card_title.is_displayed():
-        assert True
-    else:
-        assert ("title not available")
+    try:
+        card_title = driver.find_element_by_xpath("//*[@id='patient']/div/div/div/div[2]/div[2]/div/div[1]/h4")
+        if card_title.is_displayed():
+            assert True
+        else:
+            assert ("No Patient uploads")
+    except:
+        driver.find_element_by_xpath("/html/body/div/div/div/div/div[6]/a/i").click()
     time.sleep(7)
     driver.find_element_by_xpath("/html/body/div/div/div/div/div[6]/a/i").click()
     time.sleep(5)

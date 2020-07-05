@@ -65,7 +65,7 @@ def test_doc_reg():
     time.sleep(5)
 
 
-def test_upload_prescription():
+def test_verify_presc_button():
     driver.find_element_by_xpath(
         "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]").click()
     time.sleep(5)

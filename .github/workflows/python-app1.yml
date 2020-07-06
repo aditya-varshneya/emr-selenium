@@ -35,5 +35,6 @@ jobs:
       run: |
         pip install pytest
         pip install selenium 
+        
         pytest -v test_login_doc.py
    

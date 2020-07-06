@@ -1,12 +1,12 @@
 from _ctypes import pointer
 from selenium import webdriver
-from selenium.webdriver.support.ui import Select
-from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 import time
 from datetime import date
 from selenium.webdriver import ChromeOptions
-import logging
+from selenium.webdriver.common.action_chains import ActionChains
 import pytest
 
 # Parameters
@@ -41,7 +41,7 @@ def test_login():
     login_but.click()
     time.sleep(7)
 
-
+@pytest.mark.skip
 def test_doc_reg():
     driver.find_element_by_id("settings-trigger").click()
     time.sleep(3)
@@ -71,9 +71,16 @@ def test_verify_presc_button():
     time.sleep(5)
     driver.find_element_by_xpath(
         "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr/td[7]/button[2]").click()
-
-    time.sleep(7)
-
+    time.sleep(5)
+    wait = WebDriverWait(driver,10)
+    add= wait.until(EC.visibility_of_element_located((By.XPATH,"/html/body/div/div/div/a[2]/span")))
+    add.click()
+    # driver.find_element_by_xpath("/html/body/div/div/div/a[2]/span").click()
+    time.sleep(5)
+    submit = wait.until(EC.element_to_be_clickable((By.XPATH,"/html/body/div/div/div/div/"
+                                                             "div[1]/div/div[18]/div/div[3]/div/div/div[1]/button")))
+    submit.click()
+    time.sleep(5)
 
 def test_verify_patient_upload():
     driver.find_element_by_xpath("//*[@id='horizontal-top-example']/li[5]/div").click()
@@ -90,35 +97,9 @@ def test_verify_patient_upload():
     driver.find_element_by_xpath("/html/body/div/div/div/div/div[6]/a/i").click()
     time.sleep(5)
     driver.back()
-    time.sleep(6)
-
-
-def test_verify_followup():
-    driver.find_element_by_xpath(
-        "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[4]").click()
-    var_2 = driver.find_element_by_xpath(
-        "/html/body/div/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[5]/label").text
-    if var_2 == "Done":
-        apt = driver.find_element_by_xpath(
-            "/html/body/div/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[7]/button[1]")
-        apt.click()
-    else:
-        driver.find_element_by_xpath(
-            "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[2]/td[7]/button[1]").click()
-    time.sleep(5)
-    driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div/div/div[2]/div/div/div[2]/div/button[1]").click()
-    time.sleep(5)
-    driver.find_element_by_xpath(
-        "/html/body/div/div/div/div/div/div/div[2]/div/div/div[2]/section/div[2]/div/div/div[2]/div/div[1]/div/button[1]").click() #time slot
-    time.sleep(5)
-    driver.find_element_by_xpath(
-        "//*[@id='root']/div/div/div/div/div/div[2]/div/div/div[2]/section/div[5]/div/button").click()
-    time.sleep(5)
-    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span[2]/button").click()
-    time.sleep(5)
-    driver.find_element_by_xpath("//*[@id='root']/div[1]/div/div/div[2]/div[2]/p/span/button").click()
-    time.sleep(5)
-    driver.back()
     time.sleep(5)
     driver.close()
+
+
+
 

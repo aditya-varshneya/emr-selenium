@@ -41,7 +41,7 @@ def test_login():
     login_but.click()
     time.sleep(7)
 
-@pytest.mark.skip
+
 def test_doc_reg():
     driver.find_element_by_id("settings-trigger").click()
     time.sleep(3)

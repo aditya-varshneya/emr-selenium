@@ -62,7 +62,7 @@ def test_fill_form():
 
 
 def test_doctor_appoint():
-    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[2]/div[2]/div[4]/div[1]/div[2]/div/div[2]/a").click()    #Book Appointment Button
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[2]/div[2]/div[5]/div[1]/div[2]/div/div[2]/a").click()    #Book Appointment Button
     time.sleep(5)
     time_slot = driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[3]/"
                                              "div/div[1]/div[2]/section/div[3]/div/div/div[2]/div/div/div/button[1]") #time slot selection

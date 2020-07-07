@@ -62,7 +62,7 @@ def test_fill_form():
 
 
 def test_doctor_appoint():
-    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[2]/div[2]/div[4]/div[1]/div[2]/div/div[2]/a").click()    #Book Appointment Button
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[2]/div[2]/div[5]/div[1]/div[2]/div/div[2]/a").click()    #Book Appointment Button
     time.sleep(5)
     time_slot = driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[3]/"
                                              "div/div[1]/div[2]/section/div[3]/div/div/div[2]/div/div/div/button[1]") #time slot selection
@@ -74,9 +74,8 @@ def test_doctor_appoint():
          time.sleep(3)
          driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[3]/div/div[1]/"
                                  "div[2]/section/div[3]/div/div/div[2]/div/div[1]/div/button[1]").click()
-
     time.sleep(3)
-    driver.find_element_by_xpath("//*[@id='timeslotmodal']/div/div[1]/div[3]/button[2]").click()
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[3]/div[2]/p/span/button").click()
     time.sleep(15)
     print("Appointment booked, kindly make payment or go to chatroom link")
     print ("Please run Patient_checkin file")

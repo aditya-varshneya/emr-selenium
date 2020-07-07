@@ -26,7 +26,7 @@ def test_setup():
     chrome_options = webdriver.ChromeOptions()
     prefs = {"profile.default_content_setting_values.notifications": 1}
     chrome_options.add_experimental_option("prefs", prefs)
-    driver = webdriver.Chrome(chrome_options=chrome_options)
+    driver = webdriver.Chrome("C:\webdrivers\chromedriver.exe",chrome_options=chrome_options)
     driver.get(ip_url)
     driver.maximize_window()
 
@@ -41,7 +41,7 @@ def test_login():
     login_but.click()
     time.sleep(7)
 
-@pytest.mark.skip
+
 def test_doc_reg():
     driver.find_element_by_id("settings-trigger").click()
     time.sleep(3)
@@ -65,7 +65,7 @@ def test_doc_reg():
     time.sleep(5)
 
 
-def test_verify_presc_button():
+def test_verify_presc_upload():
     driver.find_element_by_xpath(
         "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]").click()
     time.sleep(5)
@@ -75,12 +75,22 @@ def test_verify_presc_button():
     wait = WebDriverWait(driver,10)
     add= wait.until(EC.visibility_of_element_located((By.XPATH,"/html/body/div/div/div/a[2]/span")))
     add.click()
-    # driver.find_element_by_xpath("/html/body/div/div/div/a[2]/span").click()
     time.sleep(5)
-    submit = wait.until(EC.element_to_be_clickable((By.XPATH,"/html/body/div/div/div/div/"
-                                                             "div[1]/div/div[18]/div/div[3]/div/div/div[1]/button")))
-    submit.click()
+    try:
+        upload =driver.find_element_by_xpath("//*[@id='#']/div/input")
+        if upload.is_displayed():
+            upload.send_keys("C:/Users/Lenovo/Desktop/Python/file.png")
+            time.sleep(3)
+            submit = wait.until(EC.visibility_of_element_located((By.XPATH,"/html/body/div/div/div/div/div[1]/div/div[3]/div/div[3]/div/div/"
+                                                                   "div[2]/div/div[1]/div/div/div/div/div[2]/div[4]/div/button[1]")))
+            submit.click()
+        else:
+             driver.find_element_by_xpath(
+                            "/html/body/div/div/div/div/div[1]/div/div[18]/div/div[3]/div/div/div[1]/button/span").click()
+    except:
+       driver.find_element_by_xpath("/html/body/div/div/div/div/div[1]/div/div[18]/div/div[3]/div/div/div[1]/button/span").click()
     time.sleep(5)
+
 
 def test_verify_patient_upload():
     driver.find_element_by_xpath("//*[@id='horizontal-top-example']/li[5]/div").click()

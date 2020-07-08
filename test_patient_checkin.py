@@ -10,7 +10,7 @@ import logging
 import pytest
 
 
-url_1 = input("Please enter the URL: ")
+url_1 = input("Please enter the URL: ") #""
 
 def test_site():
     global driver

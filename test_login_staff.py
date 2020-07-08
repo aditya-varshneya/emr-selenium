@@ -93,8 +93,8 @@ def test_verify_age():
 
 
 def test_verify_hid():
-    hid = driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[7]/div/a[3]/p/strong").text()
-    if "_"  in hid():
+    hid = driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[7]/div/a[3]/p/strong")
+    if hid.is_displayed():
         assert "True"
     else:
         print ("HID not available")

@@ -100,6 +100,7 @@ def test_verify_hid():
         print ("HID not available")
     time.sleep(2)
 
+
 def test_verify_transfer():
     driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]").click()
     time.sleep(3)
@@ -109,7 +110,7 @@ def test_verify_transfer():
     time.sleep(3)
     transfer = driver.find_element_by_name("transfer_doctor_id")
     doc = Select(transfer)
-    doc.select_by_value("cd4fdc4a-bfe3-456b-ac06-17a063acfedc")
+    doc.select_by_value(random.choice(value_doc))
     time.sleep(5)
     driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[2]/div/div/div[2]/section/"
                                  "div[3]/div/div/div[2]/div/div[1]/div/button[1]").click()
@@ -123,4 +124,5 @@ def test_verify_transfer():
     driver.back()
     time.sleep(7)
     driver.close()
+
 

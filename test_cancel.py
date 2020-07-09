@@ -46,7 +46,9 @@ def test_login():
 
 
 def test_doc_reg():
-    driver.find_element_by_id("settings-trigger").click()
+    wait = WebDriverWait(driver, 10)
+    add = wait.until(EC.visibility_of_element_located((By.ID, "settings-trigger")))
+    add.click()
     time.sleep(3)
     driver.find_element_by_id("optionsRadios1").click()
     time.sleep(2)

@@ -1,23 +1,17 @@
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver import ChromeOptions
-from selenium.webdriver.chrome.options import Options
 import time
-import logging
-import pytest
 
+from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 
-url_1 = input("Please enter the URL: ")
+url_1 = "https://clinytics.hlthclub.in/new_demo_account/waiting-area/eb0c294371957"  # input ("Enter the URL :" )
+
 
 def test_site():
     global driver
-    options= webdriver.ChromeOptions()
+    options = webdriver.ChromeOptions()
     prefs = {"profile.default_content_setting_values.notifications": 1}
     options.add_experimental_option("prefs", prefs)
-    driver = webdriver.Chrome("C:\webdrivers\chromedriver.exe",options=options)
+    driver = webdriver.Chrome("C:\webdrivers\chromedriver.exe", options=options)
     driver.get(url_1)
     driver.maximize_window()
     time.sleep(5)
@@ -29,7 +23,8 @@ def test_allow_webcam():
         if elem.is_displayed():
             elem.click()
     except NoSuchElementException:
-        driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div/section/div/div[2]/div/div/div[3]/div/button").click()
+        driver.find_element_by_xpath(
+            "/html/body/div[1]/div/div/div/div/section/div/div[2]/div/div/div[3]/div/button").click()
         time.sleep(3)
 
 
@@ -54,17 +49,18 @@ def test_upload():
 
 
 def test_run_video():
-        try:
-            element_1 = driver.find_element_by_xpath("//*[@id='notificationmodal']/div/div/div[2]/div/div/div/button")
-            if element_1.is_displayed():
-                 element_1.click()
+    try:
+        element_1 = driver.find_element_by_xpath("//*[@id='notificationmodal']/div/div/div[2]/div/div/div/button")
+        if element_1.is_displayed():
+            element_1.click()
 
-        except NoSuchElementException:
-            driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/section/div/div[2]/div/div/div[3]/div/div/button").click()
+    except NoSuchElementException:
+        driver.find_element_by_xpath(
+            "//*[@id='root']/div/div/div/div/section/div/div[2]/div/div/div[3]/div/div/button").click()
 
-        time.sleep(10)
-        driver.find_element_by_xpath("//*[@id='root']/div/div/div/section/div[2]/div/div[2]/div/button[4]/i").click()
-        time.sleep(7)
+    time.sleep(10)
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div/section/div[2]/div/div[2]/div/button[4]/i").click()
+    time.sleep(7)
 
 
 def test_view_chat():

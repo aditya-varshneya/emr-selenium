@@ -1,13 +1,10 @@
-from _ctypes import pointer
+import time
+
+import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-import time
-from datetime import date
-from selenium.webdriver import ChromeOptions
-from selenium.webdriver.common.action_chains import ActionChains
-import pytest
 
 # Parameters
 username = 8860879079
@@ -26,7 +23,7 @@ def test_setup():
     chrome_options = webdriver.ChromeOptions()
     prefs = {"profile.default_content_setting_values.notifications": 1}
     chrome_options.add_experimental_option("prefs", prefs)
-    driver = webdriver.Chrome("C:\webdrivers\chromedriver.exe",chrome_options=chrome_options)
+    driver = webdriver.Chrome("C:\webdrivers\chromedriver.exe", chrome_options=chrome_options)
     driver.get(ip_url)
     driver.maximize_window()
 
@@ -42,6 +39,7 @@ def test_login():
     time.sleep(7)
 
 
+@pytest.mark.skip
 def test_doc_reg():
     driver.find_element_by_id("settings-trigger").click()
     time.sleep(3)
@@ -50,7 +48,7 @@ def test_doc_reg():
     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[2]/button").click()
     time.sleep(3)
     driver.find_element_by_id("name").send_keys(name)
-    driver.find_element_by_id("age").send_keys(age)
+    driver.find_element_by_id("age:no_of_years").send_keys(age)
     driver.find_element_by_id("phone").send_keys(phone)
     driver.find_element_by_xpath(
         "/html/body/div/div/div/div/div/div/div/div/div/div/div/form/div[6]/div[2]/div/div/div/div[1]/div/label/input").click()
@@ -65,30 +63,24 @@ def test_doc_reg():
     time.sleep(5)
 
 
-def test_verify_presc_upload():
+def test_verify_presc_template():
     driver.find_element_by_xpath(
         "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]").click()
     time.sleep(5)
     driver.find_element_by_xpath(
         "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr/td[7]/button[2]").click()
     time.sleep(5)
-    wait = WebDriverWait(driver,10)
-    add= wait.until(EC.visibility_of_element_located((By.XPATH,"/html/body/div/div/div/a[2]/span")))
+    wait = WebDriverWait(driver, 10)
+    add = wait.until(EC.visibility_of_element_located((By.XPATH, "/html/body/div[1]/div/div/a[1]/span")))
     add.click()
     time.sleep(5)
-    try:
-        upload =driver.find_element_by_xpath("//*[@id='#']/div/input")
-        if upload.is_displayed():
-            upload.send_keys("C:/Users/Lenovo/Desktop/Python/file.png")
-            time.sleep(3)
-            submit = wait.until(EC.visibility_of_element_located((By.XPATH,"/html/body/div/div/div/div/div[1]/div/div[3]/div/div[3]/div/div/"
-                                                                   "div[2]/div/div[1]/div/div/div/div/div[2]/div[4]/div/button[1]")))
-            submit.click()
-        else:
-             driver.find_element_by_xpath(
-                            "/html/body/div/div/div/div/div[1]/div/div[18]/div/div[3]/div/div/div[1]/button/span").click()
-    except:
-       driver.find_element_by_xpath("/html/body/div/div/div/div/div[1]/div/div[18]/div/div[3]/div/div/div[1]/button/span").click()
+    checkboxes = driver.find_elements_by_xpath("//*[@id='value']")
+    for checkbox in checkboxes:
+        if checkbox.is_displayed():
+            checkbox.click()
+    time.sleep(3)
+    driver.find_element_by_xpath(
+        "//*[@id='content']/div/div[2]/div[2]/div/div/div/div/div/div/div[1]/div/div[2]/button").click()
     time.sleep(5)
 
 
@@ -109,7 +101,3 @@ def test_verify_patient_upload():
     driver.back()
     time.sleep(5)
     driver.close()
-
-
-
-

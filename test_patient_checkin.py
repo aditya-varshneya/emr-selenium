@@ -10,7 +10,7 @@ import logging
 import pytest
 
 
-url_1 = input("Please enter the URL: ") #""
+url_1 = "https://clinytics.hlthclub.in/new_demo_account/waiting-area/eb0c294371957" #input ("Enter the URL :" )
 
 def test_site():
     global driver

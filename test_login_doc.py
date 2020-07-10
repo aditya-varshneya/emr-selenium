@@ -77,18 +77,18 @@ def test_verify_presc_upload():
     add.click()
     time.sleep(5)
     try:
-        upload =driver.find_element_by_xpath("//*[@id='#']/div/input")
+        upload =driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div[1]/div/div[3]/div/div[1]/"
+                                             "div/div[3]/div/div/div[2]/div/div[1]/div/div/div/div/div[1]/form/div/input")
         if upload.is_displayed():
             upload.send_keys("C:/Users/Lenovo/Desktop/Python/file.png")
             time.sleep(3)
-            submit = wait.until(EC.visibility_of_element_located((By.XPATH,"/html/body/div/div/div/div/div[1]/div/div[3]/div/div[3]/div/div/"
-                                                                   "div[2]/div/div[1]/div/div/div/div/div[2]/div[4]/div/button[1]")))
+            submit = wait.until(EC.visibility_of_element_located((By.XPATH,"//*[@id='printmodal']/div/div/div[2]/div/"
+            "div[1]/div/div/div/div/div[2]/div[4]/div/button[1]")))
             submit.click()
         else:
-             driver.find_element_by_xpath(
-                            "/html/body/div/div/div/div/div[1]/div/div[18]/div/div[3]/div/div/div[1]/button/span").click()
+             driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div[1]/div/div[3]/div/div[1]/div/div[3]/div/div/div[1]/button/span").click()
     except:
-       driver.find_element_by_xpath("/html/body/div/div/div/div/div[1]/div/div[18]/div/div[3]/div/div/div[1]/button/span").click()
+        driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div[1]/div/div[3]/div/div[1]/div/div[3]/div/div/div[1]/button/span").click()
     time.sleep(5)
 
 

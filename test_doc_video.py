@@ -63,8 +63,6 @@ def test_video():
         time.sleep(5)
         driver.find_element_by_xpath("/html/body/div[3]/div/div/div[1]/button/span[1]").click()
         time.sleep(5)
-        driver.back()
-        time.sleep(5)
 
 
 def test_verify_followup():

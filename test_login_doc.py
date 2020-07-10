@@ -41,7 +41,7 @@ def test_login():
     login_but.click()
     time.sleep(7)
 
-
+@pytest.mark.skip
 def test_doc_reg():
     driver.find_element_by_id("settings-trigger").click()
     time.sleep(3)
@@ -65,7 +65,7 @@ def test_doc_reg():
     time.sleep(5)
 
 
-def test_verify_presc_upload():
+def test_verify_presc_template():
     driver.find_element_by_xpath(
         "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]").click()
     time.sleep(5)
@@ -73,22 +73,15 @@ def test_verify_presc_upload():
         "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr/td[7]/button[2]").click()
     time.sleep(5)
     wait = WebDriverWait(driver,10)
-    add= wait.until(EC.visibility_of_element_located((By.XPATH,"/html/body/div/div/div/a[2]/span")))
+    add= wait.until(EC.visibility_of_element_located((By.XPATH,"/html/body/div[1]/div/div/a[1]/span")))
     add.click()
     time.sleep(5)
-    try:
-        upload =driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div[1]/div/div[3]/div/div[1]/"
-                                             "div/div[3]/div/div/div[2]/div/div[1]/div/div/div/div/div[1]/form/div/input")
-        if upload.is_displayed():
-            upload.send_keys("C:/Users/Lenovo/Desktop/Python/file.png")
-            time.sleep(3)
-            submit = wait.until(EC.visibility_of_element_located((By.XPATH,"//*[@id='printmodal']/div/div/div[2]/div/"
-            "div[1]/div/div/div/div/div[2]/div[4]/div/button[1]")))
-            submit.click()
-        else:
-             driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div[1]/div/div[3]/div/div[1]/div/div[3]/div/div/div[1]/button/span").click()
-    except:
-        driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div[1]/div/div[3]/div/div[1]/div/div[3]/div/div/div[1]/button/span").click()
+    checkboxes = driver.find_elements_by_xpath("//*[@id='value']")
+    for checkbox in checkboxes:
+        if checkbox.is_displayed():
+            checkbox.click()
+    time.sleep(3)
+    driver.find_element_by_xpath("//*[@id='content']/div/div[2]/div[2]/div/div/div/div/div/div/div[1]/div/div[2]/button").click()
     time.sleep(5)
 
 

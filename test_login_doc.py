@@ -39,16 +39,18 @@ def test_login():
     time.sleep(7)
 
 
-@pytest.mark.skip
+
 def test_doc_reg():
-    driver.find_element_by_id("settings-trigger").click()
-    time.sleep(3)
+    wait = WebDriverWait(driver, 10)
+    add = wait.until(EC.visibility_of_element_located((By.ID, "settings-trigger")))
+    add.click()
+    time.sleep(5)
     driver.find_element_by_id("optionsRadios1").click()
     time.sleep(2)
     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[2]/button").click()
     time.sleep(3)
     driver.find_element_by_id("name").send_keys(name)
-    driver.find_element_by_id("age:no_of_years").send_keys(age)
+    driver.find_element_by_id("age").send_keys(age)
     driver.find_element_by_id("phone").send_keys(phone)
     driver.find_element_by_xpath(
         "/html/body/div/div/div/div/div/div/div/div/div/div/div/form/div[6]/div[2]/div/div/div/div[1]/div/label/input").click()
@@ -78,7 +80,7 @@ def test_verify_presc_template():
     for checkbox in checkboxes:
         if checkbox.is_displayed():
             checkbox.click()
-    time.sleep(3)
+    time.sleep(5)
     driver.find_element_by_xpath(
         "//*[@id='content']/div/div[2]/div[2]/div/div/div/div/div/div/div[1]/div/div[2]/button").click()
     time.sleep(5)

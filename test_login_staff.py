@@ -1,8 +1,10 @@
 import random
 import time
-
+from selenium.webdriver.common.by import By
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 # Parameters
 username = 8287529291
@@ -43,7 +45,9 @@ def test_login_staff():
 
 
 def test_staff_reg():
-    driver.find_element_by_id("settings-trigger").click()
+    wait = WebDriverWait(driver, 10)
+    add = wait.until(EC.visibility_of_element_located((By.ID, "settings-trigger")))
+    add.click()
     time.sleep(3)
     driver.find_element_by_name(random.choice(radio)).click()
     time.sleep(2)
@@ -53,7 +57,7 @@ def test_staff_reg():
     drp = Select(doc_name)
     drp.select_by_value(random.choice(value_doc))  # ("cd4fdc4a-bfe3-456b-ac06-17a063acfedc")
     driver.find_element_by_id("name").send_keys(name)
-    driver.find_element_by_id("age:no_of_years").send_keys(age)
+    driver.find_element_by_id("age").send_keys(age)
     driver.find_element_by_id("phone").send_keys(phone)
     driver.find_element_by_id("email").send_keys(email)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div/div/div/div/div/form/div["

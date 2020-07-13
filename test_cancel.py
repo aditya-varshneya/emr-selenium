@@ -49,7 +49,7 @@ def test_doc_reg():
     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[2]/button").click()
     time.sleep(3)
     driver.find_element_by_id("name").send_keys(name)
-    driver.find_element_by_id("age:no_of_years").send_keys(age)
+    driver.find_element_by_id("age").send_keys(age)
     driver.find_element_by_id("phone").send_keys(phone)
     driver.find_element_by_xpath(
         "/html/body/div/div/div/div/div/div/div/div/div/div/div/form/div[6]/div[2]/div/div/div/div[1]/div/label/input").click()
@@ -77,7 +77,8 @@ def test_cancellation():
     driver.find_element_by_xpath(
         "//*[@id='root']/div/div/div/div/div/div[2]/div/div/div[2]/section/div[2]/div/button").click()
     time.sleep(7)
-    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span[2]/button").click()
+    wait = WebDriverWait(driver,10)
+    wait.until(EC.visibility_of_element_located((By.XPATH,"//*[@id='root']/div/div/div/div[2]/div[2]/p/span[2]/button"))).click()
     time.sleep(7)
 
 

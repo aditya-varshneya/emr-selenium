@@ -1,5 +1,7 @@
 import time
-
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 from selenium import webdriver
 
 # Parameters
@@ -55,14 +57,15 @@ def test_video():
     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[2]/div[2]/p/span/button").click()
     time.sleep(5)
     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[1]/button/span[1]").click()
-    time.sleep(5)
+    time.sleep(10)
 
 
 def test_verify_followup():
     driver.find_element_by_xpath(
         "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[4]").click()
-    var_2 = driver.find_element_by_xpath(
-        "/html/body/div/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[5]/label").text
+    wait = WebDriverWait (driver,10)
+    var_2 = wait.until(EC.visibility_of_element_located((By.XPATH,"/html/body/div/div/div/div/div[1]/div/div/div[1]/div"
+                                                                 "/div/div[2]/table/tbody/tr[1]/td[5]/label"))).text
     if var_2 == "Done":
         apt = driver.find_element_by_xpath(
             "/html/body/div/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[7]/button[1]")

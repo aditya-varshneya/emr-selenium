@@ -77,7 +77,8 @@ def test_cancellation():
     driver.find_element_by_xpath(
         "//*[@id='root']/div/div/div/div/div/div[2]/div/div/div[2]/section/div[2]/div/button").click()
     time.sleep(7)
-    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span[2]/button").click()
+    wait = WebDriverWait(driver,10)
+    wait.until(EC.visibility_of_element_located((By.XPATH,"//*[@id='root']/div/div/div/div[2]/div[2]/p/span[2]/button"))).click()
     time.sleep(7)
 
 

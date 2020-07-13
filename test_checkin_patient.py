@@ -3,8 +3,8 @@ import time
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
-url_1 = input ("Enter the URL :" ) #"https://clinytics.hlthclub.in/new_demo_account/waiting-area/02bd494449792"
 
+url_1 = "https://clinytics.hlthclub.in/new_demo_account/waiting-area/0f7c594629353"
 
 def test_site():
     global driver

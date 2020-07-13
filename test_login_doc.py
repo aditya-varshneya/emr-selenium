@@ -1,5 +1,5 @@
 import time
-
+import random
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -14,7 +14,7 @@ age = 32
 phone = 8860879079
 email = "aditya.varshneya@gmail.com"
 ip_url = "https://clinytics.hlthclub.in/doctor-login"
-
+content = ["Fever",120,80,23,23,130,22]
 
 # code elements
 
@@ -37,7 +37,6 @@ def test_login():
         "//*[@id='root']/div/div/div/div/div/div/div/div/div[3]/div/form/div[3]/button")
     login_but.click()
     time.sleep(7)
-
 
 
 def test_doc_reg():
@@ -79,10 +78,10 @@ def test_verify_presc_template():
     checkboxes = driver.find_elements_by_xpath("//*[@id='value']")
     for checkbox in checkboxes:
         if checkbox.is_displayed():
-            checkbox.click()
+            checkbox.send_keys(random.choice(content))
     time.sleep(5)
     driver.find_element_by_xpath(
-        "//*[@id='content']/div/div[2]/div[2]/div/div/div/div/div/div/div[1]/div/div[2]/button").click()
+        "//*[@id='content']/div/div[2]/div/div/div/div/div/div/div/div[1]/div/div[2]/button").click()
     time.sleep(5)
 
 

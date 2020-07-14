@@ -77,19 +77,21 @@ def test_site_1():
 
 
 def test_intiate_chat():
-    driver.find_element_by_xpath("//*[@id='horizontal-top-example']/li[5]/div").click()
-    time.sleep(5)
-    reply = driver.find_elements_by_xpath("//*[@id='root']/div/div/div/div/div/section/div/div/div/div/a[1]/div[3]/button")
-    for replies in reply:
-        replies.is_displayed()
-        replies.click()
-    text =driver.find_elements_by_xpath("//*[@id='root']/div/div/div/div/div/"
-                                     "section/div/div/div/div/a[1]/div[4]/div/textarea")
-    for texts in text:
-        texts.is_displayed()
-        texts.send_keys("I will join soon")
-    wait = WebDriverWait(driver,10)
-    wait.until(EC.visibility_of_element_located((By.XPATH,"//*[@id='root']/div/div/div/"
-                                                          "div/div/section/div/div/div/div/a/div[4]/button"))).click()
-
+    try:
+        driver.find_element_by_xpath("//*[@id='horizontal-top-example']/li[5]/div").click()
+        time.sleep(5)
+        reply = driver.find_elements_by_xpath("//*[@id='root']/div/div/div/div/div/section/div/div/div/div/a[1]/div[3]/button")
+        for replies in reply:
+            replies.is_displayed()
+            replies.click()
+        text =driver.find_elements_by_xpath("//*[@id='root']/div/div/div/div/div/"
+                                         "section/div/div/div/div/a[1]/div[4]/div/textarea")
+        for texts in text:
+            texts.is_displayed()
+            texts.send_keys("I will join soon")
+        wait = WebDriverWait(driver,10)
+        wait.until(EC.visibility_of_element_located((By.XPATH,"//*[@id='root']/div/div/div/"
+                                                              "div/div/section/div/div/div/div/a/div[4]/button"))).click()
+    except:
+        print ("No Chat History Available")
     driver.close()

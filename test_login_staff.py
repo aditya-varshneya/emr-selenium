@@ -132,4 +132,42 @@ def test_verify_transfer():
     time.sleep(2)
     driver.back()
     time.sleep(7)
-    driver.close()
+
+def test_link_booked():
+     driver.find_element_by_xpath(
+            "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]").click()
+     time.sleep(3)
+     links = driver.find_element_by_xpath(
+            "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[8]/button[3]")
+     links.click()
+     time.sleep(2)
+     video = driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div/div[1]/div/div/h5").text
+     print(video)
+     if " Video Room" in video:
+            assert "Correct name", "wrong name"
+     time.sleep(3)
+     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div/div[1]/div/div/h5/i").click()
+     time.sleep(2)
+     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[1]/button/span[1]").click()
+     time.sleep(3)
+
+def test_link_pending():
+     driver.find_element_by_xpath(
+            "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[1]").click()
+     time.sleep(3)
+     driver.find_element_by_xpath(
+            "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[3]/div/input").send_keys(
+            "pending")
+     time.sleep(3)
+     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/"
+                                     "div[1]/div/div/div[2]/table/tbody/tr[1]/td[8]/button").click()
+     payment = driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div/div[1]/div/div/h5").text
+     print(payment)
+     if " Payment Link " in payment:
+            assert "Correct link"
+     time.sleep(3)
+     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div/div[1]/div/div/h5/i").click()
+     time.sleep(2)
+     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[1]/button/span[1]").click()
+     time.sleep(3)
+     driver.close()

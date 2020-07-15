@@ -45,6 +45,7 @@ def test_allow_webcam():
     except NoSuchElementException:
         pass
 
+
 def test_chat():
     driver.find_element_by_xpath("/html/body/div/div/div/div/div[1]/section/div/div[3]/a").click()
     time.sleep(4)
@@ -55,7 +56,11 @@ def test_chat():
     time.sleep(3)
     driver.find_element_by_xpath(
                 "//*[@id='root']/div/div/div/div/section/div/div[3]/div/div/div[2]/div/div/div/div[3]/div/button/span").click()
+    while not text_box.is_enabled():
+        wait = WebDriverWait(driver,10)
+        wait.until(EC.visibility_of_element_located((By.XPATH,text_box)))
     time.sleep(7)
+
 
 def test_site_1():
     global driver
@@ -92,6 +97,8 @@ def test_intiate_chat():
         wait = WebDriverWait(driver,10)
         wait.until(EC.visibility_of_element_located((By.XPATH,"//*[@id='root']/div/div/div/"
                                                               "div/div/section/div/div/div/div/a/div[4]/button"))).click()
-    except:
+    except NoSuchElementException:
         print ("No Chat History Available")
+
+    time.sleep(7)
     driver.close()

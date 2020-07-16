@@ -15,9 +15,8 @@ phone = 8860879079
 email = "aditya.varshneya@gmail.com"
 ip_url = "https://clinytics.hlthclub.in/doctor-login"
 radio = ["online", "offline"]
-value_doc = ["cd4fdc4a-bfe3-456b-ac06-17a063acfedc", "4e30fbe8-3131-4caa-b374-2e8eff54ccc0",
-             "d3e70041-302d-4cf5-9c5f-d62b1e712014",
-             "9131cead-c520-4d6e-9049-babd3543f8c3"]
+value_doc = ["cd4fdc4a-bfe3-456b-ac06-17a063acfedc", "4e30fbe8-3131-4caa-b374-2e8eff54ccc0","d3e70041-302d-4cf5-9c5f-d62b1e712014",
+             "9131cead-c520-4d6e-9049-babd3543f8c3","ae0a5a62-40a9-4fd3-b6b7-093129acbcb5"]
 
 
 # code elements

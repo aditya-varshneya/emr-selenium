@@ -5,7 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-
+from selenium.common.exceptions import NoSuchElementException
 # Parameters
 username = 8860879079
 password = "Pass@12345"
@@ -81,7 +81,7 @@ def test_verify_presc_template():
             checkbox.send_keys(random.choice(content))
     time.sleep(5)
     driver.find_element_by_xpath(
-        "//*[@id='content']/div/div[2]/div/div/div/div/div/div/div/div[1]/div/div[2]/button").click()
+        "//*[@id='content']/div[2]/div/div/div/div/div/div/div/div/div[1]/div/div[2]/button").click()
     time.sleep(5)
 
 
@@ -94,7 +94,7 @@ def test_verify_patient_upload():
             assert True
         else:
             assert ("No Patient uploads")
-    except:
+    except NoSuchElementException:
         driver.find_element_by_xpath("/html/body/div/div/div/div/div[6]/a/i").click()
     time.sleep(7)
     driver.find_element_by_xpath("/html/body/div/div/div/div/div[6]/a/i").click()

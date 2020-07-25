@@ -60,7 +60,7 @@ def test_staff_reg():
     driver.find_element_by_id("phone").send_keys(phone)
     driver.find_element_by_id("email").send_keys(email)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div/div/div/div/div/form/div["
-                                 "12]/div/div/div/button").click()
+                                 "13]/div/div/div/button").click()
     time.sleep(7)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span/button").click()
     time.sleep(5)

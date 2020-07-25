@@ -25,7 +25,7 @@ def test_verify_card():
     details = driver.find_element_by_xpath("/html/body/div/div/div/section[1]/div/div/div/div/div[1]/h4").text
     assert "New Demo_AC " in details, "test passed"
     time.sleep(3)
-    logo = driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div/nav/a/div/div/img").is_displayed()
+    logo = driver.find_element_by_xpath("//*[@id='root']/div/div/section[1]/div/div[1]/a/div/div/img").is_displayed()
     if logo == True:
         assert True
     else:

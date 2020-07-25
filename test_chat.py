@@ -6,7 +6,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
-url_1 = "" # need to add fresh link
+url_1 = " https://clinytics.hlthclub.in/new_demo_account/waiting-area/8b0b795615116" # need to add fresh link
 url_2 = "https://clinytics.hlthclub.in/doctor-login"
 username = 8860879079
 password = "Pass@12345"

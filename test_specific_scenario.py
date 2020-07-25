@@ -52,7 +52,7 @@ def test_patient_reg():
     drp = Select(doc_name)
     drp.select_by_value("4641265a-fb13-4e79-891e-b4288c8b012e")  # ("cd4fdc4a-bfe3-456b-ac06-17a063acfedc")
     driver.find_element_by_id("name").send_keys(name)
-    driver.find_element_by_id("age").send_keys(random.choice(age))
+    driver.find_element_by_id("age").send_keys(int(random.choice(age)))
     driver.find_element_by_xpath("//*[@id='gender']").click()
     driver.find_element_by_id("guardian_name").send_keys("Testing")
     driver.find_element_by_id("guardian_phone").send_keys("9582944108")
@@ -121,7 +121,7 @@ def test_payment_type():
 
     time.sleep(2)
 
-
+    driver.close()
 
 
 

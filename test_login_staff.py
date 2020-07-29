@@ -15,9 +15,8 @@ phone = 8860879079
 email = "aditya.varshneya@gmail.com"
 ip_url = "https://clinytics.hlthclub.in/doctor-login"
 radio = ["online", "offline"]
-value_doc = ["cd4fdc4a-bfe3-456b-ac06-17a063acfedc", "4e30fbe8-3131-4caa-b374-2e8eff54ccc0",
-             "d3e70041-302d-4cf5-9c5f-d62b1e712014",
-             "9131cead-c520-4d6e-9049-babd3543f8c3"]
+value_doc = ["cd4fdc4a-bfe3-456b-ac06-17a063acfedc", "4e30fbe8-3131-4caa-b374-2e8eff54ccc0","d3e70041-302d-4cf5-9c5f-d62b1e712014",
+             "9131cead-c520-4d6e-9049-babd3543f8c3","ae0a5a62-40a9-4fd3-b6b7-093129acbcb5"]
 
 
 # code elements
@@ -61,7 +60,7 @@ def test_staff_reg():
     driver.find_element_by_id("phone").send_keys(phone)
     driver.find_element_by_id("email").send_keys(email)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div/div/div/div/div/form/div["
-                                 "12]/div/div/div/button").click()
+                                 "13]/div/div/div/button").click()
     time.sleep(7)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span/button").click()
     time.sleep(5)
@@ -120,6 +119,7 @@ def test_verify_transfer():
     doc = Select(transfer)
     doc.select_by_value(random.choice(value_doc))
     time.sleep(5)
+
     driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[2]/div/div/div[2]/section/"
                                  "div[3]/div/div/div[2]/div/div[1]/div/button[1]").click()
     time.sleep(3)
@@ -132,4 +132,42 @@ def test_verify_transfer():
     time.sleep(2)
     driver.back()
     time.sleep(7)
-    driver.close()
+
+def test_link_booked():
+     driver.find_element_by_xpath(
+            "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]").click()
+     time.sleep(3)
+     links = driver.find_element_by_xpath(
+            "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[8]/button[3]")
+     links.click()
+     time.sleep(2)
+     video = driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div/div[1]/div/div/h5").text
+     print(video)
+     if " Video Room" in video:
+            assert "Correct name", "wrong name"
+     time.sleep(3)
+     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div/div[1]/div/div/h5/i").click()
+     time.sleep(2)
+     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[1]/button/span[1]").click()
+     time.sleep(3)
+
+def test_link_pending():
+     driver.find_element_by_xpath(
+            "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[1]").click()
+     time.sleep(3)
+     driver.find_element_by_xpath(
+            "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[3]/div/input").send_keys(
+            "pending")
+     time.sleep(3)
+     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/"
+                                     "div[1]/div/div/div[2]/table/tbody/tr[1]/td[8]/button").click()
+     payment = driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div/div[1]/div/div/h5").text
+     print(payment)
+     if " Payment Link " in payment:
+            assert "Correct link"
+     time.sleep(3)
+     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div/div[1]/div/div/h5/i").click()
+     time.sleep(2)
+     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[1]/button/span[1]").click()
+     time.sleep(3)
+     driver.close()

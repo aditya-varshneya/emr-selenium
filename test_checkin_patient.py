@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
 
-url_1 = "https://clinytics.hlthclub.in/new_demo_account/waiting-area/0f7c594629353"
+url_1 = "https://clinytics.hlthclub.in/new_demo_account/waiting-area/6fbb695915564"
 
 def test_site():
     global driver
@@ -22,9 +22,12 @@ def test_allow_webcam():
         elem = driver.find_element_by_xpath("//*[@id='allow-webcam']/div/div/div[2]/div/div/button")
         if elem.is_displayed():
             elem.click()
+        else:
+            driver.find_element_by_xpath(
+            "//*[@id='root']/div/div/div/div/section/div/div[2]/div/div/div[2]/div/button").click()
     except NoSuchElementException:
         driver.find_element_by_xpath(
-            "/html/body/div[1]/div/div/div/div/section/div/div[2]/div/div/div[3]/div/button").click()
+            "//*[@id='root']/div/div/div/div/section/div/div[2]/div/div/div[2]/div/button").click()
         time.sleep(3)
 
 
@@ -56,7 +59,7 @@ def test_run_video():
 
     except NoSuchElementException:
         driver.find_element_by_xpath(
-            "//*[@id='root']/div/div/div/div/section/div/div[2]/div/div/div[3]/div/div/button").click()
+            "//*[@id='root']/div/div/div/div/section/div/div[2]/div/div/div[2]/div/div/button").click()
 
     time.sleep(10)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/section/div[2]/div/div[2]/div/button[4]/i").click()

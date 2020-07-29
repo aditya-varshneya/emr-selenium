@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
 
-url_1 = " https://clinytics.hlthclub.in/new_demo_account/waiting-area/8b0b795615116 "
+url_1 = "https://clinytics.hlthclub.in/new_demo_account/waiting-area/6fbb695915564"
 
 def test_site():
     global driver

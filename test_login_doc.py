@@ -97,8 +97,8 @@ def test_verify_patient_upload():
     except NoSuchElementException:
         driver.find_element_by_xpath("/html/body/div/div/div/div/div[6]/a/i").click()
     time.sleep(7)
-    driver.find_element_by_xpath("/html/body/div/div/div/div/div[6]/a/i").click()
-    time.sleep(5)
+    #driver.find_element_by_xpath("/html/body/div/div/div/div/div[6]/a/i").click()
+    #time.sleep(5)
     driver.back()
     time.sleep(5)
 
@@ -119,7 +119,7 @@ def test_verify_reschedule():
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[2]/div/div/div[2]/section/div[5]/div/button").click()
     time.sleep(3)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span[2]/button").click()
-    time.sleep(3)
+    time.sleep(5)
     driver.implicitly_wait(5)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span/button").click()
     time.sleep(3)

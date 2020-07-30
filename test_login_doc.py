@@ -18,7 +18,7 @@ phone = 8860879079
 email = "aditya.varshneya@gmail.com"
 ip_url = "https://clinytics.hlthclub.in/doctor-login"
 content = [10,20,30, 120, 80, 23, 23, 130, 22]
-
+keys = ["Yes, from 2 years", "From 7 Years", "Mild Symptoms","Severity high" ]
 
 
 # code elements
@@ -127,11 +127,17 @@ def test_verify_case_history():
     time.sleep(5)
     driver.find_element_by_xpath("//*[@id='horizontal-top-example']/li[4]/div").click()
     time.sleep(3)
-    driver.find_element_by_xpath("//*[@id='heading-13']/a/h6").click()
+    drop_down = driver.find_element_by_xpath("//*[@id='heading-13']/a/h6")
+    if drop_down.is_enabled():
+        time.sleep(3)
+        socio_var = driver.find_element_by_xpath("/html/body/div/div/div/div/div[4]/div/div/div/div[1]/"
+                                                 "div/div[2]/div[2]/div/div[2]/div/div[1]/select")
+        drp = Select(socio_var)
+        drp.select_by_value("Upper")
+    else:
+       driver.find_element_by_xpath("//*[@id='heading-13']/a/h6").click()
     time.sleep(2)
-    socio_var = driver.find_element_by_xpath("//*[@id='collapse-13']/div/div[2]/div/div[1]/select")
-    drp = Select(socio_var)
-    drp.select_by_value("Middle")
+    driver.find_element_by_xpath("//*[@id='heading-13']/a/h6").click()
     time.sleep(2)
     driver.find_element_by_xpath("//*[@id='collapse-13']/div/div[2]/div/div[2]/input").send_keys("Patient has smoking habit")
     time.sleep(1)
@@ -164,15 +170,28 @@ def test_verify_case_history():
     comment = driver.find_elements_by_name("comment")
     for comm in comment:
         if comm.is_displayed():
-            comm.send_keys("Yes, From 7 years")
-    time.sleep(3)
-    driver.find_element_by_xpath("/html/body/div/div/div/div/div[4]/div/div/div/div[1]/div/div[3]/div[1]/a/h6").click()
+            comm.send_keys(random.choice(keys))
     time.sleep(3)
     driver.find_element_by_xpath("//*[@id='casehistory']/div/div/div/div[2]/button").click() ## Submit Button
-    time.sleep(5)
+    time.sleep(7)
     driver.find_element_by_xpath("//*[@id='casehistory']/div[2]/div[2]/p/span/button").click()
     time.sleep(3)
     driver.back()
+    time.sleep(3)
+
+def test_verify_case():
+    wait = WebDriverWait(driver, 10)
+    status_booked = wait.until(EC.visibility_of_element_located((By.XPATH, "//*[@id='root']/div/div/div/div[1]/"
+                                                                           "div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]")))
+    status_booked.click()
+    time.sleep(5)
+    driver.find_element_by_xpath("/html/body/div/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr/td[7]/button[2]").click()
+    time.sleep(5)
+    case_history = driver.find_element_by_xpath("//*[@id='accordion-5']/div[1]/div/div/div[2]")
+    assert case_history.is_displayed(),True
+    time.sleep(3)
+    driver.back()
+    time.sleep(5)
 
 
 def test_verify_reschedule():

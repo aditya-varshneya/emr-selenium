@@ -43,7 +43,7 @@ def test_login():
     login_but.click()
     time.sleep(7)
 
-@pytest.mark.skip
+
 def test_doc_reg():
     wait = WebDriverWait(driver, 10)
     add = wait.until(EC.visibility_of_element_located((By.ID, "settings-trigger")))

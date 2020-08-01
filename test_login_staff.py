@@ -15,8 +15,9 @@ phone = 8860879079
 email = "aditya.varshneya@gmail.com"
 ip_url = "https://clinytics.hlthclub.in/doctor-login"
 radio = ["online", "offline"]
-value_doc = ["cd4fdc4a-bfe3-456b-ac06-17a063acfedc", "4e30fbe8-3131-4caa-b374-2e8eff54ccc0","d3e70041-302d-4cf5-9c5f-d62b1e712014",
-             "9131cead-c520-4d6e-9049-babd3543f8c3","ae0a5a62-40a9-4fd3-b6b7-093129acbcb5"]
+value_doc = ["cd4fdc4a-bfe3-456b-ac06-17a063acfedc","259d6d97-984d-456f-a8c0-7a437aef26b0",
+             "4e30fbe8-3131-4caa-b374-2e8eff54ccc0","d3e70041-302d-4cf5-9c5f-d62b1e712014",
+             "9131cead-c520-4d6e-9049-babd3543f8c3"]
 
 
 # code elements
@@ -51,7 +52,7 @@ def test_staff_reg():
     driver.find_element_by_name(random.choice(radio)).click()
     time.sleep(2)
     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[2]/button").click()
-    time.sleep(3)
+    time.sleep(5)
     doc_name = driver.find_element_by_name("doctor_id")
     drp = Select(doc_name)
     drp.select_by_value(random.choice(value_doc))  # ("cd4fdc4a-bfe3-456b-ac06-17a063acfedc")

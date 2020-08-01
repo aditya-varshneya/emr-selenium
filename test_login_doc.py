@@ -43,7 +43,7 @@ def test_login():
     login_but.click()
     time.sleep(7)
 
-
+@pytest.mark.skip
 def test_doc_reg():
     wait = WebDriverWait(driver, 10)
     add = wait.until(EC.visibility_of_element_located((By.ID, "settings-trigger")))
@@ -129,15 +129,14 @@ def test_verify_case_history():
     time.sleep(3)
     drop_down = driver.find_element_by_xpath("//*[@id='heading-13']/a/h6")
     if drop_down.is_enabled():
-        time.sleep(3)
+        driver.find_element_by_xpath("//*[@id='heading-13']/a/h6").click()
+        time.sleep(6)
         socio_var = driver.find_element_by_xpath("/html/body/div/div/div/div/div[4]/div/div/div/div[1]/"
                                                  "div/div[2]/div[2]/div/div[2]/div/div[1]/select")
         drp = Select(socio_var)
         drp.select_by_value("Upper")
     else:
        driver.find_element_by_xpath("//*[@id='heading-13']/a/h6").click()
-    time.sleep(2)
-    driver.find_element_by_xpath("//*[@id='heading-13']/a/h6").click()
     time.sleep(2)
     driver.find_element_by_xpath("//*[@id='collapse-13']/div/div[2]/div/div[2]/input").send_keys("Patient has smoking habit")
     time.sleep(1)
@@ -221,4 +220,5 @@ def test_verify_reschedule():
     time.sleep(3)
     driver.back()
     time.sleep(5)
+
     driver.close()

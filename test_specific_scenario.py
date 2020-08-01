@@ -118,7 +118,7 @@ def test_guardian_name():
 def test_payment_type():
     payment_type = driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/" \
                                                               "div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[7]/div/a[8]/p/span").text
-    assert "Followup" in payment_type, "True"
+    assert "New" in payment_type, "True"
 
     time.sleep(2)
 

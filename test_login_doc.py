@@ -70,8 +70,9 @@ def test_doc_reg():
 
 
 def test_verify_presc_template():
-    driver.find_element_by_xpath(
-        "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]").click()
+    wait = WebDriverWait(driver,10)
+    wait.until(EC.visibility_of_element_located((By.XPATH,
+        "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]"))).click()
     time.sleep(5)
     driver.find_element_by_xpath(
         "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr/td[7]/button[2]").click()

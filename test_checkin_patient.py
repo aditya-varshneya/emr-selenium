@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
 
-url_1 = "https://clinytics.hlthclub.in/new_demo_account/waiting-area/f36de96274973"
+url_1 = "https://clinytics.hlthclub.in/new_demo_account/waiting-area/7915996617557"
 option_radio = ["/html/body/div[3]/div/div/div[2]/div/div[1]/div[1]/label/input",
                 "/html/body/div[3]/div/div/div[2]/div/div[1]/div[2]/label/input"]
 
@@ -24,7 +24,7 @@ def test_allow_webcam():
     driver.find_element_by_xpath(random.choice(option_radio)).click()
     time.sleep(1)
     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[2]/button").click()
-    time.sleep(3)
+    time.sleep(5)
     try:
         elem = driver.find_element_by_xpath("//*[@id='allow-webcam']/div/div/div[2]/div/div/button")
         if elem.is_displayed():
@@ -98,6 +98,7 @@ def test_chat():
         else:
             driver.find_element_by_xpath("//*[@id='menu-close']/i").click()
     except NoSuchElementException:
+        print("Chat UI Not Activated due to doctor not replied")
         driver.find_element_by_xpath("//*[@id='menu-close']/i").click()
 
     driver.close()

@@ -7,6 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
 
 # Parameters
 username = 8287529291
@@ -21,6 +22,7 @@ value_doc = ["cd4fdc4a-bfe3-456b-ac06-17a063acfedc","4e30fbe8-3131-4caa-b374-2e8
              "d3e70041-302d-4cf5-9c5f-d62b1e712014",
              "9131cead-c520-4d6e-9049-babd3543f8c3"]
 
+value_name = ["Nitin","Dr Kritika Tandon","Docotordemo","Rohit Kumar"]
 
 # code elements
 
@@ -110,6 +112,7 @@ def test_verify_hid():
 
 
 def test_verify_transfer():
+    global transfer
     driver.find_element_by_xpath(
         "/html/body/div[1]/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]").click()
     time.sleep(3)
@@ -118,15 +121,13 @@ def test_verify_transfer():
     time.sleep(3)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[2]/div/div/div[2]/div/button[2]").click()
     time.sleep(3)
-    transfer = driver.find_element_by_name("transfer_doctor_id")
-    doc = Select(transfer)
+    shuffle_id = random.sample(value_doc,len(value_doc))
+    shuffle_name = random.sample(value_name,len(value_name))
     try:
-        var_1 = random.choice(value_doc)
-        while var_1 not in doc:
-                doc.select_by_value(random.choice(value_doc))
-    except:
-        doc.select_by_value(random.choice(value_doc))
-
+        transfer = Select(driver.find_element_by_name("transfer_doctor_id"))
+        transfer.select_by_value(random.choice (shuffle_id))
+    except NoSuchElementException:
+        transfer.select_by_visible_text(random.choice(shuffle_name))
     time.sleep(5)
 
     driver.find_element_by_xpath("/html/body/div/div/div/div/div/div/div[2]/div/div/div[2]/section/"

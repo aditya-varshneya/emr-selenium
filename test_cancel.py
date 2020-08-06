@@ -1,5 +1,6 @@
 import time
 
+import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -85,9 +86,10 @@ def test_cancellation():
 def test_refund():
     driver.find_element_by_xpath("//*[@id='orders-dropdown']").click()
     time.sleep(5)
-    driver.find_element_by_xpath("/html/body/div[1]/div/div/nav/div[2]/ul[1]/li[6]/div/a[1]").click()
-    time.sleep(5)
     try:
+        driver.find_element_by_xpath("//*[@id='horizontal-top-example']/li[6]/div/a[1]").click()
+        time.sleep(5)
+
         edit_sts = driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div/div/div/div/div[2]/"
                                                 "div[2]/div/div[1]/table/tbody/tr/td[8]/button")
         if edit_sts.is_displayed():
@@ -96,17 +98,16 @@ def test_refund():
         else:
             print("Appointment is a follow-up")
 
+        change_to = driver.find_element_by_name("name")
+        chang = Select(change_to)
+        chang.select_by_value("ready")
+        driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[3]/button").click()
+        time.sleep(7)
+        driver.find_element_by_xpath(
+            "//*[@id='root']/div/div/div/div/div/div/div/div/div/div[3]/div[2]/p/span/button").click()
+        time.sleep(3)
+        driver.back()
+        time.sleep(3)
     except:
         print("Appointment is a follow-up")
-
-    change_to = driver.find_element_by_name("name")
-    chang = Select(change_to)
-    chang.select_by_value("ready")
-    driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[3]/button").click()
-    time.sleep(7)
-    driver.find_element_by_xpath(
-        "//*[@id='root']/div/div/div/div/div/div/div/div/div/div[3]/div[2]/p/span/button").click()
-    time.sleep(3)
-    driver.back()
-    time.sleep(3)
-    driver.close()
+        driver.close()

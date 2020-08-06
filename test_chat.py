@@ -1,4 +1,5 @@
 import time
+import random
 from selenium.webdriver.support.wait import WebDriverWait
 import pytest
 from selenium import webdriver
@@ -6,7 +7,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
-url_1 = "https://clinytics.hlthclub.in/new_demo_account/waiting-area/6fbb695915564" # need to add fresh link
+url_1 = "https://clinytics.hlthclub.in/new_demo_account/waiting-area/7915996617557" # need to add fresh link
 url_2 = "https://clinytics.hlthclub.in/doctor-login"
 username = 8860879079
 password = "Pass@12345"
@@ -14,7 +15,8 @@ name = "Test Automation"
 age = 33
 phone = 8860879079
 email = "aditya.varshneya@gmail.com"
-
+option_radio = ["/html/body/div[3]/div/div/div[2]/div/div[1]/div[1]/label/input",
+                "/html/body/div[3]/div/div/div[2]/div/div[1]/div[2]/label/input"]
 
 
 def test_site():
@@ -29,13 +31,17 @@ def test_site():
 
 
 def test_allow_webcam():
+    driver.find_element_by_xpath(random.choice(option_radio)).click()
+    time.sleep(1)
+    driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[2]/button").click()
+    time.sleep(3)
     try:
         elem = driver.find_element_by_xpath("//*[@id='allow-webcam']/div/div/div[2]/div/div/button")
         if elem.is_displayed():
             elem.click()
     except NoSuchElementException:
         driver.find_element_by_xpath(
-            "/html/body/div[1]/div/div/div/div/section/div/div[2]/div/div/div[3]/div/button").click()
+            "//*[@id='root']/div/div/div/div/section/div/div[2]/div/div/div[2]/div/button").click()
         time.sleep(3)
     try:
         element_1 = driver.find_element_by_xpath("//*[@id='notificationmodal']/div/div/div[2]/div/div/div/button")

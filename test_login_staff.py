@@ -22,7 +22,7 @@ value_doc = ["cd4fdc4a-bfe3-456b-ac06-17a063acfedc","4e30fbe8-3131-4caa-b374-2e8
              "d3e70041-302d-4cf5-9c5f-d62b1e712014",
              "9131cead-c520-4d6e-9049-babd3543f8c3"]
 
-value_name = ["Nitin","Dr Kritika Tandon","Docotordemo","Rohit Kumar"]
+value_name = ["Rohit Kumar","Docotordemo","Dr Kritika Tandon","Nitin"]
 
 # code elements
 
@@ -111,6 +111,23 @@ def test_verify_hid():
     time.sleep(2)
 
 
+def test_appointment_button(): #verify appointment button
+    driver.find_element_by_xpath(
+        "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]").click()
+    time.sleep(3)
+    button = driver.find_element_by_xpath(
+        "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[8]/button[1]")
+    if button.is_displayed():
+        print("Button is available")
+    else:
+        print("Appt Button not visible")
+    time.sleep(2)
+    text = driver.find_element_by_xpath(
+        "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[8]/button[1]").text
+    assert text == "Appt", True
+    time.sleep(3)
+
+
 def test_verify_transfer():
     global transfer
     driver.find_element_by_xpath(
@@ -136,12 +153,14 @@ def test_verify_transfer():
     driver.find_element_by_xpath(
         "//*[@id='root']/div/div/div/div/div/div[2]/div/div/div[2]/section/div[5]/div/button").click()
     time.sleep(3)
-    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span[2]/button").click()
+    wait = WebDriverWait(driver,10)
+    wait.until(EC.visibility_of_element_located((By.XPATH,"//*[@id='root']/div/div/div/div[2]/div[2]/p/span[2]/button"))).click()
     time.sleep(10)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span/button").click()
     time.sleep(2)
     driver.back()
     time.sleep(7)
+
 
 def test_link_booked():
      driver.find_element_by_xpath(
@@ -161,13 +180,13 @@ def test_link_booked():
      driver.find_element_by_xpath("/html/body/div[3]/div/div/div[1]/button/span[1]").click()
      time.sleep(3)
 
+
 def test_link_pending():
      driver.find_element_by_xpath(
             "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[1]").click()
      time.sleep(3)
      driver.find_element_by_xpath(
-            "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[3]/div/input").send_keys(
-            "pending")
+            "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[3]/div/input").send_keys("pending")
      time.sleep(3)
      driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/"
                                      "div[1]/div/div/div[2]/table/tbody/tr[1]/td[8]/button").click()

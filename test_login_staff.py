@@ -18,11 +18,12 @@ phone = 8860879079
 email = "aditya.varshneya@gmail.com"
 ip_url = "https://clinytics.hlthclub.in/doctor-login"
 radio = ["online", "offline"]
-value_doc = ["cd4fdc4a-bfe3-456b-ac06-17a063acfedc","4e30fbe8-3131-4caa-b374-2e8eff54ccc0",
+value_doc = ["cd4fdc4a-bfe3-456b-ac06-17a063acfedc", "4e30fbe8-3131-4caa-b374-2e8eff54ccc0",
              "d3e70041-302d-4cf5-9c5f-d62b1e712014",
              "9131cead-c520-4d6e-9049-babd3543f8c3"]
 
-value_name = ["Rohit Kumar","Docotordemo","Dr Kritika Tandon","Nitin"]
+value_name = ["Rohit Kumar", "Docotordemo", "Dr Kritika Tandon", "Nitin"]
+
 
 # code elements
 
@@ -111,7 +112,7 @@ def test_verify_hid():
     time.sleep(2)
 
 
-def test_appointment_button(): #verify appointment button
+def test_appointment_button():  # verify appointment button
     driver.find_element_by_xpath(
         "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]").click()
     time.sleep(3)
@@ -138,11 +139,11 @@ def test_verify_transfer():
     time.sleep(3)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[2]/div/div/div[2]/div/button[2]").click()
     time.sleep(3)
-    shuffle_id = random.sample(value_doc,len(value_doc))
-    shuffle_name = random.sample(value_name,len(value_name))
+    shuffle_id = random.sample(value_doc, len(value_doc))
+    shuffle_name = random.sample(value_name, len(value_name))
     try:
         transfer = Select(driver.find_element_by_name("transfer_doctor_id"))
-        transfer.select_by_value(random.choice (shuffle_id))
+        transfer.select_by_value(random.choice(shuffle_id))
     except NoSuchElementException:
         transfer.select_by_visible_text(random.choice(shuffle_name))
     time.sleep(5)
@@ -153,8 +154,9 @@ def test_verify_transfer():
     driver.find_element_by_xpath(
         "//*[@id='root']/div/div/div/div/div/div[2]/div/div/div[2]/section/div[5]/div/button").click()
     time.sleep(3)
-    wait = WebDriverWait(driver,10)
-    wait.until(EC.visibility_of_element_located((By.XPATH,"//*[@id='root']/div/div/div/div[2]/div[2]/p/span[2]/button"))).click()
+    wait = WebDriverWait(driver, 10)
+    wait.until(EC.visibility_of_element_located(
+        (By.XPATH, "//*[@id='root']/div/div/div/div[2]/div[2]/p/span[2]/button"))).click()
     time.sleep(10)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span/button").click()
     time.sleep(2)
@@ -163,40 +165,43 @@ def test_verify_transfer():
 
 
 def test_link_booked():
-     driver.find_element_by_xpath(
-            "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]").click()
-     time.sleep(3)
-     links = driver.find_element_by_xpath(
+    driver.find_element_by_xpath(
+        "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[2]").click()
+    time.sleep(3)
+    try:
+        links = driver.find_element_by_xpath(
             "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[8]/button[3]")
-     links.click()
-     time.sleep(2)
-     video = driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div/div[1]/div/div/h5").text
-     print(video)
-     if " Video Room" in video:
-            assert "Correct name", "wrong name"
-     time.sleep(3)
-     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div/div[1]/div/div/h5/i").click()
-     time.sleep(2)
-     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[1]/button/span[1]").click()
-     time.sleep(3)
+        if links.is_displayed():
+            links.click()
+    except NoSuchElementException:
+            driver.find_element_by_xpath(
+                "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[2]/table/tbody/tr[2]/td[8]/button[3]").click()
+    time.sleep(2)
+    video = driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div/div[1]/div/div/h5").text
+    assert video =="Video Room"
+    time.sleep(3)
+    driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div/div[1]/div/div/h5/i").click()
+    time.sleep(2)
+    driver.find_element_by_xpath("/html/body/div[3]/div/div/div[1]/button/span[1]").click()
+    time.sleep(3)
 
 
 def test_link_pending():
-     driver.find_element_by_xpath(
-            "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[1]").click()
-     time.sleep(3)
-     driver.find_element_by_xpath(
-            "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[3]/div/input").send_keys("pending")
-     time.sleep(3)
-     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/"
-                                     "div[1]/div/div/div[2]/table/tbody/tr[1]/td[8]/button").click()
-     payment = driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div/div[1]/div/div/h5").text
-     print(payment)
-     if " Payment Link " in payment:
-            assert "Correct link"
-     time.sleep(3)
-     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div/div[1]/div/div/h5/i").click()
-     time.sleep(2)
-     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[1]/button/span[1]").click()
-     time.sleep(3)
-     driver.close()
+    driver.find_element_by_xpath(
+        "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[1]/div/div[1]").click()
+    time.sleep(3)
+    driver.find_element_by_xpath(
+        "//*[@id='root']/div/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/div[3]/div/input").send_keys("pending")
+    time.sleep(3)
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[1]/div/div/"
+                                 "div[1]/div/div/div[2]/table/tbody/tr[1]/td[8]/button").click()
+    payment = driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div/div[1]/div/div/h5").text
+    print(payment)
+    if " Payment Link " in payment:
+        assert "Correct link"
+    time.sleep(3)
+    driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div/div[1]/div/div/h5/i").click()
+    time.sleep(2)
+    driver.find_element_by_xpath("/html/body/div[3]/div/div/div[1]/button/span[1]").click()
+    time.sleep(3)
+    driver.close()

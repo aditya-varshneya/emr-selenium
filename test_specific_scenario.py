@@ -49,7 +49,7 @@ def test_patient_reg():
     add = wait.until(EC.visibility_of_element_located((By.ID, "settings-trigger")))
     add.click()
     time.sleep(5)
-    doc_name = driver.find_element_by_name("doctor_id")
+    doc_name = wait.until(EC.visibility_of_element_located((By.NAME, "doctor_id")))
     drp = Select(doc_name)
     drp.select_by_value("4641265a-fb13-4e79-891e-b4288c8b012e")  # ("cd4fdc4a-bfe3-456b-ac06-17a063acfedc")
     driver.find_element_by_id("name").send_keys(name)

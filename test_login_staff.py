@@ -139,8 +139,8 @@ def test_verify_transfer():
     time.sleep(3)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div[2]/div/div/div[2]/div/button[2]").click()
     time.sleep(3)
-    shuffle_id = random.sample(value_doc, len(value_doc))
-    shuffle_name = random.sample(value_name, len(value_name))
+    shuffle_id = random.sample(value_doc, (3))
+    shuffle_name = random.sample(value_name, (3))
     try:
         transfer = Select(driver.find_element_by_name("transfer_doctor_id"))
         transfer.select_by_value(random.choice(shuffle_id))

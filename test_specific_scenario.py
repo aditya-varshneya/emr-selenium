@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
 
 
 # Parameters
@@ -65,6 +66,41 @@ def test_patient_reg():
     time.sleep(7)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span/button").click()
     time.sleep(5)
+
+def test_search_patient():
+    wait = WebDriverWait(driver, 10)
+    add = wait.until(EC.visibility_of_element_located((By.ID, "settings-trigger")))
+    add.click()
+    time.sleep(2)
+    doc_name = driver.find_element_by_name("doctor_id")
+    drp = Select(doc_name)
+    drp.select_by_value("4641265a-fb13-4e79-891e-b4288c8b012e")
+    driver.find_element_by_id("phone").send_keys("9876543456")
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div/div/div/div/div/form/div[7]/"
+                                 "div[1]/div/div[2]/div/div/button/i") .click()
+    time.sleep(4)
+    driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div/table/tbody/tr[1]/td[3]/button") .click()
+    time.sleep(4)
+    try:
+        guardian_name = driver.find_element_by_id("guardian_name")
+        assert guardian_name.is_displayed(),True
+        guardian_name.clear()
+        time.sleep(2)
+        guardian_name.send_keys("Test Guard")
+        time.sleep(2)
+        guardian_phone=driver.find_element_by_id("guardian_phone")
+        assert guardian_phone.is_displayed(),True
+        guardian_phone.clear()
+        time.sleep(2)
+        guardian_phone.send_keys(9953747998)
+        time.sleep(2)
+    except NoSuchElementException:
+        print("Guardian name & Phone not available")
+    time.sleep(3)
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div/div/div/div/div/form/div[13]/div/div/div/button").click()
+    time.sleep(5)
+    driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span/button").click()
+    time.sleep(7)
 
 
 def test_verify_status():

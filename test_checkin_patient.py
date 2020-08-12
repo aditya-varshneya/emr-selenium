@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
 
-url_1 = "https://clinytics.hlthclub.in/new_demo_account/waiting-area/7915996617557"
+url_1 = "https://clinytics.hlthclub.in/new_demo_account/waiting-area/e217996908999"
 option_radio = ["/html/body/div[3]/div/div/div[2]/div/div[1]/div[1]/label/input",
                 "/html/body/div[3]/div/div/div[2]/div/div[1]/div[2]/label/input"]
 

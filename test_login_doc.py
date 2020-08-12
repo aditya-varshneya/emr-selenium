@@ -139,10 +139,16 @@ def test_verify_case_history():
     else:
        driver.find_element_by_xpath("//*[@id='heading-13']/a/h6").click()
     time.sleep(2)
+    driver.find_element_by_xpath("//*[@id='collapse-13']/div/div[2]/div/div[2]/input").clear()
+    time.sleep(1)
     driver.find_element_by_xpath("//*[@id='collapse-13']/div/div[2]/div/div[2]/input").send_keys("Patient has smoking habit")
     time.sleep(1)
+
     driver.find_element_by_xpath("/html/body/div/div/div/div/div[4]/div/div/div/div[1]/div/"
                                  "div[2]/div[2]/div/div[3]/div/div[1]/div/div[1]/label/input").click()
+    time.sleep(1)
+    driver.find_element_by_xpath("/html/body/div/div/div/div/div[4]/div/div/div/div[1]/div/"
+                                 "div[2]/div[2]/div/div[4]/div/div[1]/input").clear()
     time.sleep(1)
     driver.find_element_by_xpath("/html/body/div/div/div/div/div[4]/div/div/div/div[1]/div/"
                                  "div[2]/div[2]/div/div[4]/div/div[1]/input").send_keys("3")
@@ -170,6 +176,7 @@ def test_verify_case_history():
     comment = driver.find_elements_by_name("comment")
     for comm in comment:
         if comm.is_displayed():
+            comm.clear()
             comm.send_keys(random.choice(keys))
     time.sleep(3)
     driver.find_element_by_xpath("//*[@id='casehistory']/div/div/div/div[2]/button").click() ## Submit Button

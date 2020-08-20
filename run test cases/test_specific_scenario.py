@@ -67,8 +67,9 @@ def test_patient_reg():
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span/button").click()
     time.sleep(5)
 
-def test_search_patient():
-    wait = WebDriverWait(driver, 10)
+
+def test_search_patient():   # This is to verify that for age<18, status are coming correct and guardian details are visible
+    wait = WebDriverWait(driver, 20)
     add = wait.until(EC.visibility_of_element_located((By.ID, "settings-trigger")))
     add.click()
     time.sleep(2)
@@ -79,7 +80,7 @@ def test_search_patient():
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div/div/div/div/div/form/div[7]/"
                                  "div[1]/div/div[2]/div/div/button/i") .click()
     time.sleep(4)
-    driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div/table/tbody/tr[1]/td[3]/button") .click()
+    wait.until(EC.visibility_of_element_located((By.XPATH,"/html/body/div[3]/div/div/div[2]/div/div/table/tbody/tr[1]/td[3]/button"))) .click()
     time.sleep(4)
     try:
         guardian_name = driver.find_element_by_id("guardian_name")

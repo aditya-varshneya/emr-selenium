@@ -420,7 +420,7 @@ function filter_table(elem) {
 }
 </script>
     <h1>Automation_report.html</h1>
-    <p>Report generated on 17-Aug-2020 at 12:10:41 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v2.1.1</p>
+    <p>Report generated on 22-Aug-2020 at 22:37:39 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v2.1.1</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -445,8 +445,8 @@ function filter_table(elem) {
         <td>Python</td>
         <td>3.8.0</td></tr></table>
     <h2>Summary</h2>
-    <p>38 tests ran in 775.08 seconds. </p>
-    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">38 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <p>38 tests ran in 604.61 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">37 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">1 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
       <thead id="results-table-head">
@@ -457,11 +457,20 @@ function filter_table(elem) {
           <th>Links</th></tr>
         <tr hidden="true" id="not-found-message">
           <th colspan="4">No results found. Try to check the filters</th></tr></thead>
+      <tbody class="failed results-table-row">
+        <tr>
+          <td class="col-result">Failed</td>
+          <td class="col-name">test_appoint_patient.py::test_doctor_appoint</td>
+          <td class="col-duration">11.39</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">def test_doctor_appoint():<br/>        driver.find_element_by_xpath(&quot;//*[@id=&#x27;root&#x27;]/div/div/div/div/div/div/div[2]/div[5]/div[1]/div[2]/div/div[2]/a&quot;).click()  # Book Appointment Button<br/>        time.sleep(5)<br/>        time_slot = driver.find_element_by_xpath(&quot;/html/body/div/div/div/div/div/div/div[2]/div/&quot;<br/>                                                 &quot;div[1]/div[2]/section/div[3]/div/div/div[2]/div/div[1]/div/button[1]&quot;)  # time slot selection<br/>        if time_slot.is_displayed():<br/>            time_slot.click()<br/>        else:<br/>            driver.find_element_by_xpath(&quot;//*[@id=&#x27;timeslotmodal&#x27;]/div/div[1]/div[2]/section/&quot;<br/>                                         &quot;div[3]/div/div/div[1]/div/div/div/ul/li[9]/a/i&quot;).click()<br/>        time.sleep(3)<br/>        driver.find_element_by_xpath(&quot;//*[@id=&#x27;timeslotmodal&#x27;]/div/div[1]/div[3]/button[2]&quot;).click()<br/>        time.sleep(3)<br/>&gt;       driver.find_element_by_xpath(&quot;//*[@id=&#x27;root&#x27;]/div/div/div/div/div/div[2]/div[2]/p/span/button&quot;).click()<br/><br/>test_appoint_patient.py:76: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _<br/>..\..\..\..\appdata\local\programs\python\python38\lib\site-packages\selenium\webdriver\remote\webdriver.py:394: in find_element_by_xpath<br/>    return self.find_element(by=By.XPATH, value=xpath)<br/>..\..\..\..\appdata\local\programs\python\python38\lib\site-packages\selenium\webdriver\remote\webdriver.py:976: in find_element<br/>    return self.execute(Command.FIND_ELEMENT, {<br/>..\..\..\..\appdata\local\programs\python\python38\lib\site-packages\selenium\webdriver\remote\webdriver.py:321: in execute<br/>    self.error_handler.check_response(response)<br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _<br/><br/>self = &lt;selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x000001E97D024520&gt;<br/>response = {&#x27;status&#x27;: 404, &#x27;value&#x27;: &#x27;{&quot;value&quot;:{&quot;error&quot;:&quot;no such element&quot;,&quot;message&quot;:&quot;no such element: Unable to locate element: {\...\n\\tRtlGetAppContainerNamedObjectPath [0x77967C24+228]\\n\\tRtlGetAppContainerNamedObjectPath [0x77967BF4+180]\\n&quot;}}&#x27;}<br/><br/>    def check_response(self, response):<br/>        &quot;&quot;&quot;<br/>        Checks that a JSON response from the WebDriver does not have an error.<br/>    <br/>        :Args:<br/>         - response - The JSON response from the WebDriver server as a dictionary<br/>           object.<br/>    <br/>        :Raises: If the response contains an error message.<br/>        &quot;&quot;&quot;<br/>        status = response.get(&#x27;status&#x27;, None)<br/>        if status is None or status == ErrorCode.SUCCESS:<br/>            return<br/>        value = None<br/>        message = response.get(&quot;message&quot;, &quot;&quot;)<br/>        screen = response.get(&quot;screen&quot;, &quot;&quot;)<br/>        stacktrace = None<br/>        if isinstance(status, int):<br/>            value_json = response.get(&#x27;value&#x27;, None)<br/>            if value_json and isinstance(value_json, basestring):<br/>                import json<br/>                try:<br/>                    value = json.loads(value_json)<br/>                    if len(value.keys()) == 1:<br/>                        value = value[&#x27;value&#x27;]<br/>                    status = value.get(&#x27;error&#x27;, None)<br/>                    if status is None:<br/>                        status = value[&quot;status&quot;]<br/>                        message = value[&quot;value&quot;]<br/>                        if not isinstance(message, basestring):<br/>                            value = message<br/>                            message = message.get(&#x27;message&#x27;)<br/>                    else:<br/>                        message = value.get(&#x27;message&#x27;, None)<br/>                except ValueError:<br/>                    pass<br/>    <br/>        exception_class = ErrorInResponseException<br/>        if status in ErrorCode.NO_SUCH_ELEMENT:<br/>            exception_class = NoSuchElementException<br/>        elif status in ErrorCode.NO_SUCH_FRAME:<br/>            exception_class = NoSuchFrameException<br/>        elif status in ErrorCode.NO_SUCH_WINDOW:<br/>            exception_class = NoSuchWindowException<br/>        elif status in ErrorCode.STALE_ELEMENT_REFERENCE:<br/>            exception_class = StaleElementReferenceException<br/>        elif status in ErrorCode.ELEMENT_NOT_VISIBLE:<br/>            exception_class = ElementNotVisibleException<br/>        elif status in ErrorCode.INVALID_ELEMENT_STATE:<br/>            exception_class = InvalidElementStateException<br/>        elif status in ErrorCode.INVALID_SELECTOR \<br/>                or status in ErrorCode.INVALID_XPATH_SELECTOR \<br/>                or status in ErrorCode.INVALID_XPATH_SELECTOR_RETURN_TYPER:<br/>            exception_class = InvalidSelectorException<br/>        elif status in ErrorCode.ELEMENT_IS_NOT_SELECTABLE:<br/>            exception_class = ElementNotSelectableException<br/>        elif status in ErrorCode.ELEMENT_NOT_INTERACTABLE:<br/>            exception_class = ElementNotInteractableException<br/>        elif status in ErrorCode.INVALID_COOKIE_DOMAIN:<br/>            exception_class = InvalidCookieDomainException<br/>        elif status in ErrorCode.UNABLE_TO_SET_COOKIE:<br/>            exception_class = UnableToSetCookieException<br/>        elif status in ErrorCode.TIMEOUT:<br/>            exception_class = TimeoutException<br/>        elif status in ErrorCode.SCRIPT_TIMEOUT:<br/>            exception_class = TimeoutException<br/>        elif status in ErrorCode.UNKNOWN_ERROR:<br/>            exception_class = WebDriverException<br/>        elif status in ErrorCode.UNEXPECTED_ALERT_OPEN:<br/>            exception_class = UnexpectedAlertPresentException<br/>        elif status in ErrorCode.NO_ALERT_OPEN:<br/>            exception_class = NoAlertPresentException<br/>        elif status in ErrorCode.IME_NOT_AVAILABLE:<br/>            exception_class = ImeNotAvailableException<br/>        elif status in ErrorCode.IME_ENGINE_ACTIVATION_FAILED:<br/>            exception_class = ImeActivationFailedException<br/>        elif status in ErrorCode.MOVE_TARGET_OUT_OF_BOUNDS:<br/>            exception_class = MoveTargetOutOfBoundsException<br/>        elif status in ErrorCode.JAVASCRIPT_ERROR:<br/>            exception_class = JavascriptException<br/>        elif status in ErrorCode.SESSION_NOT_CREATED:<br/>            exception_class = SessionNotCreatedException<br/>        elif status in ErrorCode.INVALID_ARGUMENT:<br/>            exception_class = InvalidArgumentException<br/>        elif status in ErrorCode.NO_SUCH_COOKIE:<br/>            exception_class = NoSuchCookieException<br/>        elif status in ErrorCode.UNABLE_TO_CAPTURE_SCREEN:<br/>            exception_class = ScreenshotException<br/>        elif status in ErrorCode.ELEMENT_CLICK_INTERCEPTED:<br/>            exception_class = ElementClickInterceptedException<br/>        elif status in ErrorCode.INSECURE_CERTIFICATE:<br/>            exception_class = InsecureCertificateException<br/>        elif status in ErrorCode.INVALID_COORDINATES:<br/>            exception_class = InvalidCoordinatesException<br/>        elif status in ErrorCode.INVALID_SESSION_ID:<br/>            exception_class = InvalidSessionIdException<br/>        elif status in ErrorCode.UNKNOWN_METHOD:<br/>            exception_class = UnknownMethodException<br/>        else:<br/>            exception_class = WebDriverException<br/>        if value == &#x27;&#x27; or value is None:<br/>            value = response[&#x27;value&#x27;]<br/>        if isinstance(value, basestring):<br/>            if exception_class == ErrorInResponseException:<br/>                raise exception_class(response, value)<br/>            raise exception_class(value)<br/>        if message == &quot;&quot; and &#x27;message&#x27; in value:<br/>            message = value[&#x27;message&#x27;]<br/>    <br/>        screen = None<br/>        if &#x27;screen&#x27; in value:<br/>            screen = value[&#x27;screen&#x27;]<br/>    <br/>        stacktrace = None<br/>        if &#x27;stackTrace&#x27; in value and value[&#x27;stackTrace&#x27;]:<br/>            stacktrace = []<br/>            try:<br/>                for frame in value[&#x27;stackTrace&#x27;]:<br/>                    line = self._value_or_default(frame, &#x27;lineNumber&#x27;, &#x27;&#x27;)<br/>                    file = self._value_or_default(frame, &#x27;fileName&#x27;, &#x27;&lt;anonymous&gt;&#x27;)<br/>                    if line:<br/>                        file = &quot;%s:%s&quot; % (file, line)<br/>                    meth = self._value_or_default(frame, &#x27;methodName&#x27;, &#x27;&lt;anonymous&gt;&#x27;)<br/>                    if &#x27;className&#x27; in frame:<br/>                        meth = &quot;%s.%s&quot; % (frame[&#x27;className&#x27;], meth)<br/>                    msg = &quot;    at %s (%s)&quot;<br/>                    msg = msg % (meth, file)<br/>                    stacktrace.append(msg)<br/>            except TypeError:<br/>                pass<br/>        if exception_class == ErrorInResponseException:<br/>            raise exception_class(response, message)<br/>        elif exception_class == UnexpectedAlertPresentException:<br/>            alert_text = None<br/>            if &#x27;data&#x27; in value:<br/>                alert_text = value[&#x27;data&#x27;].get(&#x27;text&#x27;)<br/>            elif &#x27;alert&#x27; in value:<br/>                alert_text = value[&#x27;alert&#x27;].get(&#x27;text&#x27;)<br/>            raise exception_class(message, screen, stacktrace, alert_text)<br/>&gt;       raise exception_class(message, screen, stacktrace)<br/><span class="error">E       selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//*[@id=&#x27;root&#x27;]/div/div/div/div/div/div[2]/div[2]/p/span/button&quot;}</span><br/><span class="error">E         (Session info: chrome=84.0.4147.135)</span><br/><br/>..\..\..\..\appdata\local\programs\python\python38\lib\site-packages\selenium\webdriver\remote\errorhandler.py:242: NoSuchElementException<br/></div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_appoint_patient.py::test_reg</td>
-          <td class="col-duration">15.18</td>
+          <td class="col-duration">13.78</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -470,7 +479,7 @@ function filter_table(elem) {
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_appoint_patient.py::test_verify_card</td>
-          <td class="col-duration">3.14</td>
+          <td class="col-duration">3.12</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -479,7 +488,7 @@ function filter_table(elem) {
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_appoint_patient.py::test_fill_form</td>
-          <td class="col-duration">17.97</td>
+          <td class="col-duration">17.90</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -487,19 +496,8 @@ function filter_table(elem) {
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
-          <td class="col-name">test_appoint_patient.py::test_doctor_appoint</td>
-          <td class="col-duration">40.79</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>Appointment booked, kindly make payment or go to chatroom link
-Please run Patient_checkin file
-<br/></div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
           <td class="col-name">test_cancel.py::test_setup</td>
-          <td class="col-duration">11.73</td>
+          <td class="col-duration">8.20</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -508,7 +506,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_cancel.py::test_login</td>
-          <td class="col-duration">7.41</td>
+          <td class="col-duration">7.40</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -517,7 +515,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_cancel.py::test_doc_reg</td>
-          <td class="col-duration">30.55</td>
+          <td class="col-duration">30.79</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -526,7 +524,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_cancel.py::test_cancellation</td>
-          <td class="col-duration">24.73</td>
+          <td class="col-duration">24.63</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -535,7 +533,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_cancel.py::test_refund</td>
-          <td class="col-duration">14.58</td>
+          <td class="col-duration">14.57</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -545,7 +543,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_login_doc.py::test_setup</td>
-          <td class="col-duration">12.22</td>
+          <td class="col-duration">9.09</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -554,7 +552,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_login_doc.py::test_login</td>
-          <td class="col-duration">7.48</td>
+          <td class="col-duration">7.63</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -563,7 +561,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_login_doc.py::test_doc_reg</td>
-          <td class="col-duration">30.60</td>
+          <td class="col-duration">30.59</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -572,7 +570,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_login_doc.py::test_verify_presc_template</td>
-          <td class="col-duration">28.07</td>
+          <td class="col-duration">36.96</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -581,7 +579,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_login_doc.py::test_verify_patient_upload</td>
-          <td class="col-duration">15.39</td>
+          <td class="col-duration">15.48</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -590,7 +588,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_login_doc.py::test_verify_case_history</td>
-          <td class="col-duration">95.13</td>
+          <td class="col-duration">60.19</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -599,7 +597,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_login_doc.py::test_verify_case</td>
-          <td class="col-duration">28.48</td>
+          <td class="col-duration">18.61</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -608,7 +606,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_login_doc.py::test_verify_reschedule</td>
-          <td class="col-duration">74.36</td>
+          <td class="col-duration">41.64</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -617,7 +615,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_login_staff.py::test_setup_staff</td>
-          <td class="col-duration">9.48</td>
+          <td class="col-duration">8.84</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -626,7 +624,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_login_staff.py::test_login_staff</td>
-          <td class="col-duration">6.49</td>
+          <td class="col-duration">6.48</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -635,7 +633,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_login_staff.py::test_staff_reg</td>
-          <td class="col-duration">23.68</td>
+          <td class="col-duration">23.53</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -644,7 +642,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_login_staff.py::test_verify_status</td>
-          <td class="col-duration">17.60</td>
+          <td class="col-duration">17.55</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -653,7 +651,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_login_staff.py::test_verify_info</td>
-          <td class="col-duration">5.11</td>
+          <td class="col-duration">5.09</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -662,7 +660,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_login_staff.py::test_verify_age</td>
-          <td class="col-duration">2.05</td>
+          <td class="col-duration">2.07</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -671,7 +669,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_login_staff.py::test_verify_hid</td>
-          <td class="col-duration">2.06</td>
+          <td class="col-duration">2.04</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -680,7 +678,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_login_staff.py::test_appointment_button</td>
-          <td class="col-duration">8.24</td>
+          <td class="col-duration">8.17</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -690,7 +688,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_login_staff.py::test_verify_transfer</td>
-          <td class="col-duration">40.02</td>
+          <td class="col-duration">39.83</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -699,7 +697,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_login_staff.py::test_link_booked</td>
-          <td class="col-duration">13.66</td>
+          <td class="col-duration">13.55</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -708,17 +706,17 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_login_staff.py::test_link_pending</td>
-          <td class="col-duration">18.82</td>
+          <td class="col-duration">18.78</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>Payment Link
 <br/></div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_specific_scenario.py::test_setup_specific</td>
-          <td class="col-duration">11.62</td>
+          <td class="col-duration">8.52</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -727,7 +725,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_specific_scenario.py::test_login_staff</td>
-          <td class="col-duration">6.47</td>
+          <td class="col-duration">6.50</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -736,7 +734,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_specific_scenario.py::test_patient_reg</td>
-          <td class="col-duration">30.90</td>
+          <td class="col-duration">20.72</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -745,7 +743,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_specific_scenario.py::test_search_patient</td>
-          <td class="col-duration">59.81</td>
+          <td class="col-duration">34.47</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -754,7 +752,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_specific_scenario.py::test_verify_status</td>
-          <td class="col-duration">37.57</td>
+          <td class="col-duration">17.58</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -763,7 +761,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_specific_scenario.py::test_verify_info</td>
-          <td class="col-duration">10.13</td>
+          <td class="col-duration">5.13</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -772,7 +770,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_specific_scenario.py::test_verify_age</td>
-          <td class="col-duration">2.04</td>
+          <td class="col-duration">2.05</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -781,7 +779,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_specific_scenario.py::test_verify_hid</td>
-          <td class="col-duration">2.07</td>
+          <td class="col-duration">2.03</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -790,7 +788,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_specific_scenario.py::test_guardian_name</td>
-          <td class="col-duration">3.06</td>
+          <td class="col-duration">3.08</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -799,7 +797,7 @@ Please run Patient_checkin file
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_specific_scenario.py::test_payment_type</td>
-          <td class="col-duration">6.16</td>
+          <td class="col-duration">6.17</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">

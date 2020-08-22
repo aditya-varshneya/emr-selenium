@@ -6,7 +6,7 @@ from email import encoders
 import datetime
 
 email_user = 'adityakumar@thb.co.in'
-email_send = "satyendra@thb.co.in,nitin@thb.co.in,rajesh@thb.co.in,kritika@thb.co.in,pushkin@thb.co.in,vaibhav@thb.co.in"
+email_send = "satyendra@thb.co.in,nitin@thb.co.in,rajesh@thb.co.in,kritika@thb.co.in,pushkin@thb.co.in,vaibhav@thb.co.in,parameshwar@thb.co.in,charu@thb.co.in"
 email_copy = 'adityakumar@thb.co.in'
 password = 'aditya061287'
 

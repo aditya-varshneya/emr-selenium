@@ -3,6 +3,7 @@ import time
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.wait import WebDriverWait
 
 # Parameters
 mobile = "8860879079"
@@ -77,4 +78,27 @@ def test_doctor_appoint():
     time.sleep(15)
     print("Appointment booked, kindly make payment or go to chatroom link")
     print("Please run Patient_checkin file")
+    time.sleep(3)
+
+def test_verify_paymentlink():
+    wait = WebDriverWait(driver,30)
+    try:
+        link = driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div/div/div/div/div[2]/button/a/h4")
+        if link.is_displayed():
+            print("payment link working fine")
+        else:
+            print ("Redirection not working")
+        time.sleep(3)
+        redirection_link = driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div/div/div/div/div/div[2]/button/a/p")
+        redirection_text = redirection_link.text
+        assert "Please click here to make payment" in redirection_text
+        time.sleep(2)
+        redirection_link.click()
+    except:
+        payment = driver.find_element_by_xpath("//*[@id='merchant-name']").text
+        assert "Payment for Consultation" in payment
+        logo = driver.find_element_by_xpath("//*[@id='header-logo']/img")
+        assert logo.is_displayed()
+    time.sleep(3)
+    driver.minimize_window()
     driver.close()

@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
 
-url_1 = "https://clinytics.hlthclub.in/new_demo_account/waiting-area/e539898115801"
+url_1 = "https://clinytics.hlthclub.in/new_demo_account/waiting-area/e949998340313"
 option_radio = ["/html/body/div[3]/div/div/div[2]/div/div[1]/div[1]/label/input",
                 "/html/body/div[3]/div/div/div[2]/div/div[1]/div[2]/label/input"]
 
@@ -44,7 +44,7 @@ def test_verify_image():
         assert True
     else:
         assert "logo is not available"
-    time.sleep(5)
+    time.sleep(3)
 
 
 def test_upload():

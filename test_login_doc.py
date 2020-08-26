@@ -34,6 +34,7 @@ def test_setup():
 
 
 def test_login():
+    global driver
     username_textbox = driver.find_element_by_id("exampleInputUsername")
     username_textbox.send_keys(username)
     password_textbox = driver.find_element_by_id("exampleInputUserpassword")
@@ -42,6 +43,7 @@ def test_login():
         "//*[@id='root']/div/div/div/div/div/div/div/div/div[3]/div/form/div[3]/button")
     login_but.click()
     time.sleep(7)
+
 
 
 def test_doc_reg():
@@ -59,6 +61,7 @@ def test_doc_reg():
     driver.find_element_by_xpath(
         "/html/body/div/div/div/div/div/div/div/div/div/div/div/form/div[6]/div[2]/div/div/div/div[1]/div/label/input").click()
     driver.find_element_by_id("email").send_keys(email)
+    time.sleep(1)
     driver.find_element_by_xpath(
         "//*[@id='root']/div/div/div/div/div/div/div/div/div/div/form/div[13]/div/div/div/button").click()
     time.sleep(7)
@@ -187,6 +190,7 @@ def test_verify_case_history():
     time.sleep(3)
     driver.back()
     time.sleep(3)
+
 
 def test_verify_case():
     wait = WebDriverWait(driver, 10)

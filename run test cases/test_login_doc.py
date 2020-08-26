@@ -59,6 +59,7 @@ def test_doc_reg():
     driver.find_element_by_xpath(
         "/html/body/div/div/div/div/div/div/div/div/div/div/div/form/div[6]/div[2]/div/div/div/div[1]/div/label/input").click()
     driver.find_element_by_id("email").send_keys(email)
+    time.sleep(1)
     driver.find_element_by_xpath(
         "//*[@id='root']/div/div/div/div/div/div/div/div/div/div/form/div[13]/div/div/div/button").click()
     time.sleep(7)
@@ -80,7 +81,7 @@ def test_verify_presc_template():
     wait = WebDriverWait(driver, 10)
     add = wait.until(EC.visibility_of_element_located((By.XPATH, "/html/body/div[1]/div/div/a[1]/span")))
     add.click()
-    time.sleep(2)
+    time.sleep(4)
     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[2]/div/div[1]/table/tr/td[3]/span").click()
     time.sleep(5)
     checkboxes = driver.find_elements_by_xpath("//*[@id='value']")

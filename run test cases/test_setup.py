@@ -74,8 +74,8 @@ def test_patient_registration_2():
     driver.find_element_by_xpath("/html/body/div[3]/div/div/div[2]/div/div[2]/button").click()
     time.sleep(3)
     driver.find_element_by_id("name").send_keys(name)
-    driver.find_element_by_id("age").send_keys(age)
-    driver.find_element_by_id("phone").send_keys(phone)
+    driver.find_element_by_id("age").send_keys(random.choice(age))
+    driver.find_element_by_id("phone").send_keys(random.choice(phone))
     driver.find_element_by_xpath(
         "/html/body/div/div/div/div/div/div/div/div/div/div/div/form/div[6]/div[2]/div/div/div/div[1]/div/label/input").click()
     driver.find_element_by_id("email").send_keys(email)
@@ -83,5 +83,4 @@ def test_patient_registration_2():
         "//*[@id='root']/div/div/div/div/div/div/div/div/div/div/form/div[13]/div/div/div/button").click()
     time.sleep(5)
     driver.find_element_by_xpath("//*[@id='root']/div/div/div/div[2]/div[2]/p/span/button").click()
-    time.sleep(7)
     driver.close()

@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Test Report</title>
+    <style>body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  /* do not increase min-width as some may use split screens */
+  min-width: 800px;
+  color: #999;
+}
+
+h1 {
+  font-size: 24px;
+  color: black;
+}
+
+h2 {
+  font-size: 16px;
+  color: black;
+}
+
+p {
+  color: black;
+}
+
+a {
+  color: #999;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+/******************************
+ * SUMMARY INFORMATION
+ ******************************/
+#environment td {
+  padding: 5px;
+  border: 1px solid #E6E6E6;
+}
+#environment tr:nth-child(odd) {
+  background-color: #f6f6f6;
+}
+
+/******************************
+ * TEST RESULT COLORS
+ ******************************/
+span.passed,
+.passed .col-result {
+  color: green;
+}
+
+span.skipped,
+span.xfailed,
+span.rerun,
+.skipped .col-result,
+.xfailed .col-result,
+.rerun .col-result {
+  color: orange;
+}
+
+span.error,
+span.failed,
+span.xpassed,
+.error .col-result,
+.failed .col-result,
+.xpassed .col-result {
+  color: red;
+}
+
+/******************************
+ * RESULTS TABLE
+ *
+ * 1. Table Layout
+ * 2. Extra
+ * 3. Sorting items
+ *
+ ******************************/
+/*------------------
+ * 1. Table Layout
+ *------------------*/
+#results-table {
+  border: 1px solid #e6e6e6;
+  color: #999;
+  font-size: 12px;
+  width: 100%;
+}
+#results-table th,
+#results-table td {
+  padding: 5px;
+  border: 1px solid #E6E6E6;
+  text-align: left;
+}
+#results-table th {
+  font-weight: bold;
+}
+
+/*------------------
+ * 2. Extra
+ *------------------*/
+.log {
+  background-color: #e6e6e6;
+  border: 1px solid #e6e6e6;
+  color: black;
+  display: block;
+  font-family: "Courier New", Courier, monospace;
+  height: 230px;
+  overflow-y: scroll;
+  padding: 5px;
+  white-space: pre-wrap;
+}
+.log:only-child {
+  height: inherit;
+}
+
+div.image {
+  border: 1px solid #e6e6e6;
+  float: right;
+  height: 240px;
+  margin-left: 5px;
+  overflow: hidden;
+  width: 320px;
+}
+div.image img {
+  width: 320px;
+}
+
+div.video {
+  border: 1px solid #e6e6e6;
+  float: right;
+  height: 240px;
+  margin-left: 5px;
+  overflow: hidden;
+  width: 320px;
+}
+div.video video {
+  overflow: hidden;
+  width: 320px;
+  height: 240px;
+}
+
+.collapsed {
+  display: none;
+}
+
+.expander::after {
+  content: " (show details)";
+  color: #BBB;
+  font-style: italic;
+  cursor: pointer;
+}
+
+.collapser::after {
+  content: " (hide details)";
+  color: #BBB;
+  font-style: italic;
+  cursor: pointer;
+}
+
+/*------------------
+ * 3. Sorting items
+ *------------------*/
+.sortable {
+  cursor: pointer;
+}
+
+.sort-icon {
+  font-size: 0px;
+  float: left;
+  margin-right: 5px;
+  margin-top: 5px;
+  /*triangle*/
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+}
+.inactive .sort-icon {
+  /*finish triangle*/
+  border-top: 8px solid #E6E6E6;
+}
+.asc.active .sort-icon {
+  /*finish triangle*/
+  border-bottom: 8px solid #999;
+}
+.desc.active .sort-icon {
+  /*finish triangle*/
+  border-top: 8px solid #999;
+}
+</style></head>
+  <body onLoad="init()">
+    <script>/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+
+function toArray(iter) {
+    if (iter === null) {
+        return null;
+    }
+    return Array.prototype.slice.call(iter);
+}
+
+function find(selector, elem) { // eslint-disable-line no-redeclare
+    if (!elem) {
+        elem = document;
+    }
+    return elem.querySelector(selector);
+}
+
+function findAll(selector, elem) {
+    if (!elem) {
+        elem = document;
+    }
+    return toArray(elem.querySelectorAll(selector));
+}
+
+function sortColumn(elem) {
+    toggleSortStates(elem);
+    const colIndex = toArray(elem.parentNode.childNodes).indexOf(elem);
+    let key;
+    if (elem.classList.contains('result')) {
+        key = keyResult;
+    } else if (elem.classList.contains('links')) {
+        key = keyLink;
+    } else {
+        key = keyAlpha;
+    }
+    sortTable(elem, key(colIndex));
+}
+
+function showAllExtras() { // eslint-disable-line no-unused-vars
+    findAll('.col-result').forEach(showExtras);
+}
+
+function hideAllExtras() { // eslint-disable-line no-unused-vars
+    findAll('.col-result').forEach(hideExtras);
+}
+
+function showExtras(colresultElem) {
+    const extras = colresultElem.parentNode.nextElementSibling;
+    const expandcollapse = colresultElem.firstElementChild;
+    extras.classList.remove('collapsed');
+    expandcollapse.classList.remove('expander');
+    expandcollapse.classList.add('collapser');
+}
+
+function hideExtras(colresultElem) {
+    const extras = colresultElem.parentNode.nextElementSibling;
+    const expandcollapse = colresultElem.firstElementChild;
+    extras.classList.add('collapsed');
+    expandcollapse.classList.remove('collapser');
+    expandcollapse.classList.add('expander');
+}
+
+function showFilters() {
+    const filterItems = document.getElementsByClassName('filter');
+    for (let i = 0; i < filterItems.length; i++)
+        filterItems[i].hidden = false;
+}
+
+function addCollapse() {
+    // Add links for show/hide all
+    const resulttable = find('table#results-table');
+    const showhideall = document.createElement('p');
+    showhideall.innerHTML = '<a href="javascript:showAllExtras()">Show all details</a> / ' +
+                            '<a href="javascript:hideAllExtras()">Hide all details</a>';
+    resulttable.parentElement.insertBefore(showhideall, resulttable);
+
+    // Add show/hide link to each result
+    findAll('.col-result').forEach(function(elem) {
+        const collapsed = getQueryParameter('collapsed') || 'Passed';
+        const extras = elem.parentNode.nextElementSibling;
+        const expandcollapse = document.createElement('span');
+        if (extras.classList.contains('collapsed')) {
+            expandcollapse.classList.add('expander');
+        } else if (collapsed.includes(elem.innerHTML)) {
+            extras.classList.add('collapsed');
+            expandcollapse.classList.add('expander');
+        } else {
+            expandcollapse.classList.add('collapser');
+        }
+        elem.appendChild(expandcollapse);
+
+        elem.addEventListener('click', function(event) {
+            if (event.currentTarget.parentNode.nextElementSibling.classList.contains('collapsed')) {
+                showExtras(event.currentTarget);
+            } else {
+                hideExtras(event.currentTarget);
+            }
+        });
+    });
+}
+
+function getQueryParameter(name) {
+    const match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
+function init () { // eslint-disable-line no-unused-vars
+    resetSortHeaders();
+
+    addCollapse();
+
+    showFilters();
+
+    sortColumn(find('.initial-sort'));
+
+    findAll('.sortable').forEach(function(elem) {
+        elem.addEventListener('click',
+            function() {
+                sortColumn(elem);
+            }, false);
+    });
+}
+
+function sortTable(clicked, keyFunc) {
+    const rows = findAll('.results-table-row');
+    const reversed = !clicked.classList.contains('asc');
+    const sortedRows = sort(rows, keyFunc, reversed);
+    /* Whole table is removed here because browsers acts much slower
+     * when appending existing elements.
+     */
+    const thead = document.getElementById('results-table-head');
+    document.getElementById('results-table').remove();
+    const parent = document.createElement('table');
+    parent.id = 'results-table';
+    parent.appendChild(thead);
+    sortedRows.forEach(function(elem) {
+        parent.appendChild(elem);
+    });
+    document.getElementsByTagName('BODY')[0].appendChild(parent);
+}
+
+function sort(items, keyFunc, reversed) {
+    const sortArray = items.map(function(item, i) {
+        return [keyFunc(item), i];
+    });
+
+    sortArray.sort(function(a, b) {
+        const keyA = a[0];
+        const keyB = b[0];
+
+        if (keyA == keyB) return 0;
+
+        if (reversed) {
+            return keyA < keyB ? 1 : -1;
+        } else {
+            return keyA > keyB ? 1 : -1;
+        }
+    });
+
+    return sortArray.map(function(item) {
+        const index = item[1];
+        return items[index];
+    });
+}
+
+function keyAlpha(colIndex) {
+    return function(elem) {
+        return elem.childNodes[1].childNodes[colIndex].firstChild.data.toLowerCase();
+    };
+}
+
+function keyLink(colIndex) {
+    return function(elem) {
+        const dataCell = elem.childNodes[1].childNodes[colIndex].firstChild;
+        return dataCell == null ? '' : dataCell.innerText.toLowerCase();
+    };
+}
+
+function keyResult(colIndex) {
+    return function(elem) {
+        const strings = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed',
+            'Skipped', 'Passed'];
+        return strings.indexOf(elem.childNodes[1].childNodes[colIndex].firstChild.data);
+    };
+}
+
+function resetSortHeaders() {
+    findAll('.sort-icon').forEach(function(elem) {
+        elem.parentNode.removeChild(elem);
+    });
+    findAll('.sortable').forEach(function(elem) {
+        const icon = document.createElement('div');
+        icon.className = 'sort-icon';
+        icon.textContent = 'vvv';
+        elem.insertBefore(icon, elem.firstChild);
+        elem.classList.remove('desc', 'active');
+        elem.classList.add('asc', 'inactive');
+    });
+}
+
+function toggleSortStates(elem) {
+    //if active, toggle between asc and desc
+    if (elem.classList.contains('active')) {
+        elem.classList.toggle('asc');
+        elem.classList.toggle('desc');
+    }
+
+    //if inactive, reset all other functions and add ascending active
+    if (elem.classList.contains('inactive')) {
+        resetSortHeaders();
+        elem.classList.remove('inactive');
+        elem.classList.add('active');
+    }
+}
+
+function isAllRowsHidden(value) {
+    return value.hidden == false;
+}
+
+function filterTable(elem) { // eslint-disable-line no-unused-vars
+    const outcomeAtt = 'data-test-result';
+    const outcome = elem.getAttribute(outcomeAtt);
+    const classOutcome = outcome + ' results-table-row';
+    const outcomeRows = document.getElementsByClassName(classOutcome);
+
+    for(let i = 0; i < outcomeRows.length; i++){
+        outcomeRows[i].hidden = !elem.checked;
+    }
+
+    const rows = findAll('.results-table-row').filter(isAllRowsHidden);
+    const allRowsHidden = rows.length == 0 ? true : false;
+    const notFoundMessage = document.getElementById('not-found-message');
+    notFoundMessage.hidden = !allRowsHidden;
+}
+</script>
+    <h1>Automation_report.html</h1>
+    <p>Report generated on 19-Oct-2021 at 09:40:21 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.1.1</p>
+    <h2>Environment</h2>
+    <table id="environment">
+      <tr>
+        <td>BUILD_ID</td>
+        <td>83</td></tr>
+      <tr>
+        <td>BUILD_NUMBER</td>
+        <td>83</td></tr>
+      <tr>
+        <td>BUILD_TAG</td>
+        <td>jenkins-Run Automation-83</td></tr>
+      <tr>
+        <td>BUILD_URL</td>
+        <td><a href="http://localhost:8080/job/Run%20Automation/83/" target="_blank">http://localhost:8080/job/Run%20Automation/83/</a></td></tr>
+      <tr>
+        <td>EXECUTOR_NUMBER</td>
+        <td>1</td></tr>
+      <tr>
+        <td>JAVA_HOME</td>
+        <td>C:\Program Files\Java\jdk1.8.0_261</td></tr>
+      <tr>
+        <td>JENKINS_URL</td>
+        <td><a href="http://localhost:8080/" target="_blank">http://localhost:8080/</a></td></tr>
+      <tr>
+        <td>JOB_NAME</td>
+        <td>Run Automation</td></tr>
+      <tr>
+        <td>NODE_NAME</td>
+        <td>master</td></tr>
+      <tr>
+        <td>Packages</td>
+        <td>{"pluggy": "0.13.1", "py": "1.9.0", "pytest": "6.0.1"}</td></tr>
+      <tr>
+        <td>Platform</td>
+        <td>Windows-10-10.0.19041-SP0</td></tr>
+      <tr>
+        <td>Plugins</td>
+        <td>{"anyio": "2.2.0", "html": "3.1.1", "metadata": "1.11.0", "rerunfailures": "9.1.1", "variables": "1.9.0"}</td></tr>
+      <tr>
+        <td>Python</td>
+        <td>3.9.0</td></tr>
+      <tr>
+        <td>WORKSPACE</td>
+        <td>C:\Users\Lenovo\Documents\GitHub\emr-selenium-automation</td></tr></table>
+    <h2>Summary</h2>
+    <p>71 tests ran in 2330.59 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="passed">67 passed</span>, <input checked="true" class="filter" data-test-result="skipped" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="skipped">1 skipped</span>, <input checked="true" class="filter" data-test-result="failed" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="failed">4 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>, <input checked="true" class="filter" data-test-result="rerun" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="rerun">8 rerun</span>
+    <h2>Results</h2>
+    <table id="results-table">
+      <thead id="results-table-head">
+        <tr>
+          <th class="sortable result initial-sort" col="result">Result</th>
+          <th class="sortable" col="name">Test</th>
+          <th class="sortable" col="duration">Duration</th>
+          <th class="sortable links" col="links">Links</th></tr>
+        <tr hidden="true" id="not-found-message">
+          <th colspan="4">No results found. Try to check the filters</th></tr></thead>
+      <tbody class="failed results-table-row">
+        <tr>
+          <td class="col-result">Failed</td>
+          <td class="col-name">test_check_drugload.py::test_verify_drug_save</td>
+          <td class="col-duration">33.41</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">test_check_drugload.py:116: in test_verify_drug_save<br/>    driver.find_element_by_xpath(&quot;//*[@id=&#x27;content&#x27;]/div[2]/div/div/div/div/div/div/div/div/div[1]/&quot;<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py:394: in find_element_by_xpath<br/>    return self.find_element(by=By.XPATH, value=xpath)<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py:976: in find_element<br/>    return self.execute(Command.FIND_ELEMENT, {<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py:321: in execute<br/>    self.error_handler.check_response(response)<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\errorhandler.py:242: in check_response<br/>    raise exception_class(message, screen, stacktrace)<br/><span class="error">E   selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//*[@id=&#x27;content&#x27;]/div[2]/div/div/div/div/div/div/div/div/div[1]/div[1]/div[2]/p/span[2]/button&quot;}</span><br/><span class="error">E     (Session info: chrome=94.0.4606.81)</span><br/></div></td></tr></tbody>
+      <tbody class="failed results-table-row">
+        <tr>
+          <td class="col-result">Failed</td>
+          <td class="col-name">test_check_drugload.py::test_verify_drug_load</td>
+          <td class="col-duration">30.35</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">test_check_drugload.py:132: in test_verify_drug_load<br/>    add = WebDriverWait(driver, 30, 2).until(<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\support\wait.py:80: in until<br/>    raise TimeoutException(message, screen, stacktrace)<br/><span class="error">E   selenium.common.exceptions.TimeoutException: Message:</span><br/></div></td></tr></tbody>
+      <tbody class="failed results-table-row">
+        <tr>
+          <td class="col-result">Failed</td>
+          <td class="col-name">test_check_drugload.py::test_drug_verification</td>
+          <td class="col-duration">9.24</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">test_check_drugload.py:213: in test_drug_verification<br/>    assert random.choice(drug_table1) in drug_table2, &quot;Condition not satisfy&quot;<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\random.py:346: in choice<br/>    return seq[self._randbelow(len(seq))]<br/><span class="error">E   IndexError: list index out of range</span><br/> ------------------------------Captured stdout call------------------------------ <br/>[]
+[&#x27;Tablet VIBRANIA D 100 1-0-0 FOR 5 DAYS&#x27;, &#x27;Tablet REBOZEN-D 10MG/20MG CAPSULE 100 0-0-1 FOR 5 DAYS&#x27;, &#x27;Tablet PENTASA 100 1-0-0 DAILY FROM 7 YEARS&#x27;]
+<br/> ------------------------------Captured stdout call------------------------------ <br/>[]
+[&#x27;Tablet VIBRANIA D 100 1-0-0 FOR 5 DAYS&#x27;, &#x27;Tablet REBOZEN-D 10MG/20MG CAPSULE 100 0-0-1 FOR 5 DAYS&#x27;, &#x27;Tablet PENTASA 100 1-0-0 DAILY FROM 7 YEARS&#x27;]
+<br/></div></td></tr></tbody>
+      <tbody class="failed results-table-row">
+        <tr>
+          <td class="col-result">Failed</td>
+          <td class="col-name">test_setup.py::test_patient_registration</td>
+          <td class="col-duration">35.32</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">test_setup.py:52: in test_patient_registration<br/>    add = wait.until(EC.visibility_of_element_located((By.ID, &quot;settings-trigger&quot;)))<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\support\wait.py:80: in until<br/>    raise TimeoutException(message, screen, stacktrace)<br/><span class="error">E   selenium.common.exceptions.TimeoutException: Message:</span><br/></div></td></tr></tbody>
+      <tbody class="rerun results-table-row">
+        <tr>
+          <td class="col-result">Rerun</td>
+          <td class="col-name">test_check_drugload.py::test_login</td>
+          <td class="col-duration">0.23</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">test_check_drugload.py:38: in test_login<br/>    username_textbox = driver.find_element_by_id(&quot;exampleInputUsername&quot;)<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py:360: in find_element_by_id<br/>    return self.find_element(by=By.ID, value=id_)<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py:976: in find_element<br/>    return self.execute(Command.FIND_ELEMENT, {<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py:321: in execute<br/>    self.error_handler.check_response(response)<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\errorhandler.py:242: in check_response<br/>    raise exception_class(message, screen, stacktrace)<br/><span class="error">E   selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {&quot;method&quot;:&quot;css selector&quot;,&quot;selector&quot;:&quot;[id=&quot;exampleInputUsername&quot;]&quot;}</span><br/><span class="error">E     (Session info: chrome=94.0.4606.81)</span><br/></div></td></tr></tbody>
+      <tbody class="rerun results-table-row">
+        <tr>
+          <td class="col-result">Rerun</td>
+          <td class="col-name">test_check_drugload.py::test_verify_drug_load</td>
+          <td class="col-duration">30.35</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">test_check_drugload.py:132: in test_verify_drug_load<br/>    add = WebDriverWait(driver, 30, 2).until(<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\support\wait.py:80: in until<br/>    raise TimeoutException(message, screen, stacktrace)<br/><span class="error">E   selenium.common.exceptions.TimeoutException: Message:</span><br/></div></td></tr></tbody>
+      <tbody class="rerun results-table-row">
+        <tr>
+          <td class="col-result">Rerun</td>
+          <td class="col-name">test_check_drugload.py::test_drug_verification</td>
+          <td class="col-duration">9.27</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">test_check_drugload.py:213: in test_drug_verification<br/>    assert random.choice(drug_table1) in drug_table2, &quot;Condition not satisfy&quot;<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\random.py:346: in choice<br/>    return seq[self._randbelow(len(seq))]<br/><span class="error">E   IndexError: list index out of range</span><br/> ------------------------------Captured stdout call------------------------------ <br/>[]
+[&#x27;Tablet VIBRANIA D 100 1-0-0 FOR 5 DAYS&#x27;, &#x27;Tablet REBOZEN-D 10MG/20MG CAPSULE 100 0-0-1 FOR 5 DAYS&#x27;, &#x27;Tablet PENTASA 100 1-0-0 DAILY FROM 7 YEARS&#x27;]
+<br/></div></td></tr></tbody>
+      <tbody class="rerun results-table-row">
+        <tr>
+          <td class="col-result">Rerun</td>
+          <td class="col-name">test_login_staff.py::test_login_staff</td>
+          <td class="col-duration">0.02</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">test_login_staff.py:45: in test_login_staff<br/>    username_textbox = driver.find_element_by_id(&quot;exampleInputUsername&quot;)<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py:360: in find_element_by_id<br/>    return self.find_element(by=By.ID, value=id_)<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py:976: in find_element<br/>    return self.execute(Command.FIND_ELEMENT, {<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py:321: in execute<br/>    self.error_handler.check_response(response)<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\errorhandler.py:242: in check_response<br/>    raise exception_class(message, screen, stacktrace)<br/><span class="error">E   selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {&quot;method&quot;:&quot;css selector&quot;,&quot;selector&quot;:&quot;[id=&quot;exampleInputUsername&quot;]&quot;}</span><br/><span class="error">E     (Session info: chrome=94.0.4606.81)</span><br/></div></td></tr></tbody>
+      <tbody class="rerun results-table-row">
+        <tr>
+          <td class="col-result">Rerun</td>
+          <td class="col-name">test_quick_tool.py::test_setup</td>
+          <td class="col-duration">301.33</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">test_quick_tool.py:26: in test_setup<br/>    driver.get(ip_url)<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py:333: in get<br/>    self.execute(Command.GET, {&#x27;url&#x27;: url})<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py:321: in execute<br/>    self.error_handler.check_response(response)<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\errorhandler.py:242: in check_response<br/>    raise exception_class(message, screen, stacktrace)<br/><span class="error">E   selenium.common.exceptions.TimeoutException: Message: timeout: Timed out receiving message from renderer: -0.001</span><br/><span class="error">E     (Session info: chrome=94.0.4606.81)</span><br/> ------------------------------Captured stderr call------------------------------ <br/>
+
+====== WebDriver manager ======
+Current google-chrome version is 94.0.4606
+Get LATEST driver version for 94.0.4606
+Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache
+<br/> -------------------------------Captured log call-------------------------------- <br/>INFO     WDM:logger.py:12 
+
+INFO     WDM:logger.py:12 ====== WebDriver manager ======
+INFO     WDM:logger.py:12 Current google-chrome version is 94.0.4606
+INFO     WDM:logger.py:12 Get LATEST driver version for 94.0.4606
+INFO     WDM:logger.py:12 Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache<br/></div></td></tr></tbody>
+      <tbody class="rerun results-table-row">
+        <tr>
+          <td class="col-result">Rerun</td>
+          <td class="col-name">test_setup.py::test_patient_registration</td>
+          <td class="col-duration">22.12</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">test_setup.py:70: in test_patient_registration<br/>    driver.find_element_by_xpath(&quot;//*[@id=&#x27;root&#x27;]/div/div/div[2]/div/div[2]/div[2]/p/span/button&quot;).click()<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py:394: in find_element_by_xpath<br/>    return self.find_element(by=By.XPATH, value=xpath)<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py:976: in find_element<br/>    return self.execute(Command.FIND_ELEMENT, {<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py:321: in execute<br/>    self.error_handler.check_response(response)<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\errorhandler.py:242: in check_response<br/>    raise exception_class(message, screen, stacktrace)<br/><span class="error">E   selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//*[@id=&#x27;root&#x27;]/div/div/div[2]/div/div[2]/div[2]/p/span/button&quot;}</span><br/><span class="error">E     (Session info: chrome=94.0.4606.81)</span><br/></div></td></tr></tbody>
+      <tbody class="rerun results-table-row">
+        <tr>
+          <td class="col-result">Rerun</td>
+          <td class="col-name">test_setup.py::test_setup_login_2</td>
+          <td class="col-duration">301.53</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">test_setup.py:81: in test_setup_login_2<br/>    driver.get(ip_url)<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py:333: in get<br/>    self.execute(Command.GET, {&#x27;url&#x27;: url})<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py:321: in execute<br/>    self.error_handler.check_response(response)<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\errorhandler.py:242: in check_response<br/>    raise exception_class(message, screen, stacktrace)<br/><span class="error">E   selenium.common.exceptions.TimeoutException: Message: timeout: Timed out receiving message from renderer: 300.000</span><br/><span class="error">E     (Session info: chrome=94.0.4606.81)</span><br/> ------------------------------Captured stderr call------------------------------ <br/>
+
+====== WebDriver manager ======
+Current google-chrome version is 94.0.4606
+Get LATEST driver version for 94.0.4606
+Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache
+<br/> -------------------------------Captured log call-------------------------------- <br/>INFO     WDM:logger.py:12 
+
+INFO     WDM:logger.py:12 ====== WebDriver manager ======
+INFO     WDM:logger.py:12 Current google-chrome version is 94.0.4606
+INFO     WDM:logger.py:12 Get LATEST driver version for 94.0.4606
+INFO     WDM:logger.py:12 Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache<br/></div></td></tr></tbody>
+      <tbody class="rerun results-table-row">
+        <tr>
+          <td class="col-result">Rerun</td>
+          <td class="col-name">test_verify_Rxupload.py::test_login</td>
+          <td class="col-duration">0.03</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">test_verify_Rxupload.py:39: in test_login<br/>    username_textbox = driver.find_element_by_id(&quot;exampleInputUsername&quot;)<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py:360: in find_element_by_id<br/>    return self.find_element(by=By.ID, value=id_)<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py:976: in find_element<br/>    return self.execute(Command.FIND_ELEMENT, {<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py:321: in execute<br/>    self.error_handler.check_response(response)<br/>..\..\..\..\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\errorhandler.py:242: in check_response<br/>    raise exception_class(message, screen, stacktrace)<br/><span class="error">E   selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {&quot;method&quot;:&quot;css selector&quot;,&quot;selector&quot;:&quot;[id=&quot;exampleInputUsername&quot;]&quot;}</span><br/><span class="error">E     (Session info: chrome=94.0.4606.81)</span><br/></div></td></tr></tbody>
+      <tbody class="skipped results-table-row">
+        <tr>
+          <td class="col-result">Skipped</td>
+          <td class="col-name">test_login_doc.py::test_verify_presc_upload</td>
+          <td class="col-duration">0.00</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">(&#x27;C:\\Users\\Lenovo\\Documents\\GitHub\\emr-selenium-automation\\jenkins\\test_login_doc.py&#x27;, 150, &#x27;Skipped: unconditional skip&#x27;)<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cancel.py::test_setup</td>
+          <td class="col-duration">11.94</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stderr call------------------------------ <br/>
+
+====== WebDriver manager ======
+Current google-chrome version is 94.0.4606
+Get LATEST driver version for 94.0.4606
+Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache
+<br/> -------------------------------Captured log call-------------------------------- <br/>INFO     WDM:logger.py:22 
+
+INFO     WDM:logger.py:12 ====== WebDriver manager ======
+INFO     WDM:logger.py:12 Current google-chrome version is 94.0.4606
+INFO     WDM:logger.py:12 Get LATEST driver version for 94.0.4606
+INFO     WDM:logger.py:12 Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cancel.py::test_login</td>
+          <td class="col-duration">7.44</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cancel.py::test_doc_reg</td>
+          <td class="col-duration">27.43</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cancel.py::test_cancellation</td>
+          <td class="col-duration">25.00</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cancel.py::test_refund</td>
+          <td class="col-duration">9.34</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>Appointment is a follow-up
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cancel_scenario.py::test_setup_login</td>
+          <td class="col-duration">48.24</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stderr call------------------------------ <br/>
+
+====== WebDriver manager ======
+Current google-chrome version is 94.0.4606
+Get LATEST driver version for 94.0.4606
+Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache
+<br/> -------------------------------Captured log call-------------------------------- <br/>INFO     WDM:logger.py:12 
+
+INFO     WDM:logger.py:12 ====== WebDriver manager ======
+INFO     WDM:logger.py:12 Current google-chrome version is 94.0.4606
+INFO     WDM:logger.py:12 Get LATEST driver version for 94.0.4606
+INFO     WDM:logger.py:12 Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cancel_scenario.py::test_cancel</td>
+          <td class="col-duration">23.15</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cancel_scenario.py::test_patient_setup</td>
+          <td class="col-duration">19.24</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stderr call------------------------------ <br/>
+
+====== WebDriver manager ======
+Current google-chrome version is 94.0.4606
+Get LATEST driver version for 94.0.4606
+Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache
+<br/> -------------------------------Captured log call-------------------------------- <br/>INFO     WDM:logger.py:12 
+
+INFO     WDM:logger.py:12 ====== WebDriver manager ======
+INFO     WDM:logger.py:12 Current google-chrome version is 94.0.4606
+INFO     WDM:logger.py:12 Get LATEST driver version for 94.0.4606
+INFO     WDM:logger.py:12 Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cancel_scenario.py::test_patient_pending_reg</td>
+          <td class="col-duration">41.20</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cancel_scenario.py::test_check_status_cancel</td>
+          <td class="col-duration">24.48</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stderr call------------------------------ <br/>
+
+====== WebDriver manager ======
+Current google-chrome version is 94.0.4606
+Get LATEST driver version for 94.0.4606
+Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache
+<br/> -------------------------------Captured log call-------------------------------- <br/>INFO     WDM:logger.py:12 
+
+INFO     WDM:logger.py:12 ====== WebDriver manager ======
+INFO     WDM:logger.py:12 Current google-chrome version is 94.0.4606
+INFO     WDM:logger.py:12 Get LATEST driver version for 94.0.4606
+INFO     WDM:logger.py:12 Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cancel_scenario.py::test_verify_patient</td>
+          <td class="col-duration">19.85</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>[&#x27;Cancelled&#x27;]     Status is Correct
+[&#x27;Pending&#x27;]     Status is correct
+[&#x27;Cancelled&#x27;]     Status is Correct
+[&#x27;Pending&#x27;]     Status is correct
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_check_drugload.py::test_setup</td>
+          <td class="col-duration">5.76</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stderr call------------------------------ <br/>
+
+====== WebDriver manager ======
+Current google-chrome version is 94.0.4606
+Get LATEST driver version for 94.0.4606
+Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache
+<br/> -------------------------------Captured log call-------------------------------- <br/>INFO     WDM:logger.py:12 
+
+INFO     WDM:logger.py:12 ====== WebDriver manager ======
+INFO     WDM:logger.py:12 Current google-chrome version is 94.0.4606
+INFO     WDM:logger.py:12 Get LATEST driver version for 94.0.4606
+INFO     WDM:logger.py:12 Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_check_drugload.py::test_login</td>
+          <td class="col-duration">7.33</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_check_drugload.py::test_doc_reg</td>
+          <td class="col-duration">48.62</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_doc.py::test_setup</td>
+          <td class="col-duration">11.87</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stderr call------------------------------ <br/>
+
+====== WebDriver manager ======
+Current google-chrome version is 94.0.4606
+Get LATEST driver version for 94.0.4606
+Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache
+<br/> -------------------------------Captured log call-------------------------------- <br/>INFO     WDM:logger.py:12 
+
+INFO     WDM:logger.py:12 ====== WebDriver manager ======
+INFO     WDM:logger.py:12 Current google-chrome version is 94.0.4606
+INFO     WDM:logger.py:12 Get LATEST driver version for 94.0.4606
+INFO     WDM:logger.py:12 Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_doc.py::test_login</td>
+          <td class="col-duration">7.38</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_doc.py::test_doc_reg</td>
+          <td class="col-duration">30.44</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_doc.py::test_verify_form_template</td>
+          <td class="col-duration">54.96</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>[&#x27;09:10&#x27;, &#x27;Presc&#x27;] 09:10
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_doc.py::test_verify_patient_upload</td>
+          <td class="col-duration">15.37</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_doc.py::test_verify_case_history</td>
+          <td class="col-duration">95.72</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_doc.py::test_verify_case</td>
+          <td class="col-duration">18.53</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_doc.py::test_verify_reschedule</td>
+          <td class="col-duration">45.09</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_staff.py::test_setup_staff</td>
+          <td class="col-duration">4.72</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stderr call------------------------------ <br/>
+
+====== WebDriver manager ======
+Current google-chrome version is 94.0.4606
+Get LATEST driver version for 94.0.4606
+Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache
+<br/> -------------------------------Captured log call-------------------------------- <br/>INFO     WDM:logger.py:12 
+
+INFO     WDM:logger.py:12 ====== WebDriver manager ======
+INFO     WDM:logger.py:12 Current google-chrome version is 94.0.4606
+INFO     WDM:logger.py:12 Get LATEST driver version for 94.0.4606
+INFO     WDM:logger.py:12 Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_staff.py::test_login_staff</td>
+          <td class="col-duration">6.45</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_staff.py::test_staff_reg</td>
+          <td class="col-duration">27.53</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_staff.py::test_verify_status</td>
+          <td class="col-duration">17.68</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_staff.py::test_verify_info</td>
+          <td class="col-duration">5.21</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_staff.py::test_verify_age</td>
+          <td class="col-duration">2.11</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_staff.py::test_verify_hid</td>
+          <td class="col-duration">2.05</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_staff.py::test_appointment_button</td>
+          <td class="col-duration">8.19</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>Button is available
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_staff.py::test_verify_cancelled</td>
+          <td class="col-duration">12.80</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_staff.py::test_verify_transfer</td>
+          <td class="col-duration">41.25</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_staff.py::test_link_booked</td>
+          <td class="col-duration">13.68</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_staff.py::test_link_pending</td>
+          <td class="col-duration">18.94</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>Payment Link
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_login_staff.py::test_verify_followup</td>
+          <td class="col-duration">45.45</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_quick_tool.py::test_setup</td>
+          <td class="col-duration">5.12</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stderr call------------------------------ <br/>
+
+====== WebDriver manager ======
+Current google-chrome version is 94.0.4606
+Get LATEST driver version for 94.0.4606
+Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache
+<br/> -------------------------------Captured log call-------------------------------- <br/>INFO     WDM:logger.py:12 
+
+INFO     WDM:logger.py:12 ====== WebDriver manager ======
+INFO     WDM:logger.py:12 Current google-chrome version is 94.0.4606
+INFO     WDM:logger.py:12 Get LATEST driver version for 94.0.4606
+INFO     WDM:logger.py:12 Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache<br/> ------------------------------Captured stderr call------------------------------ <br/>
+
+====== WebDriver manager ======
+Current google-chrome version is 94.0.4606
+Get LATEST driver version for 94.0.4606
+Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache
+<br/> -------------------------------Captured log call-------------------------------- <br/>INFO     WDM:logger.py:12 
+
+INFO     WDM:logger.py:12 ====== WebDriver manager ======
+INFO     WDM:logger.py:12 Current google-chrome version is 94.0.4606
+INFO     WDM:logger.py:12 Get LATEST driver version for 94.0.4606
+INFO     WDM:logger.py:12 Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_quick_tool.py::test_login</td>
+          <td class="col-duration">7.41</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_quick_tool.py::test_add_new_template</td>
+          <td class="col-duration">65.48</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_quick_tool.py::test_verify_quick_tools</td>
+          <td class="col-duration">26.56</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>count of total template 38
+Instant Prescription
+Template exist
+Covid Temp
+Template not exist
+Sam123
+Template not exist
+diwakar12345
+Template not exist
+diwakar123
+Template not exist
+Tushar Tyagi
+Template not exist
+test12332
+Template not exist
+IVF cycle 1
+Template not exist
+Typhoid folder
+Template not exist
+Shagun Sikka
+Template not exist
+Fever, Chills
+Template not exist
+test12
+Template not exist
+Chest Pain patients
+Template not exist
+Migraine Patient
+Template not exist
+test
+Template not exist
+Thyroid
+Template not exist
+vitamin d deficiency
+Template not exist
+covid
+Template not exist
+Uveitis
+Template not exist
+Uveitis ASG
+Template not exist
+Sam1
+Template not exist
+MIGRAINE PATIENT
+Template not exist
+Migraine patient
+Template not exist
+COVID template
+Template not exist
+Test
+Template not exist
+rtest
+Template not exist
+instant prescription
+Template not exist
+Kumar
+Template not exist
+trial
+Template not exist
+FC
+Template not exist
+Consent Form
+Template not exist
+Certificate of Fitness
+Template not exist
+ht
+Template not exist
+Satya test instant
+Template not exist
+COVID
+Template not exist
+asthma
+Template not exist
+THROAT INFECTION
+Template not exist
+Covid
+Template not exist
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_quick_tool.py::test_existing_template</td>
+          <td class="col-duration">21.49</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_setup.py::test_setup_login</td>
+          <td class="col-duration">15.27</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stderr call------------------------------ <br/>
+
+====== WebDriver manager ======
+Current google-chrome version is 94.0.4606
+Get LATEST driver version for 94.0.4606
+Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache
+<br/> -------------------------------Captured log call-------------------------------- <br/>INFO     WDM:logger.py:12 
+
+INFO     WDM:logger.py:12 ====== WebDriver manager ======
+INFO     WDM:logger.py:12 Current google-chrome version is 94.0.4606
+INFO     WDM:logger.py:12 Get LATEST driver version for 94.0.4606
+INFO     WDM:logger.py:12 Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_setup.py::test_setup_login_2</td>
+          <td class="col-duration">15.28</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stderr call------------------------------ <br/>
+
+====== WebDriver manager ======
+Current google-chrome version is 94.0.4606
+Get LATEST driver version for 94.0.4606
+Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache
+<br/> -------------------------------Captured log call-------------------------------- <br/>INFO     WDM:logger.py:12 
+
+INFO     WDM:logger.py:12 ====== WebDriver manager ======
+INFO     WDM:logger.py:12 Current google-chrome version is 94.0.4606
+INFO     WDM:logger.py:12 Get LATEST driver version for 94.0.4606
+INFO     WDM:logger.py:12 Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache<br/> ------------------------------Captured stderr call------------------------------ <br/>
+
+====== WebDriver manager ======
+Current google-chrome version is 94.0.4606
+Get LATEST driver version for 94.0.4606
+Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache
+<br/> -------------------------------Captured log call-------------------------------- <br/>INFO     WDM:logger.py:12 
+
+INFO     WDM:logger.py:12 ====== WebDriver manager ======
+INFO     WDM:logger.py:12 Current google-chrome version is 94.0.4606
+INFO     WDM:logger.py:12 Get LATEST driver version for 94.0.4606
+INFO     WDM:logger.py:12 Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_setup.py::test_patient_registration_2</td>
+          <td class="col-duration">37.65</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_specific_scenario.py::test_setup_specific</td>
+          <td class="col-duration">6.17</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stderr call------------------------------ <br/>
+
+====== WebDriver manager ======
+Current google-chrome version is 94.0.4606
+Get LATEST driver version for 94.0.4606
+Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache
+<br/> -------------------------------Captured log call-------------------------------- <br/>INFO     WDM:logger.py:12 
+
+INFO     WDM:logger.py:12 ====== WebDriver manager ======
+INFO     WDM:logger.py:12 Current google-chrome version is 94.0.4606
+INFO     WDM:logger.py:12 Get LATEST driver version for 94.0.4606
+INFO     WDM:logger.py:12 Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_specific_scenario.py::test_login_staff</td>
+          <td class="col-duration">6.48</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_specific_scenario.py::test_patient_reg</td>
+          <td class="col-duration">30.67</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_specific_scenario.py::test_search_patient</td>
+          <td class="col-duration">65.31</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_specific_scenario.py::test_verify_status</td>
+          <td class="col-duration">17.32</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_specific_scenario.py::test_verify_info</td>
+          <td class="col-duration">5.15</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_specific_scenario.py::test_verify_age</td>
+          <td class="col-duration">2.08</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_specific_scenario.py::test_verify_hid</td>
+          <td class="col-duration">2.10</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_specific_scenario.py::test_guardian_name</td>
+          <td class="col-duration">3.08</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_specific_scenario.py::test_guardian_phone</td>
+          <td class="col-duration">0.08</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_specific_scenario.py::test_payment_type</td>
+          <td class="col-duration">6.17</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_verify_Rxupload.py::test_setup</td>
+          <td class="col-duration">5.18</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stderr call------------------------------ <br/>
+
+====== WebDriver manager ======
+Current google-chrome version is 94.0.4606
+Get LATEST driver version for 94.0.4606
+Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache
+<br/> -------------------------------Captured log call-------------------------------- <br/>INFO     WDM:logger.py:12 
+
+INFO     WDM:logger.py:12 ====== WebDriver manager ======
+INFO     WDM:logger.py:12 Current google-chrome version is 94.0.4606
+INFO     WDM:logger.py:12 Get LATEST driver version for 94.0.4606
+INFO     WDM:logger.py:12 Driver [C:\WINDOWS\system32\config\systemprofile\.wdm\drivers\chromedriver\win32\94.0.4606.61\chromedriver.exe] found in cache<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_verify_Rxupload.py::test_login</td>
+          <td class="col-duration">7.42</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_verify_Rxupload.py::test_doc_reg</td>
+          <td class="col-duration">31.44</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_verify_Rxupload.py::test_Rxupload</td>
+          <td class="col-duration">8.36</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_verify_Rxupload.py::test_Rxupload_diagnosis</td>
+          <td class="col-duration">12.42</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_verify_Rxupload.py::test_Rxupload_complaint</td>
+          <td class="col-duration">12.79</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_verify_Rxupload.py::test_Rxupload_investigation</td>
+          <td class="col-duration">12.28</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_verify_Rxupload.py::test_Rxupload_drugs</td>
+          <td class="col-duration">14.31</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_verify_Rxupload.py::test_verify_Rxupload</td>
+          <td class="col-duration">17.71</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_verify_Rxupload.py::test_verify_complaint</td>
+          <td class="col-duration">37.66</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>The random choice is Fever
+[&#x27;BLOATING&#x27;]     [&#x27;BLOATING&#x27;]     [&#x27;ABD&#x27;]     [&#x27;ABD&#x27;]     [&#x27;ABDOMINAL DISTENSION&#x27;]     [&#x27;ABDOMINAL DISTENSION&#x27;]     [&#x27;SHORT OF BREATH,ABDOMINAL DISTENSION,DERMATOME&#x27;]     [&#x27;SHORT OF BREATH,ABDOMINAL DISTENSION,DERMATOME&#x27;]     [&#x27;FATIGUE,MYALGIA&#x27;]     [&#x27;FATIGUE,MYALGIA&#x27;]     [&#x27;Fever&#x27;]     Value Exist
+[&#x27;Back Pain&#x27;]     [&#x27;Back Pain&#x27;]     [&#x27;APETITE LOSS&#x27;]     [&#x27;APETITE LOSS&#x27;]     [&#x27;Visual Impairment&#x27;]     [&#x27;Visual Impairment&#x27;]     [&#x27;SHORT OF BREATH,HEADACHE,HEADACHE,KNEE PAIN,LOSS OF APPETITE,VISUAL IMPAIRMENT&#x27;]     [&#x27;SHORT OF BREATH,HEADACHE,HEADACHE,KNEE PAIN,LOSS OF APPETITE,VISUAL IMPAIRMENT&#x27;]     [&#x27;Toothache&#x27;]     [&#x27;Toothache&#x27;]     [&#x27;Headache&#x27;]     [&#x27;Headache&#x27;]     [&#x27;SHORT OF BREATH,ABDOMINAL DISCOMFORT&#x27;]     [&#x27;SHORT OF BREATH,ABDOMINAL DISCOMFORT&#x27;]     [&#x27;TEST,TIRED,BLURRED VISION&#x27;]     [&#x27;TEST,TIRED,BLURRED VISION&#x27;]     [&#x27;Ttest&#x27;]     [&#x27;Ttest&#x27;]     <br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_verify_Rxupload.py::test_verify_diagnosis</td>
+          <td class="col-duration">71.99</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>The random choice is Diabetes
+Hyperlipidemia
+[&#x27;Hyperlipidemia&#x27;]     [&#x27;Hyperlipidemia&#x27;]     Subclinical Hypothyroidism
+[&#x27;Subclinical Hypothyroidism&#x27;]     [&#x27;Subclinical Hypothyroidism&#x27;]     Migraine,Nerve Damage
+[&#x27;Migraine,Nerve Damage&#x27;]     [&#x27;Migraine,Nerve Damage&#x27;]     Seizure
+[&#x27;Seizure&#x27;]     [&#x27;Seizure&#x27;]     Abdom
+[&#x27;Abdom&#x27;]     [&#x27;Abdom&#x27;]     High Blood Sugar
+[&#x27;High Blood Sugar&#x27;]     [&#x27;High Blood Sugar&#x27;]     Seizure,Dyspepsia,Stomachache
+[&#x27;Seizure,Dyspepsia,Stomachache&#x27;]     [&#x27;Seizure,Dyspepsia,Stomachache&#x27;]     Fever
+[&#x27;Fever&#x27;]     [&#x27;Fever&#x27;]     Malaria
+[&#x27;Malaria&#x27;]     [&#x27;Malaria&#x27;]     Vaginal Bleeding In Early Pregnancy/Miscarriage
+[&#x27;Vaginal Bleeding In Early Pregnancy/Miscarriage&#x27;]     [&#x27;Vaginal Bleeding In Early Pregnancy/Miscarriage&#x27;]     Diabetes Type 2
+[&#x27;Diabetes Type 2&#x27;]     [&#x27;Diabetes Type 2&#x27;]     Fwcwe
+[&#x27;Fwcwe&#x27;]     [&#x27;Fwcwe&#x27;]     Hyperglycaemia
+[&#x27;Hyperglycaemia&#x27;]     [&#x27;Hyperglycaemia&#x27;]     Steatosis
+[&#x27;Steatosis&#x27;]     [&#x27;Steatosis&#x27;]     Obesity
+[&#x27;Obesity&#x27;]     [&#x27;Obesity&#x27;]     Coronary Arte
+[&#x27;Coronary Arte&#x27;]     [&#x27;Coronary Arte&#x27;]     Fever From 3 Days
+[&#x27;Fever From 3 Days&#x27;]     [&#x27;Fever From 3 Days&#x27;]     Hepatitis B
+[&#x27;Hepatitis B&#x27;]     [&#x27;Hepatitis B&#x27;]     Migraine
+[&#x27;Migraine&#x27;]     [&#x27;Migraine&#x27;]     Test
+[&#x27;Test&#x27;]     [&#x27;Test&#x27;]     Stomachache
+[&#x27;Stomachache&#x27;]     [&#x27;Stomachache&#x27;]     Urinary Tract Infection
+[&#x27;Urinary Tract Infection&#x27;]     [&#x27;Urinary Tract Infection&#x27;]     Allergic Rhinitis
+[&#x27;Allergic Rhinitis&#x27;]     [&#x27;Allergic Rhinitis&#x27;]     Dengue
+[&#x27;Dengue&#x27;]     [&#x27;Dengue&#x27;]     Hyperchol
+[&#x27;Hyperchol&#x27;]     [&#x27;Hyperchol&#x27;]     Loss Of Consciousness
+[&#x27;Loss Of Consciousness&#x27;]     [&#x27;Loss Of Consciousness&#x27;]     Anxiety
+[&#x27;Anxiety&#x27;]     [&#x27;Anxiety&#x27;]     Reflux Esophagitis
+[&#x27;Reflux Esophagitis&#x27;]     [&#x27;Reflux Esophagitis&#x27;]     Optic Nerve Disease
+[&#x27;Optic Nerve Disease&#x27;]     [&#x27;Optic Nerve Disease&#x27;]     Sars
+[&#x27;Sars&#x27;]     [&#x27;Sars&#x27;]     Headache
+[&#x27;Headache&#x27;]     [&#x27;Headache&#x27;]     Head, Headache
+[&#x27;Head, Headache&#x27;]     [&#x27;Head, Headache&#x27;]     Hypertension
+[&#x27;Hypertension&#x27;]     [&#x27;Hypertension&#x27;]     Diabetes
+[&#x27;Diabetes&#x27;]     Value Exist
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_verify_Rxupload.py::test_verify_investigations</td>
+          <td class="col-duration">69.93</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>The random choice is SGPT
+[&#x27;100&#x27;]     [&#x27;100&#x27;]     [&#x27;110&#x27;]     [&#x27;110&#x27;]     [&#x27;120&#x27;]     [&#x27;120&#x27;]     [&#x27;130&#x27;]     [&#x27;130&#x27;]     [&#x27;LIVER FUNCTION TEST&#x27;]     [&#x27;LIVER FUNCTION TEST&#x27;]     [&#x27;KIDNEY FUNCTION TEST&#x27;]     [&#x27;KIDNEY FUNCTION TEST&#x27;]     [&#x27;THYROID STIMULATING HORMONE&#x27;]     [&#x27;THYROID STIMULATING HORMONE&#x27;]     [&#x27;Uric Acid&#x27;]     [&#x27;Uric Acid&#x27;]     [&#x27;Hgj&#x27;]     [&#x27;Hgj&#x27;]     [&#x27;XRAY&#x27;]     [&#x27;XRAY&#x27;]     [&#x27;HRCT&#x27;]     [&#x27;HRCT&#x27;]     [&#x27;Sgot&#x27;]     [&#x27;Sgot&#x27;]     [&#x27;LIPID PROFILE&#x27;]     [&#x27;LIPID PROFILE&#x27;]     [&#x27;Jkjh&#x27;]     [&#x27;Jkjh&#x27;]     [&#x27;CBC, CBC&#x27;]     [&#x27;CBC, CBC&#x27;]     [&#x27;CBC COM&#x27;]     [&#x27;CBC COM&#x27;]     [&#x27;Hba1c&#x27;]     [&#x27;Hba1c&#x27;]     [&#x27;Gjh&#x27;]     [&#x27;Gjh&#x27;]     [&#x27;Cbc&#x27;]     [&#x27;Cbc&#x27;]     [&#x27;MRI&#x27;]     [&#x27;MRI&#x27;]     [&#x27;Hjh&#x27;]     [&#x27;Hjh&#x27;]     [&#x27;Kjh&#x27;]     [&#x27;Kjh&#x27;]     [&#x27;Sgpt&#x27;]     [&#x27;Sgpt&#x27;]     [&#x27;Jhj&#x27;]     [&#x27;Jhj&#x27;]     [&#x27;Khk&#x27;]     [&#x27;Khk&#x27;]     [&#x27;Hjkh&#x27;]     [&#x27;Hjkh&#x27;]     [&#x27;Serum Creatinine&#x27;]     [&#x27;Serum Creatinine&#x27;]     [&#x27;Bilirubin&#x27;]     [&#x27;Bilirubin&#x27;]     [&#x27;Health Check-Up Report(Hc)&#x27;]     [&#x27;Health Check-Up Report(Hc)&#x27;]     [&#x27;Hb1ac&#x27;]     [&#x27;Hb1ac&#x27;]     [&#x27;PFT&#x27;]     [&#x27;PFT&#x27;]     <br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_verify_Rxupload.py::test_verify_drugs</td>
+          <td class="col-duration">107.19</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>The random choice is Ultracet
+[&#x27;Vibrania D, 100&#x27;]     [&#x27;Vibrania D, 100&#x27;]  [&#x27;Rebozen-D 10mg/20mg Capsule, 100&#x27;]     [&#x27;Rebozen-D 10mg/20mg Capsule, 100&#x27;]  [&#x27;Pentasa, 100&#x27;]     [&#x27;Pentasa, 100&#x27;]  [&#x27;Azythromycin, 500&#x27;]     [&#x27;Azythromycin, 500&#x27;]  [&#x27;Calpol&#x27;]     [&#x27;Calpol&#x27;]  [&#x27;Zegerid&#x27;]     [&#x27;Zegerid&#x27;]  [&#x27;Lipitor&#x27;]     [&#x27;Lipitor&#x27;]  [&#x27;Twice A Day, 200&#x27;]     [&#x27;Twice A Day, 200&#x27;]  [&#x27;Painadol 50mg Injection&#x27;]     [&#x27;Painadol 50mg Injection&#x27;]  [&#x27;For 5 Days, 100&#x27;]     [&#x27;For 5 Days, 100&#x27;]  [&#x27;Zepzelca&#x27;]     [&#x27;Zepzelca&#x27;]  [&#x27;Lisinopril, 100&#x27;]     [&#x27;Lisinopril, 100&#x27;]  [&#x27;Vitamin D3 60 K, 100&#x27;]     [&#x27;Vitamin D3 60 K, 100&#x27;]  [&#x27;Zencia Wash&#x27;]     [&#x27;Zencia Wash&#x27;]  [&#x27;Zetonna&#x27;]     [&#x27;Zetonna&#x27;]  [&#x27;Becasules&#x27;]     [&#x27;Becasules&#x27;]  [&#x27;Zyloprim&#x27;]     [&#x27;Zyloprim&#x27;]  [&#x27;Ultracet&#x27;]     Value Exist
+[&#x27;Prebose M, 100&#x27;]     [&#x27;Prebose M, 100&#x27;]  [&#x27;Pentate Dsr 30mg/40mg Capsule, 100&#x27;]     [&#x27;Pentate Dsr 30mg/40mg Capsule, 100&#x27;]  [&#x27;Paracetamol&#x27;]     [&#x27;Paracetamol&#x27;]  [&#x27;Incidil&#x27;]     [&#x27;Incidil&#x27;]  [&#x27;Belt Sg, 200&#x27;]     [&#x27;Belt Sg, 200&#x27;]  [&#x27;Diclofenac Sodium&#x27;]     [&#x27;Diclofenac Sodium&#x27;]  [&#x27;Remdesvir, 100&#x27;]     [&#x27;Remdesvir, 100&#x27;]  [&#x27;Sharkoferrol D3, 200&#x27;]     [&#x27;Sharkoferrol D3, 200&#x27;]  [&#x27;Simvastatin&#x27;]     [&#x27;Simvastatin&#x27;]  [&#x27;Azithromycin, 500&#x27;]     [&#x27;Azithromycin, 500&#x27;]  [&#x27;Ziprasidone&#x27;]     [&#x27;Ziprasidone&#x27;]  [&#x27;Calpanto Plus, 100&#x27;]     [&#x27;Calpanto Plus, 100&#x27;]  [&#x27;Amoxycillin, 250&#x27;]     [&#x27;Amoxycillin, 250&#x27;]  [&#x27;From 7 Years, 100&#x27;]     [&#x27;From 7 Years, 100&#x27;]  [&#x27;Willgo, 100&#x27;]     [&#x27;Willgo, 100&#x27;]  [&#x27;Amoxyiclav&#x27;]     [&#x27;Amoxyiclav&#x27;]  [&#x27;Zolpidem&#x27;]     [&#x27;Zolpidem&#x27;]  [&#x27;Hydrochlorothiazide&#x27;]     [&#x27;Hydrochlorothiazide&#x27;]  [&#x27;Nupenta Dsr, 500&#x27;]     [&#x27;Nupenta Dsr, 500&#x27;]  [&#x27;Vicodin&#x27;]     [&#x27;Vicodin&#x27;]  [&#x27;Macbrite, 100&#x27;]     [&#x27;Macbrite, 100&#x27;]  [&#x27;Xycalm, 25mg&#x27;]     [&#x27;Xycalm, 25mg&#x27;]  [&#x27;Avicar P, 100&#x27;]     [&#x27;Avicar P, 100&#x27;]  [&#x27;1-1-1, 100&#x27;]     [&#x27;1-1-1, 100&#x27;]  [&#x27;Metyocit Pg, 20&#x27;]     [&#x27;Metyocit Pg, 20&#x27;]  [&#x27;1-0-1, 100&#x27;]     [&#x27;1-0-1, 100&#x27;]  [&#x27;1-1-0, 40&#x27;]     [&#x27;1-1-0, 40&#x27;]  [&#x27;Hifenac-Th, 100&#x27;]     [&#x27;Hifenac-Th, 100&#x27;]  [&#x27;Mild Symptoms, 100&#x27;]     [&#x27;Mild Symptoms, 100&#x27;]  <br/></div></td></tr></tbody></table></body></html>
